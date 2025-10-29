@@ -1,0 +1,141 @@
+[gd_scene load_steps=8 format=3 uid="uid://c8an6h8772tyt"]
+
+[ext_resource type="Script" uid="uid://deot4m8oeq8pf" path="res://scripts/Blackhole3DBackground.gd" id="1_3dbackground"]
+[ext_resource type="Shader" uid="uid://bpxdvvjfaifcw" path="res://shaders/blackhole_fullscreen.gdshader" id="2_fullscreen_shader"]
+[ext_resource type="Texture2D" uid="uid://8qdym43vddh7" path="res://textures/space_background.webp" id="3_y5yx7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fullscreen"]
+shader = ExtResource("2_fullscreen_shader")
+shader_parameter/mouse_x = 0.5
+shader_parameter/mouse_y = 0.5
+shader_parameter/time = 0.0
+shader_parameter/camera_position = Vector3(0, 0, 15)
+shader_parameter/camera_forward = Vector3(0, 0, -1)
+shader_parameter/camera_up = Vector3(0, 1, 0)
+shader_parameter/camera_right = Vector3(1, 0, 0)
+shader_parameter/camera_fov = 75.0
+shader_parameter/use_3d_camera = 1.0
+shader_parameter/front_view = 0.0
+shader_parameter/top_view = 0.0
+shader_parameter/camera_roll = 0.0
+shader_parameter/gravitational_lensing = 1.0
+shader_parameter/gravity_strength = 0.15
+shader_parameter/render_black_hole = 1.0
+shader_parameter/mouse_control = 0.0
+shader_parameter/fov_scale = 1.0
+shader_parameter/adisk_enabled = 1.0
+shader_parameter/adisk_particle = 1.0
+shader_parameter/adisk_height = 0.5
+shader_parameter/adisk_lit = 0.0001
+shader_parameter/adisk_density_v = 1.0
+shader_parameter/adisk_density_h = 1.0
+shader_parameter/adisk_noise_scale = 1.0
+shader_parameter/adisk_noise_lod = 5.0
+shader_parameter/adisk_speed = 0.5
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_y5yx7"]
+panorama = ExtResource("3_y5yx7")
+
+[sub_resource type="Sky" id="Sky_y5yx7"]
+sky_material = SubResource("PanoramaSkyMaterial_y5yx7")
+
+[sub_resource type="Environment" id="Environment_keguh"]
+background_mode = 2
+sky = SubResource("Sky_y5yx7")
+
+[node name="Blackhole3DBackground" type="Node3D"]
+script = ExtResource("1_3dbackground")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0, 10)
+
+[node name="BackgroundCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.99957734, 0.02907297, 0, -0.02907297, 0.99957734, 0, 0, 6.2544127)
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FullscreenQuad" type="ColorRect" parent="UI"]
+material = SubResource("ShaderMaterial_fullscreen")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 20.0
+offset_top = -300.0
+offset_right = 300.0
+offset_bottom = -20.0
+grow_vertical = 0
+
+[node name="Label" type="Label" parent="UI/VBoxContainer"]
+layout_mode = 2
+text = "黑洞"
+horizontal_alignment = 1
+
+[node name="HSeparator" type="HSeparator" parent="UI/VBoxContainer"]
+layout_mode = 2
+
+[node name="CheckBox" type="CheckBox" parent="UI/VBoxContainer"]
+layout_mode = 2
+text = "引力透镜效果"
+
+[node name="CheckBox2" type="CheckBox" parent="UI/VBoxContainer"]
+layout_mode = 2
+text = "渲染黑洞"
+
+[node name="CheckBox3" type="CheckBox" parent="UI/VBoxContainer"]
+layout_mode = 2
+text = "吸积盘"
+
+[node name="HSeparator2" type="HSeparator" parent="UI/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="UI/VBoxContainer"]
+layout_mode = 2
+text = "引力强度: 0.15"
+
+[node name="HSlider" type="HSlider" parent="UI/VBoxContainer"]
+layout_mode = 2
+min_value = 0.01
+max_value = 2.0
+step = 0.01
+value = 0.15000000000000002
+
+[node name="Label3" type="Label" parent="UI/VBoxContainer"]
+layout_mode = 2
+text = "吸积盘高度: 0.50"
+
+[node name="HSlider2" type="HSlider" parent="UI/VBoxContainer"]
+layout_mode = 2
+min_value = 0.1
+max_value = 1.0
+step = 0.01
+value = 0.5
+
+[node name="Label4" type="Label" parent="UI/VBoxContainer"]
+layout_mode = 2
+text = "吸积盘亮度: 0.0001"
+
+[node name="HSlider3" type="HSlider" parent="UI/VBoxContainer"]
+layout_mode = 2
+min_value = 0.0001
+max_value = 0.001
+step = 0.0001
+value = 0.0001
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_keguh")
