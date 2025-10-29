@@ -30,3 +30,5 @@ This project implements a physically-based black hole visualization using ray tr
 4. Background sampling with distorted UV coordinates
 5. Accretion disk contribution accumulated during ray march
 6. Final composition with tone mapping
+
+[https://b23.tv/l5qNBmA](https://b23.tv/l5qNBmA)
