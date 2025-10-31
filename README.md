@@ -279,6 +279,31 @@ Final Composition:
 - MRI turbulence: Hot spot generation mechanism
 - Blandford-Znajek: Jet launching from ergosphere
 
+## Visual Comparison
+
+### Real Black Hole: M87*
+
+<p align="center">
+  <img src="https://eventhorizontelescope.org/files/eht/files/20190410-78m-4000x2330.png" alt="M87* Black Hole - EHT" width="600"/>
+  <br>
+  <em>M87* black hole observed by Event Horizon Telescope (2019)</em>
+</p>
+
+**Observed Features**:
+- Shadow radius: ~2.6 Rs (gravitational lensing creates dark center)
+- Bright asymmetric ring: Approaching side brighter due to Doppler beaming
+- Photon ring: Barely visible, requires millimeter-wave interferometry
+- Jet base: Faint emission from polar regions
+
+### This Simulation
+
+<p align="center">
+  <img src="pic/A.png" alt="Simulation - Front View" width="400"/>
+  <img src="pic/B.png" alt="Simulation - Jet View" width="400"/>
+  <br>
+  <em>Left: Accretion disk with spiral arms and hot spots | Right: Jets and gravitational lensing</em>
+</p>
+
 ## Video
 
 [https://b23.tv/l5qNBmA](https://b23.tv/l5qNBmA)
