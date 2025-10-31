@@ -40,6 +40,54 @@ shader_parameter/cube_position = Vector3(3, 0, 0)
 shader_parameter/cube_size = Vector3(1, 1, 1)
 shader_parameter/cube_color = Vector3(0.4, 0.8, 1)
 shader_parameter/cube_emission_strength = 2.0
+shader_parameter/doppler_enabled = 1.0
+shader_parameter/doppler_strength = 0.8
+shader_parameter/beaming_enabled = 1.0
+shader_parameter/beaming_strength = 3.0
+shader_parameter/jet_enabled = 1.0
+shader_parameter/jet_length = 25.0
+shader_parameter/jet_width = 0.5
+shader_parameter/jet_intensity = 5.0
+shader_parameter/jet_rotation_speed = 2.0
+shader_parameter/jet_burst_frequency = 0.5
+shader_parameter/jet_noise_octaves = 5.0
+shader_parameter/jet_color = Vector3(0.3, 0.6, 1)
+shader_parameter/hawking_enabled = 1.0
+shader_parameter/hawking_intensity = 1.0
+shader_parameter/hawking_frequency = 1.5
+shader_parameter/gravitational_redshift_enabled = 1.0
+shader_parameter/gravitational_redshift_strength = 1.0
+shader_parameter/photon_sphere_enabled = 0.0
+shader_parameter/photon_sphere_intensity = 3.0
+shader_parameter/photon_sphere_color = Vector3(1, 0.95, 0.8)
+shader_parameter/isco_enabled = 0.0
+shader_parameter/isco_intensity = 5.0
+shader_parameter/isco_width = 0.3
+shader_parameter/isco_color = Vector3(1, 0.9, 0.7)
+shader_parameter/corona_enabled = 0.0
+shader_parameter/corona_height = 2.0
+shader_parameter/corona_intensity = 1.5
+shader_parameter/corona_color = Vector3(0.9, 0.95, 1)
+shader_parameter/temperature_gradient_enabled = 1.0
+shader_parameter/disk_temperature_power = 0.75
+shader_parameter/secondary_images_enabled = 0.0
+shader_parameter/max_ray_loops = 500
+shader_parameter/qpo_enabled = 1.0
+shader_parameter/qpo_frequency = 3.0
+shader_parameter/qpo_amplitude = 0.15
+shader_parameter/time_dilation_enabled = 1.0
+shader_parameter/time_dilation_strength = 1.0
+shader_parameter/frame_dragging_enabled = 1.0
+shader_parameter/black_hole_spin = 0.7
+shader_parameter/dragging_strength = 1.0
+shader_parameter/spiral_arms_enabled = 1.0
+shader_parameter/spiral_arms_count = 2.0
+shader_parameter/spiral_tightness = 1.5
+shader_parameter/spiral_strength = 0.8
+shader_parameter/hot_spots_enabled = 1.0
+shader_parameter/hot_spots_count = 3.0
+shader_parameter/hot_spots_intensity = 2.0
+shader_parameter/hot_spots_speed = 1.0
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_y5yx7"]
 panorama = ExtResource("3_y5yx7")
@@ -90,152 +138,438 @@ grow_horizontal = 2
 grow_vertical = 2
 stretch_mode = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
+[node name="IconPanel" type="Panel" parent="UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -200.0
+offset_right = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="UI/IconPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = -10.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="IconLabel" type="Label" parent="UI/IconPanel/VBox"]
+layout_mode = 2
+text = "图标选择 (按1切换)"
+horizontal_alignment = 1
+
+[node name="IconOption" type="OptionButton" parent="UI/IconPanel/VBox"]
+layout_mode = 2
+
+[node name="IconDisplay" type="TextureRect" parent="UI/IconPanel/VBox"]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+size_flags_vertical = 3
+expand_mode = 1
+stretch_mode = 5
+
+[node name="ApplyButton" type="Button" parent="UI/IconPanel/VBox"]
+layout_mode = 2
+text = "确定并切换（重启）"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="UI"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 20.0
-offset_top = -300.0
-offset_right = 300.0
+offset_top = -600.0
+offset_right = 320.0
 offset_bottom = -20.0
 grow_vertical = 0
 
-[node name="Label" type="Label" parent="UI/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "黑洞"
 horizontal_alignment = 1
 
-[node name="HSeparator" type="HSeparator" parent="UI/VBoxContainer"]
+[node name="HSeparator" type="HSeparator" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CheckBox" type="CheckBox" parent="UI/VBoxContainer"]
+[node name="CheckBox" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "引力透镜效果"
 
-[node name="CheckBox2" type="CheckBox" parent="UI/VBoxContainer"]
+[node name="CheckBox2" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "渲染黑洞"
 
-[node name="CheckBox3" type="CheckBox" parent="UI/VBoxContainer"]
+[node name="CheckBox3" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "吸积盘"
 
-[node name="CheckBox4" type="CheckBox" parent="UI/VBoxContainer"]
+[node name="CheckBox4" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "自动衰减透镜"
 
-[node name="HSeparator2" type="HSeparator" parent="UI/VBoxContainer"]
+[node name="HSeparator2" type="HSeparator" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="UI/VBoxContainer"]
+[node name="Label2" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "引力强度: 0.15"
 
-[node name="HSlider" type="HSlider" parent="UI/VBoxContainer"]
+[node name="HSlider" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 min_value = 0.01
 max_value = 2.0
 step = 0.01
 value = 0.15000000000000002
 
-[node name="Label3" type="Label" parent="UI/VBoxContainer"]
+[node name="Label3" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "吸积盘高度: 0.50"
 
-[node name="HSlider2" type="HSlider" parent="UI/VBoxContainer"]
+[node name="HSlider2" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 min_value = 0.1
 max_value = 1.0
 step = 0.01
 value = 0.5
 
-[node name="Label4" type="Label" parent="UI/VBoxContainer"]
+[node name="Label4" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "吸积盘亮度: 0.0001"
 
-[node name="HSlider3" type="HSlider" parent="UI/VBoxContainer"]
+[node name="HSlider3" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 min_value = 0.0001
 max_value = 0.001
 step = 0.0001
 value = 0.0001
 
-[node name="Label5" type="Label" parent="UI/VBoxContainer"]
+[node name="Label5" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "吸积盘内半径: 1.00"
 
-[node name="HSlider4" type="HSlider" parent="UI/VBoxContainer"]
+[node name="HSlider4" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 min_value = 1.0
 max_value = 5.0
 step = 0.1
 value = 1.0
 
-[node name="Label6" type="Label" parent="UI/VBoxContainer"]
+[node name="Label6" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "吸积盘外半径: 12.00"
 
-[node name="HSlider5" type="HSlider" parent="UI/VBoxContainer"]
+[node name="HSlider5" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 min_value = 5.0
 max_value = 20.0
 step = 0.1
 value = 12.0
 
-[node name="HSeparator3" type="HSeparator" parent="UI/VBoxContainer"]
+[node name="HSeparator3" type="HSeparator" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CheckBox5" type="CheckBox" parent="UI/VBoxContainer"]
+[node name="CheckBox5" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 button_pressed = true
 text = "自发光立方体"
 
-[node name="Label7" type="Label" parent="UI/VBoxContainer"]
+[node name="Label7" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "立方体发光强度: 2.00"
 
-[node name="HSlider6" type="HSlider" parent="UI/VBoxContainer"]
+[node name="HSlider6" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 min_value = 0.1
 max_value = 10.0
 step = 0.1
 value = 2.0
 
-[node name="HSeparator4" type="HSeparator" parent="UI/VBoxContainer"]
+[node name="HSeparator4" type="HSeparator" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CheckBox6" type="CheckBox" parent="UI/VBoxContainer"]
+[node name="CheckBox6" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 button_pressed = true
 text = "多普勒效应"
 
-[node name="Label8" type="Label" parent="UI/VBoxContainer"]
+[node name="Label8" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "多普勒强度: 0.80"
 
-[node name="HSlider7" type="HSlider" parent="UI/VBoxContainer"]
+[node name="HSlider7" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-min_value = 0.0
 max_value = 2.0
 step = 0.1
 value = 0.8
 
-[node name="CheckBox7" type="CheckBox" parent="UI/VBoxContainer"]
+[node name="CheckBox7" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 button_pressed = true
 text = "相对论束射"
 
-[node name="Label9" type="Label" parent="UI/VBoxContainer"]
+[node name="Label9" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "束射强度: 3.0"
 
-[node name="HSlider8" type="HSlider" parent="UI/VBoxContainer"]
+[node name="HSlider8" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 min_value = 1.0
 max_value = 5.0
 step = 0.1
 value = 3.0
+
+[node name="HSeparator5" type="HSeparator" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CheckBox8" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "黑洞喷流"
+
+[node name="Label10" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "喷流强度: 5.0"
+
+[node name="HSlider9" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 0.1
+max_value = 20.0
+step = 0.1
+value = 5.0
+
+[node name="Label12" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "喷流旋转: 2.0"
+
+[node name="HSlider11" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 5.0
+step = 0.1
+value = 2.0
+
+[node name="Label13" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "喷流爆发: 0.5"
+
+[node name="HSlider12" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 0.1
+max_value = 3.0
+step = 0.1
+value = 0.5
+
+[node name="CheckBox9" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "霍金辐射"
+
+[node name="Label11" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "辐射强度: 1.0"
+
+[node name="HSlider10" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 0.1
+max_value = 3.0
+step = 0.1
+value = 1.0
+
+[node name="HSeparator6" type="HSeparator" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CheckBox10" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "引力红移"
+
+[node name="Label14" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "红移强度: 1.0"
+
+[node name="HSlider13" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 2.0
+step = 0.1
+value = 1.0
+
+[node name="HSeparator7" type="HSeparator" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CheckBox11" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "光子球（理论）"
+
+[node name="Label15" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "光子球强度: 3.0"
+
+[node name="HSlider14" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 0.1
+max_value = 10.0
+step = 0.1
+value = 3.0
+
+[node name="CheckBox12" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "ISCO内环（理论）"
+
+[node name="Label16" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "ISCO强度: 5.0"
+
+[node name="HSlider15" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 0.1
+max_value = 10.0
+step = 0.1
+value = 5.0
+
+[node name="HSeparator8" type="HSeparator" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CheckBox13" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "X射线冕（理论）"
+
+[node name="Label17" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "冕强度: 1.5"
+
+[node name="HSlider16" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 0.1
+max_value = 5.0
+step = 0.1
+value = 1.5
+
+[node name="CheckBox14" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "温度梯度"
+
+[node name="CheckBox15" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "准周期振荡"
+
+[node name="Label18" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "QPO频率: 3.0 Hz"
+
+[node name="HSlider17" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 0.1
+max_value = 10.0
+step = 0.1
+value = 3.0
+
+[node name="CheckBox16" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "多重像（慢）"
+
+[node name="HSeparator9" type="HSeparator" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CheckBox17" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "帧拖曳（克尔）"
+
+[node name="Label19" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "黑洞自旋: 0.7"
+
+[node name="HSlider18" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 0.998
+step = 0.01
+value = 0.7
+
+[node name="CheckBox18" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "时间膨胀"
+
+[node name="Label20" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "膨胀强度: 1.0"
+
+[node name="HSlider19" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 2.0
+step = 0.1
+value = 1.0
+
+[node name="HSeparator10" type="HSeparator" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CheckBox19" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "螺旋臂"
+
+[node name="Label21" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "螺旋臂数: 2"
+
+[node name="HSlider20" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 1.0
+max_value = 5.0
+value = 2.0
+
+[node name="Label22" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "螺旋强度: 0.8"
+
+[node name="HSlider21" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+max_value = 2.0
+step = 0.1
+value = 0.8
+
+[node name="CheckBox20" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "热点"
+
+[node name="Label23" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "热点数量: 3"
+
+[node name="HSlider22" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 1.0
+max_value = 8.0
+value = 3.0
+
+[node name="Label24" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "热点强度: 2.0"
+
+[node name="HSlider23" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 0.5
+max_value = 5.0
+step = 0.1
+value = 2.0
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_keguh")

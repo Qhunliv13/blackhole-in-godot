@@ -3,33 +3,81 @@ extends Node3D
 @onready var camera = $Camera3D
 @onready var background_camera = $BackgroundCamera
 @onready var foward_camera = $fowardCamera
+@onready var icon_panel = $UI/IconPanel
+@onready var icon_option = $UI/IconPanel/VBox/IconOption
+@onready var icon_display = $UI/IconPanel/VBox/IconDisplay
+@onready var apply_button = $UI/IconPanel/VBox/ApplyButton
+@onready var scroll_container = $UI/ScrollContainer
 @onready var fullscreen_quad = $UI/FullscreenQuad
 @onready var foreground_rect = $UI/ForegroundRect
 @onready var shader_material = fullscreen_quad.material as ShaderMaterial
 
-@onready var gravitational_lensing_check = $UI/VBoxContainer/CheckBox
-@onready var render_black_hole_check = $UI/VBoxContainer/CheckBox2
-@onready var adisk_check = $UI/VBoxContainer/CheckBox3
-@onready var auto_fade_lensing_check = $UI/VBoxContainer/CheckBox4
-@onready var gravity_slider = $UI/VBoxContainer/HSlider
-@onready var gravity_label = $UI/VBoxContainer/Label2
-@onready var adisk_height_slider = $UI/VBoxContainer/HSlider2
-@onready var adisk_height_label = $UI/VBoxContainer/Label3
-@onready var adisk_lit_slider = $UI/VBoxContainer/HSlider3
-@onready var adisk_lit_label = $UI/VBoxContainer/Label4
-@onready var adisk_inner_radius_slider = $UI/VBoxContainer/HSlider4
-@onready var adisk_inner_radius_label = $UI/VBoxContainer/Label5
-@onready var adisk_outer_radius_slider = $UI/VBoxContainer/HSlider5
-@onready var adisk_outer_radius_label = $UI/VBoxContainer/Label6
-@onready var cube_check = $UI/VBoxContainer/CheckBox5
-@onready var cube_emission_slider = $UI/VBoxContainer/HSlider6
-@onready var cube_emission_label = $UI/VBoxContainer/Label7
-@onready var doppler_check = $UI/VBoxContainer/CheckBox6
-@onready var doppler_slider = $UI/VBoxContainer/HSlider7
-@onready var doppler_label = $UI/VBoxContainer/Label8
-@onready var beaming_check = $UI/VBoxContainer/CheckBox7
-@onready var beaming_slider = $UI/VBoxContainer/HSlider8
-@onready var beaming_label = $UI/VBoxContainer/Label9
+@onready var gravitational_lensing_check = $UI/ScrollContainer/VBoxContainer/CheckBox
+@onready var render_black_hole_check = $UI/ScrollContainer/VBoxContainer/CheckBox2
+@onready var adisk_check = $UI/ScrollContainer/VBoxContainer/CheckBox3
+@onready var auto_fade_lensing_check = $UI/ScrollContainer/VBoxContainer/CheckBox4
+@onready var gravity_slider = $UI/ScrollContainer/VBoxContainer/HSlider
+@onready var gravity_label = $UI/ScrollContainer/VBoxContainer/Label2
+@onready var adisk_height_slider = $UI/ScrollContainer/VBoxContainer/HSlider2
+@onready var adisk_height_label = $UI/ScrollContainer/VBoxContainer/Label3
+@onready var adisk_lit_slider = $UI/ScrollContainer/VBoxContainer/HSlider3
+@onready var adisk_lit_label = $UI/ScrollContainer/VBoxContainer/Label4
+@onready var adisk_inner_radius_slider = $UI/ScrollContainer/VBoxContainer/HSlider4
+@onready var adisk_inner_radius_label = $UI/ScrollContainer/VBoxContainer/Label5
+@onready var adisk_outer_radius_slider = $UI/ScrollContainer/VBoxContainer/HSlider5
+@onready var adisk_outer_radius_label = $UI/ScrollContainer/VBoxContainer/Label6
+@onready var cube_check = $UI/ScrollContainer/VBoxContainer/CheckBox5
+@onready var cube_emission_slider = $UI/ScrollContainer/VBoxContainer/HSlider6
+@onready var cube_emission_label = $UI/ScrollContainer/VBoxContainer/Label7
+@onready var doppler_check = $UI/ScrollContainer/VBoxContainer/CheckBox6
+@onready var doppler_slider = $UI/ScrollContainer/VBoxContainer/HSlider7
+@onready var doppler_label = $UI/ScrollContainer/VBoxContainer/Label8
+@onready var beaming_check = $UI/ScrollContainer/VBoxContainer/CheckBox7
+@onready var beaming_slider = $UI/ScrollContainer/VBoxContainer/HSlider8
+@onready var beaming_label = $UI/ScrollContainer/VBoxContainer/Label9
+@onready var jet_check = $UI/ScrollContainer/VBoxContainer/CheckBox8
+@onready var jet_slider = $UI/ScrollContainer/VBoxContainer/HSlider9
+@onready var jet_label = $UI/ScrollContainer/VBoxContainer/Label10
+@onready var jet_rotation_slider = $UI/ScrollContainer/VBoxContainer/HSlider11
+@onready var jet_rotation_label = $UI/ScrollContainer/VBoxContainer/Label12
+@onready var jet_burst_slider = $UI/ScrollContainer/VBoxContainer/HSlider12
+@onready var jet_burst_label = $UI/ScrollContainer/VBoxContainer/Label13
+@onready var hawking_check = $UI/ScrollContainer/VBoxContainer/CheckBox9
+@onready var hawking_slider = $UI/ScrollContainer/VBoxContainer/HSlider10
+@onready var hawking_label = $UI/ScrollContainer/VBoxContainer/Label11
+@onready var grav_redshift_check = $UI/ScrollContainer/VBoxContainer/CheckBox10
+@onready var grav_redshift_slider = $UI/ScrollContainer/VBoxContainer/HSlider13
+@onready var grav_redshift_label = $UI/ScrollContainer/VBoxContainer/Label14
+@onready var photon_sphere_check = $UI/ScrollContainer/VBoxContainer/CheckBox11
+@onready var photon_sphere_slider = $UI/ScrollContainer/VBoxContainer/HSlider14
+@onready var photon_sphere_label = $UI/ScrollContainer/VBoxContainer/Label15
+@onready var isco_check = $UI/ScrollContainer/VBoxContainer/CheckBox12
+@onready var isco_slider = $UI/ScrollContainer/VBoxContainer/HSlider15
+@onready var isco_label = $UI/ScrollContainer/VBoxContainer/Label16
+@onready var corona_check = $UI/ScrollContainer/VBoxContainer/CheckBox13
+@onready var corona_slider = $UI/ScrollContainer/VBoxContainer/HSlider16
+@onready var corona_label = $UI/ScrollContainer/VBoxContainer/Label17
+@onready var temperature_check = $UI/ScrollContainer/VBoxContainer/CheckBox14
+@onready var qpo_check = $UI/ScrollContainer/VBoxContainer/CheckBox15
+@onready var qpo_slider = $UI/ScrollContainer/VBoxContainer/HSlider17
+@onready var qpo_label = $UI/ScrollContainer/VBoxContainer/Label18
+@onready var secondary_images_check = $UI/ScrollContainer/VBoxContainer/CheckBox16
+@onready var frame_dragging_check = $UI/ScrollContainer/VBoxContainer/CheckBox17
+@onready var spin_slider = $UI/ScrollContainer/VBoxContainer/HSlider18
+@onready var spin_label = $UI/ScrollContainer/VBoxContainer/Label19
+@onready var time_dilation_check = $UI/ScrollContainer/VBoxContainer/CheckBox18
+@onready var time_dilation_slider = $UI/ScrollContainer/VBoxContainer/HSlider19
+@onready var time_dilation_label = $UI/ScrollContainer/VBoxContainer/Label20
+@onready var spiral_check = $UI/ScrollContainer/VBoxContainer/CheckBox19
+@onready var spiral_count_slider = $UI/ScrollContainer/VBoxContainer/HSlider20
+@onready var spiral_count_label = $UI/ScrollContainer/VBoxContainer/Label21
+@onready var spiral_strength_slider = $UI/ScrollContainer/VBoxContainer/HSlider21
+@onready var spiral_strength_label = $UI/ScrollContainer/VBoxContainer/Label22
+@onready var hotspots_check = $UI/ScrollContainer/VBoxContainer/CheckBox20
+@onready var hotspots_count_slider = $UI/ScrollContainer/VBoxContainer/HSlider22
+@onready var hotspots_count_label = $UI/ScrollContainer/VBoxContainer/Label23
+@onready var hotspots_intensity_slider = $UI/ScrollContainer/VBoxContainer/HSlider23
+@onready var hotspots_intensity_label = $UI/ScrollContainer/VBoxContainer/Label24
 
 var camera_speed = 8.0
 var mouse_sensitivity = 0.002
@@ -51,6 +99,7 @@ const BACK_LAYER := 1 << 1
 const FRONT_LAYER := 1 << 2
 
 func _ready():
+	setup_icon_options()
 	gravitational_lensing_check.toggled.connect(_on_gravitational_lensing_toggled)
 	render_black_hole_check.toggled.connect(_on_render_black_hole_toggled)
 	adisk_check.toggled.connect(_on_adisk_toggled)
@@ -66,6 +115,34 @@ func _ready():
 	doppler_slider.value_changed.connect(_on_doppler_changed)
 	beaming_check.toggled.connect(_on_beaming_toggled)
 	beaming_slider.value_changed.connect(_on_beaming_changed)
+	jet_check.toggled.connect(_on_jet_toggled)
+	jet_slider.value_changed.connect(_on_jet_changed)
+	jet_rotation_slider.value_changed.connect(_on_jet_rotation_changed)
+	jet_burst_slider.value_changed.connect(_on_jet_burst_changed)
+	hawking_check.toggled.connect(_on_hawking_toggled)
+	hawking_slider.value_changed.connect(_on_hawking_changed)
+	grav_redshift_check.toggled.connect(_on_grav_redshift_toggled)
+	grav_redshift_slider.value_changed.connect(_on_grav_redshift_changed)
+	photon_sphere_check.toggled.connect(_on_photon_sphere_toggled)
+	photon_sphere_slider.value_changed.connect(_on_photon_sphere_changed)
+	isco_check.toggled.connect(_on_isco_toggled)
+	isco_slider.value_changed.connect(_on_isco_changed)
+	corona_check.toggled.connect(_on_corona_toggled)
+	corona_slider.value_changed.connect(_on_corona_changed)
+	temperature_check.toggled.connect(_on_temperature_toggled)
+	qpo_check.toggled.connect(_on_qpo_toggled)
+	qpo_slider.value_changed.connect(_on_qpo_changed)
+	secondary_images_check.toggled.connect(_on_secondary_images_toggled)
+	frame_dragging_check.toggled.connect(_on_frame_dragging_toggled)
+	spin_slider.value_changed.connect(_on_spin_changed)
+	time_dilation_check.toggled.connect(_on_time_dilation_toggled)
+	time_dilation_slider.value_changed.connect(_on_time_dilation_changed)
+	spiral_check.toggled.connect(_on_spiral_toggled)
+	spiral_count_slider.value_changed.connect(_on_spiral_count_changed)
+	spiral_strength_slider.value_changed.connect(_on_spiral_strength_changed)
+	hotspots_check.toggled.connect(_on_hotspots_toggled)
+	hotspots_count_slider.value_changed.connect(_on_hotspots_count_changed)
+	hotspots_intensity_slider.value_changed.connect(_on_hotspots_intensity_changed)
 	
 	gravitational_lensing_check.button_pressed = true
 	render_black_hole_check.button_pressed = true
@@ -77,6 +154,64 @@ func _ready():
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	mouse_captured = true
+
+func setup_icon_options():
+	icon_option.add_item("图标 A", 0)
+	icon_option.add_item("图标 B", 1)
+	icon_option.selected = 0
+	icon_option.item_selected.connect(_on_icon_preview_changed)
+	apply_button.pressed.connect(_on_apply_icon_clicked)
+	_on_icon_preview_changed(0)
+
+func _on_icon_preview_changed(index: int):
+	var icon_paths = [
+		"res://pic/A.png",
+		"res://pic/B.png"
+	]
+	
+	if index >= 0 and index < icon_paths.size():
+		var icon_path = icon_paths[index]
+		if ResourceLoader.exists(icon_path):
+			var icon_texture = load(icon_path)
+			icon_display.texture = icon_texture
+
+func _on_apply_icon_clicked():
+	var index = icon_option.selected
+	var icon_paths = [
+		"res://pic/A.png",
+		"res://pic/B.png"
+	]
+	
+	if index >= 0 and index < icon_paths.size():
+		var icon_path = icon_paths[index]
+		update_project_icon(icon_path)
+
+func update_project_icon(icon_path: String):
+	var project_file = "res://project.godot"
+	var absolute_path = ProjectSettings.globalize_path(project_file)
+	
+	var file = FileAccess.open(absolute_path, FileAccess.READ)
+	if file:
+		var content = file.get_as_text()
+		file.close()
+		
+		var regex = RegEx.new()
+		regex.compile('config/icon="[^"]*"')
+		content = regex.sub(content, 'config/icon="' + icon_path + '"', true)
+		
+		file = FileAccess.open(absolute_path, FileAccess.WRITE)
+		if file:
+			file.store_string(content)
+			file.close()
+			
+			ProjectSettings.set_setting("application/config/icon", icon_path)
+			ProjectSettings.save()
+			
+			get_tree().create_timer(0.5).timeout.connect(_restart_application)
+
+func _restart_application():
+	get_tree().quit()
+	OS.create_process(OS.get_executable_path(), [])
 
 func setup_textures():
 	var color_map_path = "res://textures/color_map.png"
@@ -265,6 +400,16 @@ func _input(event):
 			else:
 				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 				mouse_captured = true
+		elif event.keycode == KEY_1:
+			icon_panel.visible = !icon_panel.visible
+			if icon_panel.visible:
+				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+				mouse_captured = false
+		elif event.keycode == KEY_2:
+			scroll_container.visible = !scroll_container.visible
+			if scroll_container.visible:
+				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+				mouse_captured = false
 	
 	if event is InputEventMouseMotion and mouse_captured:
 		camera_rotation.y -= event.relative.x * mouse_sensitivity
@@ -340,3 +485,130 @@ func _on_beaming_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("beaming_strength", value)
 		beaming_label.text = "束射强度: %.1f" % value
+
+func _on_jet_toggled(pressed):
+	if shader_material:
+		shader_material.set_shader_parameter("jet_enabled", 1.0 if pressed else 0.0)
+
+func _on_jet_changed(value):
+	if shader_material:
+		shader_material.set_shader_parameter("jet_intensity", value)
+		jet_label.text = "喷流强度: %.1f" % value
+
+func _on_jet_rotation_changed(value):
+	if shader_material:
+		shader_material.set_shader_parameter("jet_rotation_speed", value)
+		jet_rotation_label.text = "喷流旋转: %.1f" % value
+
+func _on_jet_burst_changed(value):
+	if shader_material:
+		shader_material.set_shader_parameter("jet_burst_frequency", value)
+		jet_burst_label.text = "喷流爆发: %.1f" % value
+
+func _on_hawking_toggled(pressed):
+	if shader_material:
+		shader_material.set_shader_parameter("hawking_enabled", 1.0 if pressed else 0.0)
+
+func _on_hawking_changed(value):
+	if shader_material:
+		shader_material.set_shader_parameter("hawking_intensity", value)
+		hawking_label.text = "辐射强度: %.1f" % value
+
+func _on_grav_redshift_toggled(pressed):
+	if shader_material:
+		shader_material.set_shader_parameter("gravitational_redshift_enabled", 1.0 if pressed else 0.0)
+
+func _on_grav_redshift_changed(value):
+	if shader_material:
+		shader_material.set_shader_parameter("gravitational_redshift_strength", value)
+		grav_redshift_label.text = "红移强度: %.1f" % value
+
+func _on_photon_sphere_toggled(pressed):
+	if shader_material:
+		shader_material.set_shader_parameter("photon_sphere_enabled", 1.0 if pressed else 0.0)
+
+func _on_photon_sphere_changed(value):
+	if shader_material:
+		shader_material.set_shader_parameter("photon_sphere_intensity", value)
+		photon_sphere_label.text = "光子球强度: %.1f" % value
+
+func _on_isco_toggled(pressed):
+	if shader_material:
+		shader_material.set_shader_parameter("isco_enabled", 1.0 if pressed else 0.0)
+
+func _on_isco_changed(value):
+	if shader_material:
+		shader_material.set_shader_parameter("isco_intensity", value)
+		isco_label.text = "ISCO强度: %.1f" % value
+
+func _on_corona_toggled(pressed):
+	if shader_material:
+		shader_material.set_shader_parameter("corona_enabled", 1.0 if pressed else 0.0)
+
+func _on_corona_changed(value):
+	if shader_material:
+		shader_material.set_shader_parameter("corona_intensity", value)
+		corona_label.text = "冕强度: %.1f" % value
+
+func _on_temperature_toggled(pressed):
+	if shader_material:
+		shader_material.set_shader_parameter("temperature_gradient_enabled", 1.0 if pressed else 0.0)
+
+func _on_qpo_toggled(pressed):
+	if shader_material:
+		shader_material.set_shader_parameter("qpo_enabled", 1.0 if pressed else 0.0)
+
+func _on_qpo_changed(value):
+	if shader_material:
+		shader_material.set_shader_parameter("qpo_frequency", value)
+		qpo_label.text = "QPO频率: %.1f Hz" % value
+
+func _on_secondary_images_toggled(pressed):
+	if shader_material:
+		shader_material.set_shader_parameter("secondary_images_enabled", 1.0 if pressed else 0.0)
+
+func _on_frame_dragging_toggled(pressed):
+	if shader_material:
+		shader_material.set_shader_parameter("frame_dragging_enabled", 1.0 if pressed else 0.0)
+
+func _on_spin_changed(value):
+	if shader_material:
+		shader_material.set_shader_parameter("black_hole_spin", value)
+		spin_label.text = "黑洞自旋: %.2f" % value
+
+func _on_time_dilation_toggled(pressed):
+	if shader_material:
+		shader_material.set_shader_parameter("time_dilation_enabled", 1.0 if pressed else 0.0)
+
+func _on_time_dilation_changed(value):
+	if shader_material:
+		shader_material.set_shader_parameter("time_dilation_strength", value)
+		time_dilation_label.text = "膨胀强度: %.1f" % value
+
+func _on_spiral_toggled(pressed):
+	if shader_material:
+		shader_material.set_shader_parameter("spiral_arms_enabled", 1.0 if pressed else 0.0)
+
+func _on_spiral_count_changed(value):
+	if shader_material:
+		shader_material.set_shader_parameter("spiral_arms_count", value)
+		spiral_count_label.text = "螺旋臂数: %d" % int(value)
+
+func _on_spiral_strength_changed(value):
+	if shader_material:
+		shader_material.set_shader_parameter("spiral_strength", value)
+		spiral_strength_label.text = "螺旋强度: %.1f" % value
+
+func _on_hotspots_toggled(pressed):
+	if shader_material:
+		shader_material.set_shader_parameter("hot_spots_enabled", 1.0 if pressed else 0.0)
+
+func _on_hotspots_count_changed(value):
+	if shader_material:
+		shader_material.set_shader_parameter("hot_spots_count", value)
+		hotspots_count_label.text = "热点数量: %d" % int(value)
+
+func _on_hotspots_intensity_changed(value):
+	if shader_material:
+		shader_material.set_shader_parameter("hot_spots_intensity", value)
+		hotspots_intensity_label.text = "热点强度: %.1f" % value
