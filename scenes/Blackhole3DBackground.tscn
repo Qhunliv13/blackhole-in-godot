@@ -23,6 +23,7 @@ shader_parameter/gravity_strength = 0.15
 shader_parameter/render_black_hole = 1.0
 shader_parameter/mouse_control = 0.0
 shader_parameter/fov_scale = 1.0
+shader_parameter/auto_fade_lensing = 1.0
 shader_parameter/adisk_enabled = 1.0
 shader_parameter/adisk_particle = 1.0
 shader_parameter/adisk_height = 0.5
@@ -31,7 +32,14 @@ shader_parameter/adisk_density_v = 1.0
 shader_parameter/adisk_density_h = 1.0
 shader_parameter/adisk_noise_scale = 1.0
 shader_parameter/adisk_noise_lod = 5.0
-shader_parameter/adisk_speed = 0.5
+shader_parameter/adisk_speed = 1.0000000475
+shader_parameter/adisk_inner_radius = 1.0
+shader_parameter/adisk_outer_radius = 12.0
+shader_parameter/cube_enabled = 1.0
+shader_parameter/cube_position = Vector3(3, 0, 0)
+shader_parameter/cube_size = Vector3(1, 1, 1)
+shader_parameter/cube_color = Vector3(0.4, 0.8, 1)
+shader_parameter/cube_emission_strength = 2.0
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_y5yx7"]
 panorama = ExtResource("3_y5yx7")
@@ -46,11 +54,14 @@ sky = SubResource("Sky_y5yx7")
 [node name="Blackhole3DBackground" type="Node3D"]
 script = ExtResource("1_3dbackground")
 
+[node name="fowardCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 20)
+
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0, 10)
 
 [node name="BackgroundCamera" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.99957734, 0.02907297, 0, -0.02907297, 0.99957734, 0, 0, 6.2544127)
+transform = Transform3D(1, 0, 0, 0, 1.0000001, 0, 0, 0, 1.0000001, 0, 0, 10)
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
@@ -69,6 +80,15 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0)
+
+[node name="ForegroundRect" type="TextureRect" parent="UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI"]
 layout_mode = 1
@@ -100,6 +120,10 @@ text = "渲染黑洞"
 [node name="CheckBox3" type="CheckBox" parent="UI/VBoxContainer"]
 layout_mode = 2
 text = "吸积盘"
+
+[node name="CheckBox4" type="CheckBox" parent="UI/VBoxContainer"]
+layout_mode = 2
+text = "自动衰减透镜"
 
 [node name="HSeparator2" type="HSeparator" parent="UI/VBoxContainer"]
 layout_mode = 2
@@ -137,5 +161,84 @@ max_value = 0.001
 step = 0.0001
 value = 0.0001
 
+[node name="Label5" type="Label" parent="UI/VBoxContainer"]
+layout_mode = 2
+text = "吸积盘内半径: 1.00"
+
+[node name="HSlider4" type="HSlider" parent="UI/VBoxContainer"]
+layout_mode = 2
+min_value = 1.0
+max_value = 5.0
+step = 0.1
+value = 1.0
+
+[node name="Label6" type="Label" parent="UI/VBoxContainer"]
+layout_mode = 2
+text = "吸积盘外半径: 12.00"
+
+[node name="HSlider5" type="HSlider" parent="UI/VBoxContainer"]
+layout_mode = 2
+min_value = 5.0
+max_value = 20.0
+step = 0.1
+value = 12.0
+
+[node name="HSeparator3" type="HSeparator" parent="UI/VBoxContainer"]
+layout_mode = 2
+
+[node name="CheckBox5" type="CheckBox" parent="UI/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "自发光立方体"
+
+[node name="Label7" type="Label" parent="UI/VBoxContainer"]
+layout_mode = 2
+text = "立方体发光强度: 2.00"
+
+[node name="HSlider6" type="HSlider" parent="UI/VBoxContainer"]
+layout_mode = 2
+min_value = 0.1
+max_value = 10.0
+step = 0.1
+value = 2.0
+
+[node name="HSeparator4" type="HSeparator" parent="UI/VBoxContainer"]
+layout_mode = 2
+
+[node name="CheckBox6" type="CheckBox" parent="UI/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "多普勒效应"
+
+[node name="Label8" type="Label" parent="UI/VBoxContainer"]
+layout_mode = 2
+text = "多普勒强度: 0.80"
+
+[node name="HSlider7" type="HSlider" parent="UI/VBoxContainer"]
+layout_mode = 2
+min_value = 0.0
+max_value = 2.0
+step = 0.1
+value = 0.8
+
+[node name="CheckBox7" type="CheckBox" parent="UI/VBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "相对论束射"
+
+[node name="Label9" type="Label" parent="UI/VBoxContainer"]
+layout_mode = 2
+text = "束射强度: 3.0"
+
+[node name="HSlider8" type="HSlider" parent="UI/VBoxContainer"]
+layout_mode = 2
+min_value = 1.0
+max_value = 5.0
+step = 0.1
+value = 3.0
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_keguh")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, 10.506476, 15.326165)

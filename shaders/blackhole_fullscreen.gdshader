@@ -27,6 +27,7 @@ uniform float gravity_strength : hint_range(0.01, 2.0) = 0.15;
 uniform float render_black_hole : hint_range(0.0, 1.0) = 1.0;
 uniform float mouse_control : hint_range(0.0, 1.0) = 0.0;
 uniform float fov_scale : hint_range(0.1, 3.0) = 1.0;
+uniform float auto_fade_lensing : hint_range(0.0, 1.0) = 1.0;
 
 uniform float adisk_enabled : hint_range(0.0, 1.0) = 1.0;
 uniform float adisk_particle : hint_range(0.0, 1.0) = 1.0;
@@ -37,6 +38,19 @@ uniform float adisk_density_h : hint_range(0.1, 3.0) = 1.0;
 uniform float adisk_noise_scale : hint_range(0.1, 5.0) = 1.0;
 uniform float adisk_noise_lod : hint_range(1.0, 10.0) = 5.0;
 uniform float adisk_speed : hint_range(0.0, 2.0) = 0.5;
+uniform float adisk_inner_radius : hint_range(1.0, 5.0) = 2.6;
+uniform float adisk_outer_radius : hint_range(5.0, 20.0) = 12.0;
+
+uniform float cube_enabled : hint_range(0.0, 1.0) = 1.0;
+uniform vec3 cube_position = vec3(3.0, 0.0, 0.0);
+uniform vec3 cube_size = vec3(1.0, 1.0, 1.0);
+uniform vec3 cube_color = vec3(0.4, 0.8, 1.0);
+uniform float cube_emission_strength : hint_range(0.1, 10.0) = 2.0;
+
+uniform float doppler_enabled : hint_range(0.0, 1.0) = 1.0;
+uniform float doppler_strength : hint_range(0.0, 2.0) = 0.8;
+uniform float beaming_enabled : hint_range(0.0, 1.0) = 1.0;
+uniform float beaming_strength : hint_range(1.0, 5.0) = 3.0;
 
 struct Ring {
 	vec3 center;
@@ -205,9 +219,9 @@ mat3 look_at(vec3 origin, vec3 target, float roll) {
 	return mat3(right, up, forward);
 }
 
-void adisk_color(vec3 pos, inout vec3 color, inout float alpha) {
-	float inner_radius = 2.6;
-	float outer_radius = 12.0;
+void adisk_color(vec3 pos, vec3 cam_pos, inout vec3 color, inout float alpha) {
+	float inner_radius = adisk_inner_radius;
+	float outer_radius = adisk_outer_radius;
 
 	float density = max(0.0, 1.0 - length(pos.xyz / vec3(outer_radius, adisk_height, outer_radius)));
 	if (density < 0.001) {
@@ -221,11 +235,10 @@ void adisk_color(vec3 pos, inout vec3 color, inout float alpha) {
 		return;
 	}
 
-	vec3 spherical_coord = to_spherical(pos);
-	spherical_coord.y *= 2.0;
-	spherical_coord.z *= 4.0;
-
-	density *= 1.0 / pow(spherical_coord.x, adisk_density_h);
+	vec3 disk_pos = pos;
+	float radial_dist = length(disk_pos.xz);
+	
+	density *= 1.0 / pow(radial_dist, adisk_density_h);
 	density *= 16000.0;
 
 	if (adisk_particle < 0.5) {
@@ -233,32 +246,143 @@ void adisk_color(vec3 pos, inout vec3 color, inout float alpha) {
 		return;
 	}
 
+	float normalized_radius = radial_dist / inner_radius;
+	float angular_velocity = 1.0 / sqrt(max(normalized_radius, 0.5));
+	
+	float rotation_angle = time * adisk_speed * angular_velocity;
+	float c_main = cos(rotation_angle);
+	float s_main = sin(rotation_angle);
+	
+	vec3 rotated_pos = vec3(
+		disk_pos.x * c_main - disk_pos.z * s_main,
+		disk_pos.y,
+		disk_pos.x * s_main + disk_pos.z * c_main
+	);
+	
 	float noise = 0.0;
 	float amplitude = 1.0;
 	float total_amplitude = 0.0;
-	vec3 coord = spherical_coord;
 	
-	for (int i = 0; i < int(adisk_noise_lod); i++) {
+	int lod_count = max(int(adisk_noise_lod), 6);
+	
+	for (int i = 0; i < lod_count; i++) {
 		float frequency = pow(2.0, float(i)) * adisk_noise_scale;
-		float n = snoise(coord * frequency) * 0.5 + 0.5;
+		
+		float layer_speed_factor = 1.0 + float(i) * 0.1;
+		float layer_angle = rotation_angle * layer_speed_factor;
+		float c_layer = cos(layer_angle);
+		float s_layer = sin(layer_angle);
+		
+		vec3 layer_rotated = vec3(
+			rotated_pos.x * c_layer - rotated_pos.z * s_layer,
+			rotated_pos.y,
+			rotated_pos.x * s_layer + rotated_pos.z * c_layer
+		);
+		
+		float n = snoise(layer_rotated * frequency) * 0.5 + 0.5;
 		noise += n * amplitude;
 		total_amplitude += amplitude;
 		amplitude *= 0.5;
-		
-		if (i % 2 == 0) {
-			coord.y += time * adisk_speed;
-		} else {
-			coord.y -= time * adisk_speed;
-		}
 	}
 	
 	noise /= total_amplitude;
+	
+	vec3 detail_pos = vec3(
+		rotated_pos.x * c_main - rotated_pos.z * s_main,
+		rotated_pos.y,
+		rotated_pos.x * s_main + rotated_pos.z * c_main
+	);
+	float detail = snoise(detail_pos * adisk_noise_scale * 16.0) * 0.5 + 0.5;
+	noise = mix(noise, detail, 0.3);
 
-	vec3 dust_color = texture(color_map, vec2(spherical_coord.x / outer_radius, 0.5)).rgb;
+	vec3 dust_color = texture(color_map, vec2(radial_dist / outer_radius, 0.5)).rgb;
+	
+	if (doppler_enabled > 0.5) {
+		vec3 radial_dir = normalize(vec3(disk_pos.x, 0.0, disk_pos.z));
+		vec3 tangent_dir = vec3(-radial_dir.z, 0.0, radial_dir.x);
+		if (adisk_speed < 0.0) {
+			tangent_dir = -tangent_dir;
+		}
+		
+		float orbital_speed = angular_velocity * radial_dist;
+		float beta = orbital_speed * abs(adisk_speed) * 0.15;
+		beta = clamp(beta, 0.0, 0.5);
+		
+		vec3 velocity = tangent_dir * beta;
+		vec3 view_dir = normalize(cam_pos - pos);
+		float cos_theta = dot(normalize(velocity), view_dir);
+		float radial_velocity = beta * cos_theta;
+		float doppler_shift = radial_velocity * doppler_strength;
+		
+		if (doppler_shift > 0.0) {
+			dust_color.r *= (1.0 - doppler_shift * 0.5);
+			dust_color.g *= (1.0 - doppler_shift * 0.2);
+			dust_color.b *= (1.0 + doppler_shift * 1.5);
+		} else {
+			float red_shift = -doppler_shift;
+			dust_color.r *= (1.0 + red_shift * 1.5);
+			dust_color.g *= (1.0 - red_shift * 0.2);
+			dust_color.b *= (1.0 - red_shift * 0.5);
+		}
+		
+		if (beaming_enabled > 0.5) {
+			float beta_sq = beta * beta;
+			float gamma = 1.0 / sqrt(max(1.0 - beta_sq, 0.01));
+			float doppler_factor = 1.0 / (gamma * (1.0 - beta * cos_theta));
+			float beaming_boost = pow(max(doppler_factor, 0.1), beaming_strength);
+			beaming_boost = clamp(beaming_boost, 0.1, 10.0);
+			dust_color *= beaming_boost;
+		} else {
+			float brightness_factor = 1.0 + doppler_shift * 0.5;
+			dust_color *= brightness_factor;
+		}
+	}
+	
 	color += density * adisk_lit * dust_color * alpha * noise;
 }
 
-void trace_ray(vec3 pos, vec3 dir, inout vec3 color, inout float alpha, out vec3 final_dir, out bool hit_event_horizon) {
+bool intersect_cube(vec3 ray_origin, vec3 ray_dir, vec3 box_center, vec3 box_size, 
+                    out float t_hit, out vec3 normal) {
+	vec3 box_min = box_center - box_size * 0.5;
+	vec3 box_max = box_center + box_size * 0.5;
+	
+	vec3 inv_dir = 1.0 / (ray_dir + vec3(0.000001));
+	vec3 t0 = (box_min - ray_origin) * inv_dir;
+	vec3 t1 = (box_max - ray_origin) * inv_dir;
+	
+	vec3 t_min = min(t0, t1);
+	vec3 t_max = max(t0, t1);
+	
+	float t_near = max(max(t_min.x, t_min.y), t_min.z);
+	float t_far = min(min(t_max.x, t_max.y), t_max.z);
+	
+	if (t_far < t_near || t_far < 0.0) {
+		return false;
+	}
+	
+	t_hit = t_near > 0.0 ? t_near : t_far;
+	
+	vec3 hit_point = ray_origin + ray_dir * t_hit;
+	vec3 local_hit = hit_point - box_center;
+	vec3 abs_local = abs(local_hit);
+	vec3 half_size = box_size * 0.5;
+	
+	vec3 dist_to_face = abs_local - half_size;
+	float max_dist = max(max(dist_to_face.x, dist_to_face.y), dist_to_face.z);
+	
+	normal = vec3(0.0);
+	if (abs(dist_to_face.x - max_dist) < 0.0001) {
+		normal = vec3(sign(local_hit.x), 0.0, 0.0);
+	} else if (abs(dist_to_face.y - max_dist) < 0.0001) {
+		normal = vec3(0.0, sign(local_hit.y), 0.0);
+	} else {
+		normal = vec3(0.0, 0.0, sign(local_hit.z));
+	}
+	
+	return true;
+}
+
+void trace_ray(vec3 pos, vec3 dir, vec3 cam_pos, inout vec3 color, inout float alpha, out vec3 final_dir, out bool hit_event_horizon, float lensing_strength) {
 	hit_event_horizon = false;
 	final_dir = dir;
 
@@ -268,10 +392,13 @@ void trace_ray(vec3 pos, vec3 dir, inout vec3 color, inout float alpha, out vec3
 
 	vec3 h = cross(pos, step_dir);
 	float h2 = dot(h, h);
+	
+	bool cube_hit = false;
+	float cube_dist = INFINITY;
 
 	for (int i = 0; i < 500; i++) {
-		if (gravitational_lensing > 0.5) {
-			vec3 acc = accel(h2, pos);
+		if (lensing_strength > 0.0 && gravitational_lensing > 0.5) {
+			vec3 acc = accel(h2, pos) * lensing_strength;
 			step_dir += acc;
 		}
 
@@ -281,7 +408,49 @@ void trace_ray(vec3 pos, vec3 dir, inout vec3 color, inout float alpha, out vec3
 		}
 
 		if (adisk_enabled > 0.5) {
-			adisk_color(pos, color, alpha);
+			adisk_color(pos, cam_pos, color, alpha);
+		}
+		
+		if (cube_enabled > 0.5 && !cube_hit && alpha > 0.01) {
+			vec3 current_dir = normalize(step_dir);
+			float t_hit;
+			vec3 cube_normal;
+			
+			if (intersect_cube(pos, current_dir, cube_position, cube_size, t_hit, cube_normal)) {
+				if (t_hit < length(step_dir) * 2.0) {
+					cube_hit = true;
+					vec3 hit_point = pos + current_dir * t_hit;
+					vec3 emission = cube_color * cube_emission_strength;
+					float face_intensity = abs(dot(cube_normal, vec3(0.577)));
+					face_intensity = 0.6 + face_intensity * 0.4;
+					vec3 to_center = hit_point - cube_position;
+					vec2 uv_on_face;
+					
+					if (abs(cube_normal.x) > 0.5) {
+						uv_on_face = to_center.yz / cube_size.yz;
+					} else if (abs(cube_normal.y) > 0.5) {
+						uv_on_face = to_center.xz / cube_size.xz;
+					} else {
+						uv_on_face = to_center.xy / cube_size.xy;
+					}
+					
+					vec2 grid_uv = fract(uv_on_face * 2.0);
+					float grid_line = 0.05;
+					float grid = min(
+						min(smoothstep(grid_line, 0.0, grid_uv.x), smoothstep(grid_line, 0.0, 1.0 - grid_uv.x)),
+						min(smoothstep(grid_line, 0.0, grid_uv.y), smoothstep(grid_line, 0.0, 1.0 - grid_uv.y))
+					);
+					
+					float edge_dist = max(abs(uv_on_face.x), abs(uv_on_face.y));
+					float edge_glow = smoothstep(0.4, 0.5, edge_dist);
+					vec3 final_emission = emission * face_intensity * (1.0 + edge_glow * 0.3);
+					final_emission += emission * grid * 0.5;
+					color += final_emission * alpha;
+					alpha = 0.0;
+					final_dir = normalize(step_dir);
+					return;
+				}
+			}
 		}
 
 		pos += step_dir;
@@ -356,23 +525,84 @@ void fragment() {
 		COLOR.rgb = texture(background_texture, SCREEN_UV).rgb;
 		COLOR.a = 1.0;
 	} else {
+		vec3 blackhole_pos = vec3(0.0, 0.0, 0.0);
+		vec3 to_blackhole = blackhole_pos - camera_pos;
+		float dist_to_blackhole = length(to_blackhole);
+		float lensing_strength = 0.0;
+		
+		float schwarzschild_radius = 1.0;
+		float strength_factor = max(1.0, gravity_strength);
+		float lensing_fade_radius = 2.0 * schwarzschild_radius * strength_factor;
+		
+		if (auto_fade_lensing < 0.5) {
+			lensing_strength = 1.0;
+		} else if (use_3d_camera > 0.5) {
+			vec3 bh_cam;
+			bh_cam.x = dot(to_blackhole, camera_right);
+			bh_cam.y = dot(to_blackhole, camera_up);
+			bh_cam.z = dot(to_blackhole, camera_forward);
+			
+			if (bh_cam.z > 0.0) {
+				float fov_rad = radians(camera_fov);
+				float tan_half_fov = tan(fov_rad * 0.5);
+				vec2 bh_screen = vec2(-bh_cam.x / bh_cam.z / tan_half_fov, bh_cam.y / bh_cam.z / tan_half_fov);
+				bh_screen.x /= aspect_ratio;
+				bh_screen += vec2(0.5);
+				
+				float angular_radius = atan(lensing_fade_radius / bh_cam.z);
+				float screen_radius = angular_radius / tan_half_fov;
+				screen_radius /= aspect_ratio;
+				
+				vec2 closest_point_on_screen = clamp(bh_screen, vec2(0.0), vec2(1.0));
+				float dist_center_to_screen = length(bh_screen - closest_point_on_screen);
+				float edge_dist_outside = dist_center_to_screen - screen_radius;
+				float fade_distance = screen_radius;
+				float normalized_dist = clamp(edge_dist_outside / fade_distance, 0.0, 1.0);
+				lensing_strength = 1.0 - (normalized_dist * normalized_dist);
+			}
+		} else {
+			vec3 cam_forward = view[2];
+			vec3 to_bh_normalized = normalize(to_blackhole);
+			float cos_angle = dot(to_bh_normalized, cam_forward);
+			float angular_radius = atan(lensing_fade_radius / max(dist_to_blackhole, 0.1));
+			float angle_to_bh = acos(clamp(cos_angle, -1.0, 1.0));
+			float fov_rad = radians(camera_fov);
+			float half_fov = fov_rad * 0.5;
+			float edge_angle_outside = angle_to_bh - angular_radius - half_fov;
+			float fade_angle = angular_radius;
+			float normalized_angle = clamp(edge_angle_outside / fade_angle, 0.0, 1.0);
+			lensing_strength = 1.0 - (normalized_angle * normalized_angle);
+		}
+		
 		vec3 color = vec3(0.0);
 		float alpha = 1.0;
 		vec3 final_dir;
 		bool hit_event_horizon;
 		
-		trace_ray(pos, dir, color, alpha, final_dir, hit_event_horizon);
+		trace_ray(pos, dir, camera_pos, color, alpha, final_dir, hit_event_horizon, lensing_strength);
 		
 		if (hit_event_horizon) {
 			COLOR.rgb = color;
 			COLOR.a = 1.0;
 		} else {
-			vec3 final_dir_camera = transpose(view) * final_dir;
-			
-			vec2 distorted_uv = vec2(-final_dir_camera.x / final_dir_camera.z, final_dir_camera.y / final_dir_camera.z);
-			distorted_uv /= fov_scale;
-			distorted_uv.x /= SCREEN_PIXEL_SIZE.y / SCREEN_PIXEL_SIZE.x;
-			distorted_uv += vec2(0.5);
+			vec2 distorted_uv;
+			if (use_3d_camera > 0.5) {
+				float fov_rad = radians(camera_fov);
+				float tan_half_fov = tan(fov_rad * 0.5);
+				vec3 dir_cam;
+				dir_cam.x = dot(final_dir, camera_right);
+				dir_cam.y = dot(final_dir, camera_up);
+				dir_cam.z = dot(final_dir, camera_forward);
+				distorted_uv = vec2(-dir_cam.x / dir_cam.z / tan_half_fov, dir_cam.y / dir_cam.z / tan_half_fov);
+				distorted_uv.x /= aspect_ratio;
+				distorted_uv += vec2(0.5);
+			} else {
+				vec3 final_dir_camera = transpose(view) * final_dir;
+				distorted_uv = vec2(-final_dir_camera.x / final_dir_camera.z, final_dir_camera.y / final_dir_camera.z);
+				distorted_uv /= fov_scale;
+				distorted_uv.x /= aspect_ratio;
+				distorted_uv += vec2(0.5);
+			}
 			
 			vec3 bg_color = texture(background_texture, distorted_uv).rgb;
 			color += bg_color * alpha;
