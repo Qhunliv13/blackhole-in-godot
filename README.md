@@ -281,10 +281,10 @@ Final Composition:
 
 ## Visual Comparison
 
-### Real Black Hole: M87*
+### Real Black Hole: M87
 
 <p align="center">
-  <img src="The first black hole" alt="M87* Black Hole - EHT" width="600"/>
+  <img src="textures/The first black hole.png" alt="M87* Black Hole - EHT" width="600"/>
   <br>
   <em>M87* black hole observed by Event Horizon Telescope (2019)</em>
 </p>
@@ -298,8 +298,8 @@ Final Composition:
 ### This Simulation
 
 <p align="center">
-  <img src="pic/D.png" alt="Simulation - Front View" width="400"/>
-  <img src="pic/E.png" alt="Simulation - Jet View" width="400"/>
+  <img src="pic/D.jpg" alt="Simulation - Front View" width="400"/>
+  <img src="pic/E.jpg" alt="Simulation - Jet View" width="400"/>
   <br>
   <em>Left: Accretion disk with spiral arms and hot spots | Right: Jets and gravitational lensing</em>
 </p>
