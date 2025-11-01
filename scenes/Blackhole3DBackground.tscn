@@ -27,7 +27,7 @@ shader_parameter/auto_fade_lensing = 1.0
 shader_parameter/adisk_enabled = 1.0
 shader_parameter/adisk_particle = 1.0
 shader_parameter/adisk_height = 0.5
-shader_parameter/adisk_lit = 0.0001
+shader_parameter/adisk_lit = 0.00003
 shader_parameter/adisk_density_v = 1.0
 shader_parameter/adisk_density_h = 1.0
 shader_parameter/adisk_noise_scale = 1.0
@@ -39,15 +39,17 @@ shader_parameter/cube_enabled = 1.0
 shader_parameter/cube_position = Vector3(3, 0, 0)
 shader_parameter/cube_size = Vector3(1, 1, 1)
 shader_parameter/cube_color = Vector3(0.4, 0.8, 1)
-shader_parameter/cube_emission_strength = 2.0
+shader_parameter/cube_emission_strength = 0.5
+shader_parameter/mesh_triangle_count = 0
+shader_parameter/mesh_enabled = 0.0
 shader_parameter/doppler_enabled = 1.0
 shader_parameter/doppler_strength = 0.8
 shader_parameter/beaming_enabled = 1.0
-shader_parameter/beaming_strength = 3.0
+shader_parameter/beaming_strength = 2.0
 shader_parameter/jet_enabled = 1.0
 shader_parameter/jet_length = 25.0
 shader_parameter/jet_width = 0.5
-shader_parameter/jet_intensity = 5.0
+shader_parameter/jet_intensity = 1.0
 shader_parameter/jet_rotation_speed = 2.0
 shader_parameter/jet_burst_frequency = 0.5
 shader_parameter/jet_noise_octaves = 5.0
@@ -167,7 +169,7 @@ grow_vertical = 2
 
 [node name="IconLabel" type="Label" parent="UI/IconPanel/VBox"]
 layout_mode = 2
-text = "图标选择 (按1切换)"
+text = "Icon Selection (Press 1)"
 horizontal_alignment = 1
 
 [node name="IconOption" type="OptionButton" parent="UI/IconPanel/VBox"]
@@ -182,7 +184,7 @@ stretch_mode = 5
 
 [node name="ApplyButton" type="Button" parent="UI/IconPanel/VBox"]
 layout_mode = 2
-text = "确定并切换（重启）"
+text = "Confirm and Switch (Restart)"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="UI"]
 layout_mode = 1
@@ -201,7 +203,7 @@ size_flags_horizontal = 3
 
 [node name="Label" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "黑洞"
+text = "Black Hole"
 horizontal_alignment = 1
 
 [node name="HSeparator" type="HSeparator" parent="UI/ScrollContainer/VBoxContainer"]
@@ -209,26 +211,26 @@ layout_mode = 2
 
 [node name="CheckBox" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "引力透镜效果"
+text = "Gravitational Lensing"
 
 [node name="CheckBox2" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "渲染黑洞"
+text = "Render Black Hole"
 
 [node name="CheckBox3" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "吸积盘"
+text = "Accretion Disk"
 
 [node name="CheckBox4" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "自动衰减透镜"
+text = "Auto Fade Lensing"
 
 [node name="HSeparator2" type="HSeparator" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
 [node name="Label2" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "引力强度: 0.15"
+text = "Gravity Strength: 0.15"
 
 [node name="HSlider" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -239,7 +241,7 @@ value = 0.15000000000000002
 
 [node name="Label3" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "吸积盘高度: 0.50"
+text = "Disk Height: 0.50"
 
 [node name="HSlider2" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -250,7 +252,7 @@ value = 0.5
 
 [node name="Label4" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "吸积盘亮度: 0.0001"
+text = "Disk Brightness: 0.0001"
 
 [node name="HSlider3" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -261,7 +263,7 @@ value = 0.0001
 
 [node name="Label5" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "吸积盘内半径: 1.00"
+text = "Disk Inner Radius: 1.00"
 
 [node name="HSlider4" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -272,7 +274,7 @@ value = 1.0
 
 [node name="Label6" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "吸积盘外半径: 12.00"
+text = "Disk Outer Radius: 12.00"
 
 [node name="HSlider5" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -287,11 +289,11 @@ layout_mode = 2
 [node name="CheckBox5" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 button_pressed = true
-text = "自发光立方体"
+text = "Emissive Cube"
 
 [node name="Label7" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "立方体发光强度: 2.00"
+text = "Cube Emission: 2.00"
 
 [node name="HSlider6" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -306,11 +308,11 @@ layout_mode = 2
 [node name="CheckBox6" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 button_pressed = true
-text = "多普勒效应"
+text = "Doppler Effect"
 
 [node name="Label8" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "多普勒强度: 0.80"
+text = "Doppler Strength: 0.80"
 
 [node name="HSlider7" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -321,11 +323,11 @@ value = 0.8
 [node name="CheckBox7" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 button_pressed = true
-text = "相对论束射"
+text = "Relativistic Beaming"
 
 [node name="Label9" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "束射强度: 3.0"
+text = "Beaming Strength: 3.0"
 
 [node name="HSlider8" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -340,11 +342,11 @@ layout_mode = 2
 [node name="CheckBox8" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 button_pressed = true
-text = "黑洞喷流"
+text = "Black Hole Jets"
 
 [node name="Label10" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "喷流强度: 5.0"
+text = "Jet Intensity: 5.0"
 
 [node name="HSlider9" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -355,7 +357,7 @@ value = 5.0
 
 [node name="Label12" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "喷流旋转: 2.0"
+text = "Jet Rotation: 2.0"
 
 [node name="HSlider11" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -365,7 +367,7 @@ value = 2.0
 
 [node name="Label13" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "喷流爆发: 0.5"
+text = "Jet Burst: 0.5"
 
 [node name="HSlider12" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -376,12 +378,12 @@ value = 0.5
 
 [node name="CheckBox9" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-button_pressed = true
-text = "霍金辐射"
+button_pressed = false
+text = "Hawking Radiation (Theory)"
 
 [node name="Label11" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "辐射强度: 1.0"
+text = "Radiation Intensity: 1.0"
 
 [node name="HSlider10" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -396,11 +398,11 @@ layout_mode = 2
 [node name="CheckBox10" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 button_pressed = true
-text = "引力红移"
+text = "Gravitational Redshift"
 
 [node name="Label14" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "红移强度: 1.0"
+text = "Redshift Strength: 1.0"
 
 [node name="HSlider13" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -413,11 +415,11 @@ layout_mode = 2
 
 [node name="CheckBox11" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "光子球（理论）"
+text = "Photon Sphere (Theory)"
 
 [node name="Label15" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "光子球强度: 3.0"
+text = "Photon Intensity: 3.0"
 
 [node name="HSlider14" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -428,11 +430,11 @@ value = 3.0
 
 [node name="CheckBox12" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "ISCO内环（理论）"
+text = "ISCO Ring (Theory)"
 
 [node name="Label16" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "ISCO强度: 5.0"
+text = "ISCO Intensity: 5.0"
 
 [node name="HSlider15" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -446,11 +448,11 @@ layout_mode = 2
 
 [node name="CheckBox13" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "X射线冕（理论）"
+text = "X-ray Corona (Theory)"
 
 [node name="Label17" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "冕强度: 1.5"
+text = "Corona Intensity: 1.5"
 
 [node name="HSlider16" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -462,16 +464,16 @@ value = 1.5
 [node name="CheckBox14" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 button_pressed = true
-text = "温度梯度"
+text = "Temperature Gradient"
 
 [node name="CheckBox15" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 button_pressed = true
-text = "准周期振荡"
+text = "Quasi-Periodic Oscillations"
 
 [node name="Label18" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "QPO频率: 3.0 Hz"
+text = "QPO Frequency: 3.0 Hz"
 
 [node name="HSlider17" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -482,7 +484,7 @@ value = 3.0
 
 [node name="CheckBox16" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "多重像（慢）"
+text = "Secondary Images (Slow)"
 
 [node name="HSeparator9" type="HSeparator" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -490,11 +492,11 @@ layout_mode = 2
 [node name="CheckBox17" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 button_pressed = true
-text = "帧拖曳（克尔）"
+text = "Frame Dragging (Kerr)"
 
 [node name="Label19" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "黑洞自旋: 0.7"
+text = "Black Hole Spin: 0.7"
 
 [node name="HSlider18" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -505,11 +507,11 @@ value = 0.7
 [node name="CheckBox18" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 button_pressed = true
-text = "时间膨胀"
+text = "Time Dilation"
 
 [node name="Label20" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "膨胀强度: 1.0"
+text = "Dilation Strength: 1.0"
 
 [node name="HSlider19" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -523,11 +525,11 @@ layout_mode = 2
 [node name="CheckBox19" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 button_pressed = true
-text = "螺旋臂"
+text = "Spiral Arms"
 
 [node name="Label21" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "螺旋臂数: 2"
+text = "Spiral Count: 2"
 
 [node name="HSlider20" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -537,7 +539,7 @@ value = 2.0
 
 [node name="Label22" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "螺旋强度: 0.8"
+text = "Spiral Strength: 0.8"
 
 [node name="HSlider21" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -548,11 +550,11 @@ value = 0.8
 [node name="CheckBox20" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 button_pressed = true
-text = "热点"
+text = "Hot Spots"
 
 [node name="Label23" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "热点数量: 3"
+text = "Hot Spots Count: 3"
 
 [node name="HSlider22" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -562,7 +564,7 @@ value = 3.0
 
 [node name="Label24" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "热点强度: 2.0"
+text = "Hot Spots Intensity: 2.0"
 
 [node name="HSlider23" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -570,6 +572,22 @@ min_value = 0.5
 max_value = 5.0
 step = 0.1
 value = 2.0
+
+[node name="HSeparator11" type="HSeparator" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="PresetLabel" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Parameter Presets"
+horizontal_alignment = 1
+
+[node name="M87Button" type="Button" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Set to M87* Parameters"
+
+[node name="SgrAButton" type="Button" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Set to Sgr A* Parameters"
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_keguh")

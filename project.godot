@@ -13,13 +13,19 @@ config_version=5
 config/name="Blackhole Project"
 run/main_scene="res://scenes/Blackhole3DBackground.tscn"
 config/features=PackedStringArray("4.5", "Forward Plus")
-boot_splash/bg_color=Color(1, 1, 1, 1)
-config/icon="res://icon.svg"
+boot_splash/bg_color=Color(0, 0, 0, 1)
+boot_splash/image="uid://bt8681l2rnlon"
+config/icon="res://pic/A.png"
+
+[display]
+
+window/size/mode=2
+window/stretch/mode="canvas_items"
 
 [editor]
 
 movie_writer/ogv/encoding_speed=2
-movie_writer/movie_file="G:/GD-change/changed/blackhole/AI/blackhole_project/1.ogv"
+movie_writer/movie_file="G:/2.ogv"
 
 [physics]
 

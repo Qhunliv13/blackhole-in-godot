@@ -78,6 +78,8 @@ extends Node3D
 @onready var hotspots_count_label = $UI/ScrollContainer/VBoxContainer/Label23
 @onready var hotspots_intensity_slider = $UI/ScrollContainer/VBoxContainer/HSlider23
 @onready var hotspots_intensity_label = $UI/ScrollContainer/VBoxContainer/Label24
+@onready var m87_button = $UI/ScrollContainer/VBoxContainer/M87Button
+@onready var sgra_button = $UI/ScrollContainer/VBoxContainer/SgrAButton
 
 var camera_speed = 8.0
 var mouse_sensitivity = 0.002
@@ -97,6 +99,117 @@ var adisk_outer_radius_value: float = 12.0
 var blackhole_position := Vector3.ZERO
 const BACK_LAYER := 1 << 1
 const FRONT_LAYER := 1 << 2
+const MAX_RENDER_DISTANCE := 2000.0
+var user_render_black_hole_enabled := true
+var current_language := "en"
+var ui_texts := {
+	"en": {
+		"icon_title": "Icon Selection (Press 1)",
+		"icon_option_a": "Icon A",
+		"icon_option_b": "Icon B",
+		"apply_button": "Confirm and Switch (Restart)",
+		"blackhole_title": "Black Hole",
+		"gravitational_lensing": "Gravitational Lensing",
+		"render_blackhole": "Render Black Hole",
+		"accretion_disk": "Accretion Disk",
+		"auto_fade": "Auto Fade Lensing",
+		"gravity_strength": "Gravity Strength",
+		"disk_height": "Disk Height",
+		"disk_brightness": "Disk Brightness",
+		"disk_inner_radius": "Disk Inner Radius",
+		"disk_outer_radius": "Disk Outer Radius",
+		"emissive_cube": "Emissive Cube",
+		"cube_emission": "Cube Emission",
+		"doppler_effect": "Doppler Effect",
+		"doppler_strength": "Doppler Strength",
+		"relativistic_beaming": "Relativistic Beaming",
+		"beaming_strength": "Beaming Strength",
+		"black_hole_jets": "Black Hole Jets",
+		"jet_intensity": "Jet Intensity",
+		"jet_rotation": "Jet Rotation",
+		"jet_burst": "Jet Burst",
+		"hawking_radiation": "Hawking Radiation (Theory)",
+		"radiation_intensity": "Radiation Intensity",
+		"gravitational_redshift": "Gravitational Redshift",
+		"redshift_strength": "Redshift Strength",
+		"photon_sphere": "Photon Sphere (Theory)",
+		"photon_intensity": "Photon Intensity",
+		"isco_ring": "ISCO Ring (Theory)",
+		"isco_intensity": "ISCO Intensity",
+		"xray_corona": "X-ray Corona (Theory)",
+		"corona_intensity": "Corona Intensity",
+		"temperature_gradient": "Temperature Gradient",
+		"qpo": "Quasi-Periodic Oscillations",
+		"qpo_frequency": "QPO Frequency",
+		"secondary_images": "Secondary Images (Slow)",
+		"frame_dragging": "Frame Dragging (Kerr)",
+		"black_hole_spin": "Black Hole Spin",
+		"time_dilation": "Time Dilation",
+		"dilation_strength": "Dilation Strength",
+		"spiral_arms": "Spiral Arms",
+		"spiral_count": "Spiral Count",
+		"spiral_strength": "Spiral Strength",
+		"hot_spots": "Hot Spots",
+		"hotspots_count": "Hot Spots Count",
+		"hotspots_intensity": "Hot Spots Intensity",
+		"preset_title": "Parameter Presets",
+		"m87_button": "Set to M87* Parameters",
+		"sgra_button": "Set to Sgr A* Parameters"
+	},
+	"zh": {
+		"icon_title": "图标选择 (按1切换)",
+		"icon_option_a": "图标 A",
+		"icon_option_b": "图标 B",
+		"apply_button": "确定并切换（重启）",
+		"blackhole_title": "黑洞",
+		"gravitational_lensing": "引力透镜效果",
+		"render_blackhole": "渲染黑洞",
+		"accretion_disk": "吸积盘",
+		"auto_fade": "自动衰减透镜",
+		"gravity_strength": "引力强度",
+		"disk_height": "吸积盘高度",
+		"disk_brightness": "吸积盘亮度",
+		"disk_inner_radius": "吸积盘内半径",
+		"disk_outer_radius": "吸积盘外半径",
+		"emissive_cube": "自发光立方体",
+		"cube_emission": "立方体发光强度",
+		"doppler_effect": "多普勒效应",
+		"doppler_strength": "多普勒强度",
+		"relativistic_beaming": "相对论束射",
+		"beaming_strength": "束射强度",
+		"black_hole_jets": "黑洞喷流",
+		"jet_intensity": "喷流强度",
+		"jet_rotation": "喷流旋转",
+		"jet_burst": "喷流爆发",
+		"hawking_radiation": "霍金辐射（理论）",
+		"radiation_intensity": "辐射强度",
+		"gravitational_redshift": "引力红移",
+		"redshift_strength": "红移强度",
+		"photon_sphere": "光子球（理论）",
+		"photon_intensity": "光子球强度",
+		"isco_ring": "ISCO内环（理论）",
+		"isco_intensity": "ISCO强度",
+		"xray_corona": "X射线冕（理论）",
+		"corona_intensity": "冕强度",
+		"temperature_gradient": "温度梯度",
+		"qpo": "准周期振荡",
+		"qpo_frequency": "QPO频率",
+		"secondary_images": "多重像（慢）",
+		"frame_dragging": "帧拖曳（克尔）",
+		"black_hole_spin": "黑洞自旋",
+		"time_dilation": "时间膨胀",
+		"dilation_strength": "膨胀强度",
+		"spiral_arms": "螺旋臂",
+		"spiral_count": "螺旋臂数",
+		"spiral_strength": "螺旋强度",
+		"hot_spots": "热点",
+		"hotspots_count": "热点数量",
+		"hotspots_intensity": "热点强度",
+		"preset_title": "参数预设",
+		"m87_button": "设置为 M87* 参数",
+		"sgra_button": "设置为 Sgr A* 参数"
+	}
+}
 
 func _ready():
 	setup_icon_options()
@@ -143,6 +256,8 @@ func _ready():
 	hotspots_check.toggled.connect(_on_hotspots_toggled)
 	hotspots_count_slider.value_changed.connect(_on_hotspots_count_changed)
 	hotspots_intensity_slider.value_changed.connect(_on_hotspots_intensity_changed)
+	m87_button.pressed.connect(_on_m87_preset_clicked)
+	sgra_button.pressed.connect(_on_sgra_preset_clicked)
 	
 	gravitational_lensing_check.button_pressed = true
 	render_black_hole_check.button_pressed = true
@@ -151,13 +266,14 @@ func _ready():
 	
 	setup_textures()
 	setup_background_camera()
+	update_ui_language()
 	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	mouse_captured = true
 
 func setup_icon_options():
-	icon_option.add_item("图标 A", 0)
-	icon_option.add_item("图标 B", 1)
+	icon_option.add_item(ui_texts[current_language]["icon_option_a"], 0)
+	icon_option.add_item(ui_texts[current_language]["icon_option_b"], 1)
 	icon_option.selected = 0
 	icon_option.item_selected.connect(_on_icon_preview_changed)
 	apply_button.pressed.connect(_on_apply_icon_clicked)
@@ -277,6 +393,13 @@ func _process(delta):
 		update_shader_camera()
 	
 	handle_camera_movement(delta)
+	
+	if camera and shader_material:
+		var distance_to_blackhole = camera.global_transform.origin.distance_to(blackhole_position)
+		if distance_to_blackhole > MAX_RENDER_DISTANCE:
+			shader_material.set_shader_parameter("render_black_hole", 0.0)
+		elif user_render_black_hole_enabled:
+			shader_material.set_shader_parameter("render_black_hole", 1.0)
 	
 	if background_camera and camera:
 		background_camera.global_transform = camera.global_transform
@@ -410,6 +533,8 @@ func _input(event):
 			if scroll_container.visible:
 				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 				mouse_captured = false
+		elif event.keycode == KEY_TAB:
+			toggle_language()
 	
 	if event is InputEventMouseMotion and mouse_captured:
 		camera_rotation.y -= event.relative.x * mouse_sensitivity
@@ -422,8 +547,13 @@ func _on_gravitational_lensing_toggled(pressed):
 		shader_material.set_shader_parameter("gravitational_lensing", 1.0 if pressed else 0.0)
 
 func _on_render_black_hole_toggled(pressed):
+	user_render_black_hole_enabled = pressed
 	if shader_material:
-		shader_material.set_shader_parameter("render_black_hole", 1.0 if pressed else 0.0)
+		var distance_to_blackhole = camera.global_transform.origin.distance_to(blackhole_position)
+		if pressed and distance_to_blackhole <= MAX_RENDER_DISTANCE:
+			shader_material.set_shader_parameter("render_black_hole", 1.0)
+		else:
+			shader_material.set_shader_parameter("render_black_hole", 0.0)
 
 func _on_adisk_toggled(pressed):
 	if shader_material:
@@ -436,27 +566,27 @@ func _on_auto_fade_lensing_toggled(pressed):
 func _on_gravity_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("gravity_strength", value)
-		gravity_label.text = "引力强度: %.2f" % value
+		gravity_label.text = "%s: %.2f" % [get_label_text("Gravity Strength", "引力强度"), value]
 
 func _on_adisk_height_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("adisk_height", value)
-		adisk_height_label.text = "吸积盘高度: %.3f" % value
+		adisk_height_label.text = "%s: %.3f" % [get_label_text("Disk Height", "吸积盘高度"), value]
 
 func _on_adisk_lit_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("adisk_lit", value)
-		adisk_lit_label.text = "吸积盘亮度: %.5f" % value
+		adisk_lit_label.text = "%s: %.5f" % [get_label_text("Disk Brightness", "吸积盘亮度"), value]
 
 func _on_adisk_inner_radius_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("adisk_inner_radius", value)
-		adisk_inner_radius_label.text = "吸积盘内半径: %.2f" % value
+		adisk_inner_radius_label.text = "%s: %.2f" % [get_label_text("Disk Inner Radius", "吸积盘内半径"), value]
 
 func _on_adisk_outer_radius_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("adisk_outer_radius", value)
-		adisk_outer_radius_label.text = "吸积盘外半径: %.2f" % value
+		adisk_outer_radius_label.text = "%s: %.2f" % [get_label_text("Disk Outer Radius", "吸积盘外半径"), value]
 		adisk_outer_radius_value = value
 
 func _on_cube_toggled(pressed):
@@ -466,7 +596,7 @@ func _on_cube_toggled(pressed):
 func _on_cube_emission_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("cube_emission_strength", value)
-		cube_emission_label.text = "立方体发光强度: %.2f" % value
+		cube_emission_label.text = "%s: %.2f" % [get_label_text("Cube Emission", "立方体发光强度"), value]
 
 func _on_doppler_toggled(pressed):
 	if shader_material:
@@ -475,7 +605,7 @@ func _on_doppler_toggled(pressed):
 func _on_doppler_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("doppler_strength", value)
-		doppler_label.text = "多普勒强度: %.2f" % value
+		doppler_label.text = "%s: %.2f" % [get_label_text("Doppler Strength", "多普勒强度"), value]
 
 func _on_beaming_toggled(pressed):
 	if shader_material:
@@ -484,7 +614,7 @@ func _on_beaming_toggled(pressed):
 func _on_beaming_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("beaming_strength", value)
-		beaming_label.text = "束射强度: %.1f" % value
+		beaming_label.text = "%s: %.1f" % [get_label_text("Beaming Strength", "束射强度"), value]
 
 func _on_jet_toggled(pressed):
 	if shader_material:
@@ -493,17 +623,17 @@ func _on_jet_toggled(pressed):
 func _on_jet_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("jet_intensity", value)
-		jet_label.text = "喷流强度: %.1f" % value
+		jet_label.text = "%s: %.1f" % [get_label_text("Jet Intensity", "喷流强度"), value]
 
 func _on_jet_rotation_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("jet_rotation_speed", value)
-		jet_rotation_label.text = "喷流旋转: %.1f" % value
+		jet_rotation_label.text = "%s: %.1f" % [get_label_text("Jet Rotation", "喷流旋转"), value]
 
 func _on_jet_burst_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("jet_burst_frequency", value)
-		jet_burst_label.text = "喷流爆发: %.1f" % value
+		jet_burst_label.text = "%s: %.1f" % [get_label_text("Jet Burst", "喷流爆发"), value]
 
 func _on_hawking_toggled(pressed):
 	if shader_material:
@@ -512,7 +642,7 @@ func _on_hawking_toggled(pressed):
 func _on_hawking_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("hawking_intensity", value)
-		hawking_label.text = "辐射强度: %.1f" % value
+		hawking_label.text = "%s: %.1f" % [get_label_text("Radiation Intensity", "辐射强度"), value]
 
 func _on_grav_redshift_toggled(pressed):
 	if shader_material:
@@ -521,7 +651,7 @@ func _on_grav_redshift_toggled(pressed):
 func _on_grav_redshift_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("gravitational_redshift_strength", value)
-		grav_redshift_label.text = "红移强度: %.1f" % value
+		grav_redshift_label.text = "%s: %.1f" % [get_label_text("Redshift Strength", "红移强度"), value]
 
 func _on_photon_sphere_toggled(pressed):
 	if shader_material:
@@ -530,7 +660,7 @@ func _on_photon_sphere_toggled(pressed):
 func _on_photon_sphere_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("photon_sphere_intensity", value)
-		photon_sphere_label.text = "光子球强度: %.1f" % value
+		photon_sphere_label.text = "%s: %.1f" % [get_label_text("Photon Intensity", "光子球强度"), value]
 
 func _on_isco_toggled(pressed):
 	if shader_material:
@@ -539,7 +669,7 @@ func _on_isco_toggled(pressed):
 func _on_isco_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("isco_intensity", value)
-		isco_label.text = "ISCO强度: %.1f" % value
+		isco_label.text = "%s: %.1f" % [get_label_text("ISCO Intensity", "ISCO强度"), value]
 
 func _on_corona_toggled(pressed):
 	if shader_material:
@@ -548,7 +678,7 @@ func _on_corona_toggled(pressed):
 func _on_corona_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("corona_intensity", value)
-		corona_label.text = "冕强度: %.1f" % value
+		corona_label.text = "%s: %.1f" % [get_label_text("Corona Intensity", "冕强度"), value]
 
 func _on_temperature_toggled(pressed):
 	if shader_material:
@@ -561,7 +691,7 @@ func _on_qpo_toggled(pressed):
 func _on_qpo_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("qpo_frequency", value)
-		qpo_label.text = "QPO频率: %.1f Hz" % value
+		qpo_label.text = "%s: %.1f Hz" % [get_label_text("QPO Frequency", "QPO频率"), value]
 
 func _on_secondary_images_toggled(pressed):
 	if shader_material:
@@ -574,7 +704,7 @@ func _on_frame_dragging_toggled(pressed):
 func _on_spin_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("black_hole_spin", value)
-		spin_label.text = "黑洞自旋: %.2f" % value
+		spin_label.text = "%s: %.2f" % [get_label_text("Black Hole Spin", "黑洞自旋"), value]
 
 func _on_time_dilation_toggled(pressed):
 	if shader_material:
@@ -583,7 +713,7 @@ func _on_time_dilation_toggled(pressed):
 func _on_time_dilation_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("time_dilation_strength", value)
-		time_dilation_label.text = "膨胀强度: %.1f" % value
+		time_dilation_label.text = "%s: %.1f" % [get_label_text("Dilation Strength", "膨胀强度"), value]
 
 func _on_spiral_toggled(pressed):
 	if shader_material:
@@ -592,12 +722,12 @@ func _on_spiral_toggled(pressed):
 func _on_spiral_count_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("spiral_arms_count", value)
-		spiral_count_label.text = "螺旋臂数: %d" % int(value)
+		spiral_count_label.text = "%s: %d" % [get_label_text("Spiral Count", "螺旋臂数"), int(value)]
 
 func _on_spiral_strength_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("spiral_strength", value)
-		spiral_strength_label.text = "螺旋强度: %.1f" % value
+		spiral_strength_label.text = "%s: %.1f" % [get_label_text("Spiral Strength", "螺旋强度"), value]
 
 func _on_hotspots_toggled(pressed):
 	if shader_material:
@@ -606,9 +736,145 @@ func _on_hotspots_toggled(pressed):
 func _on_hotspots_count_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("hot_spots_count", value)
-		hotspots_count_label.text = "热点数量: %d" % int(value)
+		hotspots_count_label.text = "%s: %d" % [get_label_text("Hot Spots Count", "热点数量"), int(value)]
 
 func _on_hotspots_intensity_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("hot_spots_intensity", value)
-		hotspots_intensity_label.text = "热点强度: %.1f" % value
+		hotspots_intensity_label.text = "%s: %.1f" % [get_label_text("Hot Spots Intensity", "热点强度"), value]
+
+func _on_m87_preset_clicked():
+	spin_slider.value = 0.9
+	_on_spin_changed(0.9)
+	
+	jet_slider.value = 3.5
+	_on_jet_changed(3.5)
+	
+	jet_check.button_pressed = true
+	_on_jet_toggled(true)
+	
+	frame_dragging_check.button_pressed = true
+	_on_frame_dragging_toggled(true)
+	
+	beaming_check.button_pressed = true
+	_on_beaming_toggled(true)
+	
+	beaming_slider.value = 3.0
+	_on_beaming_changed(3.0)
+	
+	doppler_check.button_pressed = true
+	_on_doppler_toggled(true)
+	
+	doppler_slider.value = 1.0
+	_on_doppler_changed(1.0)
+	
+	grav_redshift_check.button_pressed = true
+	_on_grav_redshift_toggled(true)
+	
+	temperature_check.button_pressed = true
+	_on_temperature_toggled(true)
+	
+	hotspots_check.button_pressed = false
+	_on_hotspots_toggled(false)
+	
+	qpo_check.button_pressed = false
+	_on_qpo_toggled(false)
+
+func _on_sgra_preset_clicked():
+	spin_slider.value = 0.7
+	_on_spin_changed(0.7)
+	
+	jet_slider.value = 2.0
+	_on_jet_changed(2.0)
+	
+	jet_check.button_pressed = false
+	_on_jet_toggled(false)
+	
+	frame_dragging_check.button_pressed = true
+	_on_frame_dragging_toggled(true)
+	
+	beaming_check.button_pressed = true
+	_on_beaming_toggled(true)
+	
+	hotspots_check.button_pressed = true
+	_on_hotspots_toggled(true)
+	
+	hotspots_count_slider.value = 4.0
+	_on_hotspots_count_changed(4.0)
+	
+	qpo_check.button_pressed = true
+	_on_qpo_toggled(true)
+	
+	qpo_slider.value = 4.5
+	_on_qpo_changed(4.5)
+	
+	adisk_height_slider.value = 0.7
+	_on_adisk_height_changed(0.7)
+
+func get_label_text(en_text: String, zh_text: String) -> String:
+	return en_text if current_language == "en" else zh_text
+
+func toggle_language():
+	current_language = "zh" if current_language == "en" else "en"
+	update_ui_language()
+
+func update_ui_language():
+	var texts = ui_texts[current_language]
+	
+	$UI/IconPanel/VBox/IconLabel.text = texts["icon_title"]
+	apply_button.text = texts["apply_button"]
+	
+	var selected_idx = icon_option.selected
+	icon_option.clear()
+	icon_option.add_item(texts["icon_option_a"], 0)
+	icon_option.add_item(texts["icon_option_b"], 1)
+	icon_option.selected = selected_idx
+	
+	$UI/ScrollContainer/VBoxContainer/Label.text = texts["blackhole_title"]
+	gravitational_lensing_check.text = texts["gravitational_lensing"]
+	render_black_hole_check.text = texts["render_blackhole"]
+	adisk_check.text = texts["accretion_disk"]
+	auto_fade_lensing_check.text = texts["auto_fade"]
+	cube_check.text = texts["emissive_cube"]
+	doppler_check.text = texts["doppler_effect"]
+	beaming_check.text = texts["relativistic_beaming"]
+	jet_check.text = texts["black_hole_jets"]
+	hawking_check.text = texts["hawking_radiation"]
+	grav_redshift_check.text = texts["gravitational_redshift"]
+	photon_sphere_check.text = texts["photon_sphere"]
+	isco_check.text = texts["isco_ring"]
+	corona_check.text = texts["xray_corona"]
+	temperature_check.text = texts["temperature_gradient"]
+	qpo_check.text = texts["qpo"]
+	secondary_images_check.text = texts["secondary_images"]
+	frame_dragging_check.text = texts["frame_dragging"]
+	time_dilation_check.text = texts["time_dilation"]
+	spiral_check.text = texts["spiral_arms"]
+	hotspots_check.text = texts["hot_spots"]
+	$UI/ScrollContainer/VBoxContainer/PresetLabel.text = texts["preset_title"]
+	m87_button.text = texts["m87_button"]
+	sgra_button.text = texts["sgra_button"]
+	
+	_on_gravity_changed(gravity_slider.value)
+	_on_adisk_height_changed(adisk_height_slider.value)
+	_on_adisk_lit_changed(adisk_lit_slider.value)
+	_on_adisk_inner_radius_changed(adisk_inner_radius_slider.value)
+	_on_adisk_outer_radius_changed(adisk_outer_radius_slider.value)
+	_on_cube_emission_changed(cube_emission_slider.value)
+	_on_doppler_changed(doppler_slider.value)
+	_on_beaming_changed(beaming_slider.value)
+	_on_jet_changed(jet_slider.value)
+	_on_jet_rotation_changed(jet_rotation_slider.value)
+	_on_jet_burst_changed(jet_burst_slider.value)
+	_on_hawking_changed(hawking_slider.value)
+	_on_grav_redshift_changed(grav_redshift_slider.value)
+	_on_photon_sphere_changed(photon_sphere_slider.value)
+	_on_isco_changed(isco_slider.value)
+	_on_corona_changed(corona_slider.value)
+	_on_qpo_changed(qpo_slider.value)
+	_on_spin_changed(spin_slider.value)
+	_on_time_dilation_changed(time_dilation_slider.value)
+	_on_spiral_count_changed(spiral_count_slider.value)
+	_on_spiral_strength_changed(spiral_strength_slider.value)
+	_on_hotspots_count_changed(hotspots_count_slider.value)
+	_on_hotspots_intensity_changed(hotspots_intensity_slider.value)
