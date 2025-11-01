@@ -452,30 +452,55 @@ z+1 = √(1-Rs/r) / (1-β·cos(θ))
 
 ## Visual Comparison
 
-### Real Black Hole: M87*
+### M87* Black Hole (First Imaged Black Hole)
 
 <p align="center">
-  <img src="textures/The first black hole.png" alt="M87* Black Hole - EHT" width="600"/>
+  <img src="textures/The first black hole.png" alt="M87* - EHT Observation" width="400"/>
   <br>
-  <em>M87* black hole observed by Event Horizon Telescope (2019)</em>
+  <em><strong>Real Observation</strong>: M87* by Event Horizon Telescope (2019)</em>
 </p>
 
-**Observed Features**:
+<p align="center">
+  <img src="textures/The first black hole in simulate A.png" alt="M87* - Simulation A" width="400"/>
+  <img src="textures/The first black hole in simulate B.png" alt="M87* - Simulation B" width="400"/>
+  <br>
+  <em><strong>This Simulation</strong>: M87* parameters (spin=0.9, jet intensity=3.5)</em>
+</p>
+
+**Observed Features** (M87*):
 - Shadow radius: ~2.6 Rs (gravitational lensing creates dark center)
-- Bright asymmetric ring: Approaching side brighter due to Doppler beaming
+- Bright asymmetric ring: Approaching side 5× brighter due to Doppler beaming
 - Photon ring: Barely visible, requires millimeter-wave interferometry
-- Jet base: Faint emission from polar regions
+- Prominent jet base: Polar emission from relativistic outflow
 
-### This Simulation
+---
+
+### Sgr A* Black Hole (Milky Way Center)
 
 <p align="center">
-  <img src="pic/D.jpg" alt="Simulation - Front View" width="400"/>
-  <img src="pic/E.jpg" alt="Simulation - Jet View" width="400"/>
+  <img src="textures/The second black hole.jpg" alt="Sgr A* - EHT Observation" width="400"/>
   <br>
-  <em>Left: Accretion disk with spiral arms and hot spots | Right: Jets and gravitational lensing</em>
+  <em><strong>Real Observation</strong>: Sgr A* by Event Horizon Telescope (2022)</em>
 </p>
 
-**Simulated Features**:
+<p align="center">
+  <img src="textures/The second black hole in simulate A.png" alt="Sgr A* - Simulation A" width="400"/>
+  <img src="textures/The second black hole in simulate B.png" alt="Sgr A* - Simulation B" width="400"/>
+  <br>
+  <em><strong>This Simulation</strong>: Sgr A* parameters (spin=0.7, hot spots, QPO=4.5mHz)</em>
+</p>
+
+**Observed Features** (Sgr A*):
+- More variable than M87* (rapid flares and hot spots)
+- Shadow diameter: ~52 µas (consistent with 4 million M☉)
+- Thicker accretion disk structure due to higher turbulence
+- GRAVITY observations: 3-5 hot spot events per day
+- Weaker jet emission compared to M87*
+
+---
+
+### Simulated Features (Both Black Holes)
+
 - ✅ Differential rotation with Keplerian velocity profile
 - ✅ Temperature gradient: UV-white (inner) to orange-red (outer)
 - ✅ Doppler asymmetry: Blue-bright (approaching) vs red-dim (receding)
@@ -484,7 +509,7 @@ z+1 = √(1-Rs/r) / (1-β·cos(θ))
 - ✅ Spiral density waves: m=1-2 modes from self-gravity instability
 - ✅ Hot spots: Magnetic reconnection events orbiting at 3-4 rg
 - ✅ Relativistic jets: Conical expansion with helical rotation
-- ✅ Frame dragging: Kerr metric effects (default spin a=0.7, M87* observed a≈0.9)
+- ✅ Frame dragging: Kerr metric effects (configurable spin parameter)
 
 ## Matching Real Black Holes
 
