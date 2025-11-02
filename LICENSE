@@ -1,21 +1,1518 @@
-MIT License
+SH Honor-Protective Source License (SHL-1.4)
+Source-Available, Proprietary License
 
-Copyright (c) 2025 Qhunliv13
+Project Repository: https://github.com/Qhunliv13/blackhole-in-godot
+Copyright (c) 2025 ShengzhiWu
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+This license applies to this software and associated documentation files (the "Software").
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+ACCEPTANCE BY ACCESS
+
+BY DOWNLOADING, CLONING, FORKING, ACCESSING, OR OTHERWISE OBTAINING THIS SOFTWARE
+FROM THE REPOSITORY (https://github.com/Qhunliv13/blackhole-in-godot), YOU 
+AUTOMATICALLY AND IMMEDIATELY AGREE TO BE BOUND BY ALL TERMS AND CONDITIONS OF 
+THIS LICENSE. IF YOU DO NOT AGREE TO THESE TERMS, YOU MUST IMMEDIATELY CEASE 
+ALL ACCESS TO AND USE OF THIS SOFTWARE AND DELETE ALL COPIES IN YOUR POSSESSION.
+
+IMPORTANT NOTICE - PROPRIETARY LICENSE
+
+This is NOT an Open Source Initiative (OSI) approved open source license. This 
+is a custom proprietary license that allows source code access under specific 
+conditions. It restricts certain uses (such as competitions) and requires 
+attribution in specific scenarios. If you need a standard open source license, 
+please contact the copyright holder.
+
+KEY RESTRICTIVE PROVISIONS (民法典第496条提示义务)
+
+ATTENTION: The following are key restrictive terms that significantly limit your 
+rights. Please read carefully:
+
+⚠️ ABSOLUTE PROHIBITION: Use in ANY competition is STRICTLY PROHIBITED (Section IV)
+⚠️ ATTRIBUTION REQUIRED: Public display requires visible repository URL (Section 2.4)
+⚠️ LICENSE INHERITANCE: All derivative works must use this same license (Section 3.1)
+⚠️ COMMERCIAL RESTRICTIONS: Commercial use requires prominent attribution (Section 2.3)
+⚠️ SPECIAL UPDATE FOR THIS REPOSITORY: This specific repository requires compliance 
+   with current version due to previous MIT license (Section 10.5)
+
+These restrictions are binding and enforceable under applicable law.
+
+IMPORTANT NOTICE REGARDING THIRD-PARTY COMPONENTS:
+This Software may include or depend upon third-party libraries, components, or 
+resources that are licensed under separate terms. Those third-party components 
+retain their original licenses and are NOT governed by this Custom Software License.
+
+Users and distributors are responsible for complying with the licenses of any 
+third-party components. Please refer to the NOTICE file, THIRD-PARTY-LICENSES 
+file, or the documentation within the Software for information about included 
+third-party components and their respective licenses.
+
+---
+
+I. DEFINITIONS
+
+1.1 "Personal Use" means use solely for individual learning, study, and 
+    experimentation purposes, without any intent to gain personal recognition, 
+    awards, honors, or competitive advantage.
+    
+    IMPORTANT NOTES:
+    - Solo personal learning and experimentation: No need to display repository URL
+    - Any demonstration, sharing, or collaboration involving 2+ people: MUST display 
+      project repository URL
+    
+    EDUCATIONAL EXCEPTION: Personal Use includes use in non-profit educational 
+    institutions for non-competitive coursework and assignments, PROVIDED THAT:
+    - The use is not for the purpose of rankings, competitive evaluation, or 
+      comparisons between students
+    - The use is not for scholarship awards, merit-based selection processes, 
+      or academic honors
+    - The use is not for academic competitions or contests
+    - The use does not result in quantifiable benefits such as awards, prizes, 
+      grades that determine rankings, or admission qualifications
+    - The project repository URL (https://github.com/Qhunliv13/blackhole-in-godot) 
+      MUST be visibly displayed in any submitted work, presentation, or documentation
+    
+    For clarity: Non-competitive homework, learning projects, and practice 
+    assignments that receive only pass/fail grades or basic feedback (without 
+    ranking or competition against other students) are permitted under Personal Use.
+    
+    TWO-OR-MORE-PERSON DISPLAY RULE:
+    In any situation involving demonstration, sharing, or collaboration with 2 or 
+    more people, regardless of whether quantifiable benefits are obtained, the 
+    project repository URL link MUST be retained at minimum. This includes but is 
+    not limited to:
+    - Team collaboration or learning
+    - Demonstrations to colleagues or classmates
+    - Group discussions or sharing sessions
+    - Presentations to clients or users
+    - Any form of public or semi-public display
+
+1.2 "Commercial Use" means any use of the Software for profit-generating 
+    purposes, including but not limited to: selling, licensing, providing as 
+    a paid service, or incorporating into commercial products or services.
+
+1.3 "Non-Profit Organization" means an organization or group that does not 
+    pursue monetary profit as its primary purpose, including but not limited to:
+    - Registered non-profit organizations, charities, foundations
+    - Public and private educational institutions (schools, universities, 
+      libraries, training centers, etc.)
+    - Open source communities, technical communities, academic research groups
+    - Public benefit organizations, volunteer groups, interest groups
+    
+    DETERMINATION CRITERIA:
+    The core criterion for a non-profit organization is that its activities are
+    not primarily aimed at generating monetary profit, and any revenue is mainly
+    used for the organization's operations and development rather than distribution
+    to individuals or shareholders.
+    
+    NO PRIOR APPROVAL REQUIRED:
+    Organizations meeting the non-profit criteria may use the Software directly
+    without prior application to or registration with the copyright holder. However,
+    the copyright holder reserves the right to request proof of non-profit status
+    if abuse is discovered.
+    
+    DISPUTE RESOLUTION:
+    If the copyright holder questions an organization's non-profit status, the
+    organization should provide within a reasonable time one of the following:
+    - Official registration documents or tax exemption certificates
+    - Organizational charter or operational documents proving non-profit nature
+    - Financial statements or other evidence showing no profit distribution
+    - A reasonable written statement explaining its non-profit nature
+    
+    If the organization cannot provide reasonable proof, the copyright holder may
+    require it to use the Software under commercial use terms.
+
+1.4 "Derivative Work" means any work based upon the Software or modifications 
+    thereof, including but not limited to: modifications, enhancements, 
+    translations, adaptations, or any work that contains identifiable portions 
+    of the Software. This includes forked versions on GitHub or other platforms.
+
+1.5 "Competition" means any organized activity where use of the Software is 
+    intended to gain QUANTIFIABLE benefits, specifically including but not limited 
+    to: monetary prizes, rankings with numerical/letter grades, medals/trophies, 
+    certificates of achievement, scholarship qualifications, admission offers, 
+    employment offers, or other measurable competitive advantages.
+    
+    SPECIFIC INCLUSIONS (Non-Exhaustive List):
+    - Programming contests and hackathons offering prizes, rankings, or awards 
+      (including internal company hackathons with incentives)
+    - Innovation, technology, scientific, or academic competitions with evaluation 
+      and ranking systems
+    - Business plan competitions and pitch contests with judges and awards
+    - School coursework, assignments, or projects where grades are determined by 
+      competitive evaluation, rankings, or comparison between students (e.g., 
+      "top 3 projects receive A+")
+    - Community coding challenges with leaderboards, rankings, or achievement badges
+    - Any organized event where participants are formally evaluated, scored, 
+      ranked, or compared for the purpose of determining winners, awards, or 
+      competitive placement
+    
+    SPECIFIC EXCLUSIONS (Reverse Clarification):
+    Competition does NOT include:
+    (a) Non-competitive technical presentations, demonstrations, or sharing 
+        sessions without evaluation, judging, or ranking 
+        (MUST display project repository URL)
+    (b) Internal study groups, learning circles, or collaborative projects 
+        without scoring, grading, or competitive evaluation
+        (If 2+ people involved, MUST display project repository URL)
+    (c) Portfolio showcases, personal blogs, or social media posts that receive 
+        only informal feedback, likes, or comments
+        (MUST display project repository URL)
+    (d) Professional work as an employee where the Software is a tool for 
+        completing assigned duties (not competing for position/promotion)
+        (If demonstrating to colleagues/clients, MUST retain repository URL link)
+    
+    IMPORTANT REMINDER: In any demonstration, sharing, or collaboration scenario 
+    involving 2 or more people, even if it does not constitute a Competition, 
+    the project repository URL link MUST be retained at minimum. For non-quantifiable 
+    benefits (such as verbal praise, community recognition, informal feedback, etc.), 
+    as long as it involves showing to others, the project repository URL must be displayed.
+    
+    CLARIFICATION ON UNCERTAINTY:
+    If you are uncertain whether your intended use constitutes a Competition, 
+    the determining factors are:
+    - Is there an organized structure with rules and evaluation criteria?
+    - Will participants be formally compared, ranked, or scored?
+    - Are there quantifiable benefits (prizes, grades, rankings, awards)?
+    If the answer to ALL three questions is YES, it is a Competition.
+
+1.6 "Public Display" means any exhibition, demonstration, public release, 
+    online distribution, presentation, or other form of public showing of 
+    the Software or Derivative Works.
+
+1.7 "Indirect Use" means substantially relying on the Software's outputs, 
+    internal logic, or technical implementation to indirectly utilize the 
+    Software's functionality through technical means.
+    
+    Indirect Use includes but is not limited to:
+    - Using datasets, outputs, or visualizations generated by the Software in other projects
+    - Integrating the Software as a backend service, API interface, or technical 
+      component into larger systems
+    - Calling the Software's core functionality through automation tools, scripts, 
+      or wrappers
+    - Depending on the Software's computational results or technical outputs in 
+      commercial products or services
+    
+    IMPORTANT CLARIFICATION (Copyright Law "Idea-Expression Dichotomy"):
+    Indirect Use does NOT include:
+    - Independently designed and implemented new code inspired by but not copying 
+      or adapting this Software's code
+    - Independent development implementing similar functions using completely 
+      different technical approaches and implementation paths
+    - Independent implementations based on publicly known scientific principles, 
+      mathematical formulas, or general algorithms (not specific expressions 
+      unique to this Software)
+    
+    Determination Criteria:
+    If your project can still function normally without major refactoring after 
+    removing this Software, it may not constitute Indirect Use. Contact the 
+    copyright holder if uncertain.
+
+---
+
+II. GRANT OF LICENSE
+
+2.1 Personal Use License
+    Subject to the terms of this license, you are granted a non-exclusive, 
+    non-transferable, revocable license to use, copy, and modify the Software 
+    solely for Personal Use as defined in Section 1.1.
+    
+    This includes the Educational Exception described in Section 1.1, which 
+    permits use in non-competitive coursework provided all conditions are met, 
+    including visible display of the project repository URL.
+    
+    IMPORTANT: Personal Use does NOT include:
+    - Competitive coursework where grades are determined by ranking or comparison
+    - Any activity with formal evaluation, scoring, or ranking systems
+    - Any use that results in quantifiable competitive benefits (awards, prizes, 
+      rankings, admission qualifications, etc.)
+
+2.2 Non-Profit Organization License
+    Non-Profit Organizations (as defined in Section 1.3) are granted an 
+    unrestricted, non-exclusive, royalty-free license to use, copy, modify, 
+    distribute, and publicly display the Software without any attribution or 
+    display requirements.
+
+2.3 Commercial Use License
+    Subject to the terms of this license, you are granted a non-exclusive, 
+    non-transferable, revocable license to use the Software for Commercial Use 
+    under the following mandatory conditions:
+    
+    a) Attribution and Repository Display Requirements:
+       - The project repository URL MUST be visibly displayed:
+         https://github.com/Qhunliv13/blackhole-in-godot
+       
+       ACCESSIBILITY REQUIREMENTS ("One-Click Access"):
+       - Display must be accessible WITHOUT requiring login, payment, or 
+         subscription
+       - Display must be visible WITHOUT scrolling beyond the initial viewport 
+         OR accessible via a clearly labeled, prominent link/button (e.g., 
+         "Credits", "About", "Licenses") visible in the initial viewport
+       - For software applications: display in About page, Settings, splash 
+         screen, credits, help menu, or similar prominent location accessible 
+         from the main menu or toolbar
+       - For SaaS/web services: display in website footer (visible on main page), 
+         about page (linked from main navigation), or dedicated credits/licenses 
+         page (linked prominently)
+       - For embedded use in larger products: include in product documentation, 
+         user manual, and in-product credits accessible without special permissions
+       
+       VISIBILITY REQUIREMENTS:
+       - Display must be clearly visible and legible to users
+       - Display must not be intentionally obfuscated or hidden
+       - The repository URL should be a functional hyperlink when displayed in 
+         digital formats
+       - Display location should be reasonably accessible without excessive navigation
+       
+       NON-COMPLIANT EXAMPLES (Clear Violations):
+       - Footer link requiring account login or payment to view
+       - Deliberately using extremely small or invisible text
+       - Hiding in deeply nested submenus with no clear indication
+       - Displaying only in source code comments not accessible to end users
+       
+       REASONABLE COMPLIANCE:
+       The key principle is good-faith compliance. The display should be accessible
+       to users in a manner consistent with how similar attribution information is
+       typically presented in the software or service.
+    
+    b) This copyright notice and license terms must be included in all copies 
+       or substantial portions of the Software.
+    
+    c) If the Software is modified, modifications must be clearly documented.
+
+2.4 Public Display License
+    Any Public Display of the Software or Derivative Works MUST:
+    - Visibly display the project repository URL:
+      https://github.com/Qhunliv13/blackhole-in-godot
+    - Display in a manner that allows the audience to clearly see and obtain 
+      this information (e.g., on presentation slides, exhibition materials, 
+      video descriptions, website pages, etc.)
+    - Include attribution to the original author(s)
+    
+    MINIMUM REQUIREMENTS FOR 2+ PERSON DISPLAYS:
+    For any demonstration, sharing, or collaboration scenario involving 2 or more 
+    people (including non-public internal displays), the minimum requirement is to 
+    retain the project repository URL link. Specific requirements vary by scenario:
+    - Small internal displays (2-10 people): At minimum, mention repository URL in 
+      documentation, code comments, or verbal explanation
+    - Medium-scale displays (10+ people): Clearly display repository URL in 
+      presentation materials
+    - Public displays or releases: Follow complete requirements of this section, 
+      including visible display and attribution
+
+---
+
+III. DERIVATIVE WORKS AND DISTRIBUTION
+
+3.1 Creation of Derivative Works
+    You may create Derivative Works of the Software under the following conditions:
+    
+    LICENSE REQUIREMENT:
+    All Derivative Works MUST be licensed under this Custom Software License 
+    (current version or later).
+    
+    IMPORTANT NOTICE: This license is incompatible with standard open source licenses
+    Due to this license's use restrictions (such as competition prohibition) and
+    specific attribution requirements, it is incompatible with most standard open
+    source licenses. Do not mix or merge this Software with code licensed under
+    GPL, AGPL, MIT, Apache, or other standard licenses, unless you obtain explicit
+    written permission from all relevant copyright holders.
+    
+    MANDATORY REQUIREMENTS (All Derivative Works):
+    - All Derivative Works MUST use this Custom Software License
+    - All Derivative Works MUST include clear notice of modifications made
+    - All Derivative Works MUST include attribution to the original Software
+    - The original project repository URL (https://github.com/Qhunliv13/blackhole-in-godot) 
+      must be preserved and displayed as required
+    - All copyright notices must be retained
+    - All restrictions of this license (including competition prohibition) must remain in effect
+
+3.2 Distribution Requirements
+    If you distribute the Software or any Derivative Works:
+    - You MUST include a complete copy of this license
+    - You MUST include the project repository URL
+    - You MUST retain all copyright notices
+    - You MUST clearly indicate if modifications were made
+    - Recipients must receive the same rights granted under this license
+
+3.3 GitHub and Open Source Platforms
+    Forking, modifying, or redistributing the Software on GitHub or similar 
+    platforms constitutes creation of a Derivative Work and is subject to all 
+    terms of this license, particularly Section 3.1.
+
+3.4 Technical Protection Measures
+    The copyright holder encourages embedding technical protection measures in 
+    the Software to assist with attribution and source tracking, including but 
+    not limited to:
+    - Displaying copyright information and repository URL in software splash 
+      screens or user interfaces
+    - Including copyright notices in code file headers, metadata, or configuration files
+    - Using digital watermarks, fingerprints, or identifiers to mark the Software 
+      and its outputs
+    - Automatically including attribution information in logs, about pages, or 
+      help documentation
+    
+    Prohibition on Removing Technical Protection Measures:
+    Users, modifiers, or distributors may NOT:
+    - Delete, modify, or obscure embedded copyright information, attribution, 
+      or repository URLs in the Software
+    - Block, disable, or circumvent attribution display functions in the Software
+    - Remove or tamper with metadata, watermarks, identifiers, or other technical 
+      protection measures
+    - Use technical means to make attribution information invisible or difficult 
+      to access
+    
+    If the Software contains such technical protection measures, removing or 
+    circumventing them constitutes prohibited modification under Section 4.2 
+    and results in immediate license termination.
+
+3.5 Module License Exceptions
+    In special circumstances, certain independent modules or components of this 
+    Software may be distributed under different licenses with explicit written 
+    permission from the copyright holder.
+    
+    Applicable Conditions:
+    - The module must be technically independent and separable
+    - The module's functionality must not depend on the Software's core code
+    - The module must clearly indicate its applicable license when distributed
+    - The copyright holder must explicitly list such exceptions in the code 
+      repository or documentation
+    
+    Documentation Requirements:
+    If such exceptions exist, the copyright holder should list in a 
+    LICENSE-EXCEPTIONS.md file in the repository root:
+    - Path or filename of the excepted module
+    - License applicable to that module
+    - Authorization date and scope of the exception
+    
+    Modules not explicitly listed are subject to this license in its entirety.
+
+---
+
+IV. STRICTLY PROHIBITED USES
+
+4.1 Competition Prohibition
+    The use of this Software or any Derivative Works in ANY Competition 
+    (as defined in Section 1.5) is STRICTLY PROHIBITED.
+    
+    This prohibition is ABSOLUTE and applies to any organized activity where:
+    - Participants are formally evaluated, scored, ranked, or compared
+    - There are quantifiable benefits at stake (prizes, rankings, awards, grades 
+      based on competitive evaluation, admission qualifications, employment offers, etc.)
+    - The activity has an organized structure with rules and evaluation criteria
+    
+    SPECIFIC PROHIBITED USES:
+    - Programming contests and hackathons with prizes, rankings, or awards 
+      (including internal company hackathons)
+    - Innovation, technology, scientific, or academic competitions
+    - Business competitions and pitch contests
+    - Competitive coursework where grades depend on rankings or comparative evaluation
+    - Community coding challenges with leaderboards or achievement systems
+    
+    REMINDER OF PERMITTED USES:
+    As clarified in Section 1.5, the following are NOT prohibited, but MUST comply 
+    with display requirements:
+    - Non-competitive technical demonstrations or sharing (MUST display repository URL)
+    - Internal study groups without competitive evaluation (2+ people MUST display 
+      repository URL)
+    - Portfolio showcases receiving informal feedback (MUST display repository URL)
+    - Professional work as an employee using the Software as a tool (when demonstrating 
+      to colleagues/clients MUST retain repository URL link)
+    - Non-competitive coursework (as defined in Educational Exception, Section 1.1, 
+      MUST display repository URL)
+    
+    MANDATORY DISPLAY RULE:
+    Regardless of use scenario, whenever 2 or more people are involved in demonstration, 
+    sharing, or collaboration, including but not limited to:
+    - Obtaining non-quantifiable benefits (verbal praise, community recognition, likes, etc.)
+    - Internal team collaboration or discussion
+    - Demonstrating functionality or code to any other person
+    - Teaching, training, or demonstration scenarios
+    The project repository URL link MUST be retained at minimum. The minimum requirement 
+    is to include the project repository URL in accessible locations (such as code 
+    comments, documentation, README, presentation materials, etc.).
+    
+    BURDEN OF CLARIFICATION:
+    If you are uncertain whether your intended use constitutes a Competition, 
+    apply the three-factor test in Section 1.5. If uncertainty remains, you 
+    MUST contact the copyright holder for clarification BEFORE use. Failure 
+    to seek clarification when in doubt may result in immediate license termination.
+
+4.2 Prohibited Modifications
+    You may NOT:
+    - Remove or alter any copyright notices, license terms, or attribution
+    - Remove or obscure required repository URL displays
+    - Sublicense the Software under different terms
+    - Use the Software in any manner that violates this license
+
+---
+
+V. COPYRIGHT AND ATTRIBUTION
+
+5.1 Copyright Notice
+    All copies of the Software or Derivative Works must retain:
+    - The original copyright notice
+    - This license in its entirety
+    - The project repository URL
+    - Attribution to the original author(s)
+
+5.2 No Trademark Rights
+    This license does not grant permission to use the trade names, trademarks, 
+    service marks, or product names of the copyright holder, except as required 
+    for reasonable and customary use in describing the origin of the Software.
+
+---
+
+VI. DISCLAIMER OF WARRANTY
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
 IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. THE ENTIRE RISK AS TO
+THE QUALITY AND PERFORMANCE OF THE SOFTWARE IS WITH YOU. SHOULD THE SOFTWARE
+PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING, REPAIR, OR
+CORRECTION.
+
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+---
+
+VII. LIMITATION OF LIABILITY
+
+IN NO EVENT WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MODIFIES AND/OR
+CONVEYS THE SOFTWARE AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES,
+INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING
+OUT OF THE USE OR INABILITY TO USE THE SOFTWARE (INCLUDING BUT NOT LIMITED TO
+LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY YOU OR
+THIRD PARTIES OR A FAILURE OF THE SOFTWARE TO OPERATE WITH ANY OTHER
+SOFTWARE), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGES.
+
+---
+
+VIII. TERMINATION
+
+8.1 Termination Process
+    A. NOTICE AND CURE PERIOD:
+       If you violate any terms or conditions of this license (except as specified 
+       in subsection B below), the copyright holder shall provide written notice 
+       of the violation to you. You shall have THIRTY (30) DAYS from receipt of 
+       such notice to cure the violation.
+       
+       If you successfully cure the violation within the 30-day period and provide 
+       reasonable evidence of compliance to the copyright holder, the license shall 
+       continue in full force and effect.
+       
+       If you fail to cure the violation within the 30-day period, your rights 
+       under this license will terminate automatically at the end of the cure period.
+    
+    B. IMMEDIATE TERMINATION (No Cure Period):
+       Your rights under this license will terminate IMMEDIATELY and AUTOMATICALLY 
+       without any cure period if you:
+       - Use the Software in any Competition (as defined in Section 1.5)
+       - Remove or alter copyright notices, license terms, or attribution with 
+         intent to conceal the source
+       - Sublicense the Software under different terms
+       - Engage in willful and material breach of the prohibited uses in Section IV
+       
+       These violations are considered fundamental breaches that cannot be cured, 
+       and termination is immediate upon occurrence.
+    
+    C. WRITTEN NOTICE REQUIREMENTS:
+       All notices under this Section must be in writing and delivered via:
+       - Email to any contact information associated with your use of the Software
+       - Issues or pull requests on your public repository if the Software is 
+         publicly distributed
+       - Registered mail to any known address
+       
+       Notice is deemed received 3 business days after sending.
+
+8.2 Effect of Termination
+    Upon termination:
+    - You must immediately cease all use of the Software
+    - You must destroy all copies of the Software in your possession
+    - You must cease distribution of any Derivative Works
+    - You may face legal action for license violations
+    - Any Derivative Works you created remain subject to this license
+
+8.3 Survival
+    Sections IV (Prohibited Uses), VI (Disclaimer), VII (Limitation of 
+    Liability), IX (Governing Law), and X (General Provisions) survive 
+    termination of this license.
+
+8.4 Notice-and-Takedown Mechanism (DMCA-like Procedure)
+    For violations on online platforms or third-party services:
+    
+    A. Copyright Holder's Notice Rights:
+       If the copyright holder discovers violations of this Software on any 
+       platform (including but not limited to GitHub, GitLab, code hosting 
+       platforms, cloud service providers, app stores), the copyright holder 
+       has the right to:
+       - Submit violation notices to the platform requesting removal, blocking, 
+         or takedown of violating content
+       - Directly contact violating users to request cessation of infringement 
+         and remediation
+       - Reserve the right to pursue further legal action
+    
+    B. Content of Violation Notice:
+       The copyright holder's violation notice should include:
+       - Copyright holder's identity proof and contact information
+       - Identification information of this Software (repository URL, version, etc.)
+       - Specific location of violating content (URL, account, project name, etc.)
+       - Specific description of violation (lack of attribution, competition use, 
+         violation of restrictions, etc.)
+       - Statement that the notice contents are true and accurate
+    
+    C. User's Remediation Obligations:
+       Users receiving violation notices should within 7 calendar days:
+       - Cease violating use
+       - Delete or remediate violating content
+       - Add necessary attribution and credit information
+       - Or prove that their use complies with this license
+    
+    D. Platform Cooperation Obligations:
+       The copyright holder may request hosting platforms to:
+       - Temporarily block or remove clearly violating content
+       - Notify violating users to remediate
+       - Respond to violation notices within a reasonable time
+    
+    E. Counter-Notice Procedure:
+       If users believe the notice is inappropriate or remediation is complete, 
+       they may submit a counter-notice to the platform explaining:
+       - Proof of completed remediation
+       - Or reasonable explanation of license-compliant use
+       - Platform may restore content or coordinate party communication based 
+         on circumstances
+    
+    F. Abuse Liability:
+       Parties submitting false violation notices or counter-notices in bad 
+       faith shall bear corresponding legal responsibility.
+
+---
+
+IX. GOVERNING LAW AND JURISDICTION
+
+9.1 Governing Law
+    This license shall be governed by and construed in accordance with the 
+    laws of the People's Republic of China.
+
+9.2 Dispute Resolution Mechanism
+    Any disputes arising from or relating to this license shall be resolved 
+    in the following order:
+    
+    A. Friendly Negotiation (Step 1, Required):
+       The parties shall first attempt to resolve disputes through friendly
+       negotiation. Either party shall notify the other in writing of the
+       nature of the dispute, and both parties shall negotiate in good faith
+       within 30 days after the notice.
+    
+    B. Mediation (Step 2, Optional):
+       If negotiation fails, either party may request resolution through
+       third-party mediation. Mediation costs shall be equally shared by
+       both parties unless otherwise agreed.
+    
+    C. Arbitration or Litigation (Step 3):
+       If negotiation and mediation fail to resolve the dispute, the parties
+       may choose either of the following:
+       
+       Option 1 - Arbitration:
+       - Submit to China International Economic and Trade Arbitration Commission
+         (CIETAC) for arbitration in accordance with its rules
+       - Arbitration venue: Beijing, Shanghai, or Shenzhen (chosen by applicant)
+       - Arbitration language: Chinese (English may be chosen for international parties)
+       - The arbitration award is final and binding on both parties
+       
+       Option 2 - Litigation:
+       - File a lawsuit with the People's Court with jurisdiction in the
+         People's Republic of China
+       - The parties agree to submit to the jurisdiction of such courts
+
+9.3 Legal Conflicts for International Users
+    For users or organizations outside China:
+    - This license is still governed by the laws of the People's Republic of China
+    - However, the parties acknowledge that enforcement of judgments or arbitral
+      awards may need to comply with legal procedures and international treaties
+      (such as the New York Convention) in the user's jurisdiction
+    - If mandatory laws in the user's jurisdiction conflict with this license,
+      those mandatory laws shall prevail within that jurisdiction
+    - The copyright holder reserves the right to pursue remedies through courts
+      or international legal mechanisms in the user's jurisdiction
+
+9.4 Severability
+    If any provision of this license is found to be unenforceable or invalid
+    in any jurisdiction, that provision shall be limited or eliminated to the
+    minimum extent necessary so that the remainder of this license shall continue
+    in full force and effect. Such invalidity or unenforceability shall be
+    effective only in that specific jurisdiction and shall not affect the
+    validity of this license in other jurisdictions.
+
+---
+
+X. GENERAL PROVISIONS
+
+10.1 Entire Agreement
+     This license constitutes the entire agreement between the parties with 
+     respect to the Software and supersedes all prior or contemporaneous 
+     understandings regarding such subject matter.
+
+10.2 No Waiver
+     No failure or delay by the copyright holder in exercising any right 
+     under this license shall constitute a waiver of that right.
+
+10.3 Severability
+     If any provision of this license is held to be invalid or unenforceable, 
+     the remaining provisions shall remain in full force and effect.
+
+10.4 Amendments
+     This license may only be amended by written agreement signed by the 
+     copyright holder. No other modifications or amendments are valid.
+
+10.4a Translations and Localization
+     This license is provided in Chinese and English versions.
+     
+     LEGAL AUTHORITY:
+     - The Chinese version of this license is the SOLE legally binding version
+     - In case of any discrepancy, ambiguity, or conflict between versions, 
+       the Chinese version shall prevail
+     - The English version is provided for informational purposes only and 
+       does not constitute the primary legal documentation
+     - Users are responsible for understanding the Chinese version, and may 
+       seek professional translation services if needed
+
+10.5 License Version and Version Update Rules
+     This is version 1.4 of this Custom Software License.
+     Date: November 2025
+     
+     SPECIAL PROVISION FOR THIS SPECIFIC REPOSITORY:
+     This particular repository (https://github.com/Qhunliv13/blackhole-in-godot) 
+     was previously distributed under the MIT License. To address this historical 
+     licensing situation, ALL users of this specific repository (including those 
+     who obtained the Software under the previous MIT license) MUST comply with 
+     the current SHL-1.4 license version.
+     
+     This special mandatory update provision applies ONLY and EXCLUSIVELY to 
+     https://github.com/Qhunliv13/blackhole-in-godot due to its previous MIT 
+     license status. By continuing to use, modify, or distribute this Software 
+     after the effective date of this license (November 2025), you agree to be 
+     bound by the current license terms, regardless of when you initially obtained 
+     the Software or under which previous license.
+     
+     For any other projects or repositories using this license: This mandatory 
+     update provision does NOT apply. Standard version update rules apply as 
+     described below.
+     
+     NOTE: The Chinese version of this license is the legally binding version.
+     This English version is for reference only. Please refer to the Chinese 
+     version (Section 10.5) for complete version update rules and revision notes.
+     
+     REVISION NOTES (Summary):
+     v1.4 - SHL-1.4 (November 2025):
+     - Officially named "SH Honor-Protective Source License" (SHL-1.4)
+     - Added "acceptance by access" provision: automatic agreement upon download/clone
+     - Added PRC Civil Code Article 496 compliant key restrictive provisions notice
+     - Optimized "Indirect Use" definition: added "idea-expression dichotomy" 
+       clarification to avoid overreach
+     - Changed display requirements: from "2+ persons" to "public or external display"
+     - Added reasonable diligence obligation: internal communication requires 
+       "reasonable attribution"
+     - Added "module license exception" provision (Section 3.5): allows specific 
+       modules to use other licenses
+     - Added "notice-and-takedown mechanism" (Section 8.4): DMCA-like 7-day 
+       remediation procedure
+     - Explicitly declared as "Source-Available Proprietary License" not open source
+     - Simplified non-profit organization definition to "no monetary profit" standard
+     - Removed GPL/AGPL/OSL compatibility claims, explicitly incompatible with 
+       standard open source licenses
+     - Changed burden of proof to reasonable compliance and good faith negotiation
+     - Added comprehensive dispute resolution mechanism
+     - Added legal conflict resolution for international users
+     - Added special mandatory update provision for this specific repository 
+       (due to previous MIT license)
+     
+     v1.3 (November 2025):
+     - Specified jurisdiction as People's Republic of China
+     - Added non-profit organization declaration mechanism
+     - Extended "quantifiable benefits" definition
+     - Added "indirect use" definition
+     - Added repackaging and redistribution requirements
+     - Added technical protection measures clause
+     - Added agency and organizational liability clause
+     
+     v1.2 (November 2025):
+     - Changed legal authority from English to Chinese version
+     - Added mandatory 2+ person display rule requiring repository URL
+     
+     v1.1 (November 2025):
+     - Added Educational Exception to balance fair use considerations
+     - Refined Competition definition with specific inclusions and exclusions
+     - Implemented 30-day cure period for most violations
+
+10.6 Contact and Exception Requests
+     For questions, clarifications, or permissions not granted by this license, 
+     please contact the copyright holder through the project repository:
+     https://github.com/Qhunliv13/blackhole-in-godot
+     
+     EXCEPTION REQUEST PROCESS:
+     If you believe your use case does not fit clearly into the permitted uses, 
+     or if you require an exception to any terms of this license:
+     - Submit an issue on the GitHub repository with the label "license-inquiry"
+     - OR contact via email at: [contact information to be added by copyright holder]
+     - Provide a detailed description of your intended use
+     - Include information about the nature of your project (commercial, 
+       non-profit, educational, etc.)
+     - Specify which terms you are uncertain about or require exception from
+     
+     The copyright holder will make reasonable efforts to respond to inquiries 
+     within 14 business days. Absence of response does not constitute permission.
+
+---
+
+END OF LICENSE (ENGLISH VERSION)
+
+---
+
+                               中文版本
+                          CHINESE VERSION
+                  
+          注意：本许可证的中文版本为唯一具有法律效力的版本。
+          如中英文版本存在任何差异，以中文版本为准。
+          
+          NOTE: The Chinese version is the sole legally binding version.
+          In case of discrepancy, the Chinese version prevails.
+          The English version above is for reference only.
+
+
+SH 荣誉保护型源码许可协议（SHL-1.4）
+源码可见专有许可证
+
+项目仓库：https://github.com/Qhunliv13/blackhole-in-godot
+版权所有 (c) 2025 ShengzhiWu
+
+本协议适用于本软件及相关文档文件（以下简称"软件"）。
+
+通过访问即同意
+
+通过下载、克隆、分叉、访问或以任何方式从仓库
+(https://github.com/Qhunliv13/blackhole-in-godot) 获取本软件，您自动
+且立即同意受本许可证所有条款和条件的约束。如果您不同意这些条款，您必须
+立即停止访问和使用本软件，并删除您持有的所有副本。
+
+重要声明 - 专有许可证
+
+本协议不是开源促进会（OSI）认证的开源许可证。这是一个自定义的专有许可证，
+允许在特定条件下访问源代码。本协议限制某些使用（如禁止用于比赛），
+并在特定场景下要求署名。如果您需要标准的开源许可证，请联系版权持有人。
+
+关键限制性条款（民法典第496条提示义务）
+
+注意：以下是显著限制您权利的关键条款，请仔细阅读：
+
+⚠️ 绝对禁止：严格禁止在任何比赛中使用（第四节）
+⚠️ 署名要求：公开展示必须可见地显示仓库地址（第2.4节）
+⚠️ 许可证继承：所有衍生作品必须使用相同许可证（第3.1节）
+⚠️ 商业限制：商业使用需要突出署名（第2.3节）
+⚠️ 本仓库特别规定：本特定仓库因历史原因（MIT许可证）要求遵守当前版本（第10.5节）
+
+这些限制具有约束力并依据适用法律可强制执行。
+
+关于第三方组件的重要声明：
+本软件可能包含或依赖于第三方库、组件或资源，这些第三方组件受其各自许可证条款的约束。
+这些第三方组件保留其原始许可证，不受本自定义软件许可协议的约束。
+
+用户和分发者有责任遵守任何第三方组件的许可证。请参阅 NOTICE 文件、
+THIRD-PARTY-LICENSES 文件或软件内的文档，以了解所包含的第三方组件及其各自许可证的信息。
+
+---
+
+一、定义
+
+1.1 "个人使用"是指仅用于个人学习、研究和实验目的的使用，不以获得个人认可、
+    奖项、荣誉或竞争优势为目的。
+    
+    重要提示：
+    - 纯个人独自学习和实验：无需显示项目仓库地址
+    - 组织内部纯技术交流（同一单位/团队内部成员）：应在合理范围内注明来源
+    - 向公众或组织外部人员展示：必须明确显示项目仓库地址
+    
+    "向公众或组织外部人员展示"包括：
+    - 向不属于您所在组织/团队的任何人展示
+    - 在公开平台、社交媒体、技术博客发布
+    - 向客户、合作伙伴、外部顾问展示
+    - 在公开活动、会议、研讨会上演示
+    
+    "组织内部纯技术交流"不包括：
+    - 用于内部竞赛、评比、考核排名
+    - 用于影响绩效评定、晋升决策的展示
+    - 向管理层做正式商业汇报
+    
+    教育例外：
+    个人使用包括在非营利教育机构中用于非竞争性课程作业和任务，前提是：
+    - 该使用不是为了排名、竞争性评估或学生之间的比较
+    - 该使用不是为了奖学金、基于成绩的选拔过程或学术荣誉
+    - 该使用不是为了学术竞赛或比赛
+    - 该使用不会产生可量化的利益，如奖项、奖金、决定排名的成绩或录取资格
+    - 必须在任何提交的作品、演示文稿或文档中可见地显示项目仓库地址：
+      https://github.com/Qhunliv13/blackhole-in-godot
+    
+    明确说明：非竞争性作业、学习项目和练习作业，仅接受通过/不通过评分或
+    基本反馈（无排名或与其他学生竞争）的，属于个人使用许可范围。
+    
+    2人以上展示规则：
+    任何情况下，只要涉及向2人或以上展示、分享或协作使用本软件，无论是否
+    产生可量化收益，都必须至少保留项目仓库地址链接。这包括但不限于：
+    - 团队协作开发或学习
+    - 向同事、同学展示
+    - 小组讨论或分享会
+    - 向客户或用户展示
+    - 任何形式的公开或半公开展示
+
+1.2 "商业使用"是指以营利为目的使用软件，包括但不限于：销售、许可、作为付费
+    服务提供，或整合到商业产品或服务中。
+
+1.3 "非营利组织"是指实际上不以金钱盈利为目的的组织或团体，包括但不限于：
+    - 注册的非营利组织、慈善机构、基金会
+    - 公立和私立教育机构（学校、大学、图书馆、培训机构等）
+    - 开源社区、技术社群、学术研究团体
+    - 公益性组织、志愿者团体、兴趣小组
+    
+    判定标准：
+    非营利组织的核心判定标准是：组织的活动不以获取金钱利润为主要目的，
+    且任何收入主要用于组织的运营和发展，而非分配给个人或股东。
+    
+    无需事前批准：
+    符合非营利性质的组织可以直接使用本软件，无需事前向版权持有人申请或备案。
+    但版权持有人保留在发现滥用时要求提供非营利性质证明的权利。
+    
+    争议处理：
+    如果版权持有人对某组织的非营利性质提出质疑，该组织应在合理时间内提供
+    以下证明之一：
+    - 官方登记文件或税务免税证明
+    - 组织章程或运营文件证明其非营利性质
+    - 财务报表或其他证据证明无营利分配
+    - 合理的书面声明解释其非营利性质
+    
+    如组织无法提供合理证明，版权持有人可要求其按照商业使用条款使用软件。
+
+1.4 "衍生作品"是指基于本软件或其修改的任何作品，包括但不限于：修改、增强、
+    翻译、改编，或任何包含本软件可识别部分的作品。这包括 GitHub 或其他平台上的
+    分叉版本。
+
+1.5 "比赛"是指任何有组织的活动，使用本软件的目的是获得可量化的利益。
+    
+    "可量化的利益"包括但不限于：
+    - 金钱奖励（奖金、奖品、代金券等）
+    - 数字/字母等级排名（名次、分数、评级等）
+    - 实物奖励（奖牌、奖杯、证书、纪念品等）
+    - 教育相关利益（奖学金、录取资格、学分加分、保研资格等）
+    - 职业相关利益（实习机会、就业机会、内推资格、晋升机会、工作推荐信等）
+    - 荣誉性利益（头衔、称号、公开表彰、媒体曝光、官方认证等）
+    - 平台权益（积分、等级、徽章、会员资格、优先权等）
+    - 资源性利益（云服务额度、软件许可、设备赠送、培训机会等）
+    - 其他任何可以转化为实际优势或特权的利益
+    
+    具体包括（非详尽列表）：
+    - 提供奖金、排名或奖项的编程竞赛和黑客马拉松（包括提供激励的公司内部黑客马拉松）
+    - 具有评估和排名系统的创新、技术、科学或学术竞赛
+    - 有评委和奖项的商业计划竞赛和路演比赛
+    - 根据竞争性评估、排名或学生之间比较来决定成绩的学校课程作业、任务或项目
+      （例如"前 3 名项目获得 A+"）
+    - 具有排行榜、排名或成就徽章的社区编程挑战
+    - 任何有组织的活动，参与者被正式评估、评分、排名或比较，以确定获胜者、
+      奖项或竞争性名次
+    
+    具体排除（反向澄清）：
+    比赛不包括：
+    (a) 无评估、评判或排名的非竞争性技术演示、展示或分享会议
+        （必须显示项目仓库地址）
+    (b) 内部学习小组、学习圈或协作项目，无评分、打分或竞争性评估
+        （如涉及2人或以上参与，必须显示项目仓库地址）
+    (c) 作品集展示、个人博客或仅接收非正式反馈、点赞或评论的社交媒体帖子
+        （必须显示项目仓库地址）
+    (d) 作为员工的专业工作，软件是完成指定职责的工具（而非为职位/晋升竞争）
+        （如涉及向同事或客户展示，必须保留项目地址链接）
+    
+    重要提示：凡涉及2人或以上的任何展示、分享、协作情况，即使不构成比赛，
+    也必须至少保留项目仓库地址链接。对于不可量化的收益（如口头表扬、社区
+    认可、非正式反馈等），只要涉及向他人展示，也必须显示项目仓库地址。
+    
+    不确定性说明：
+    如果您不确定您的预期用途是否构成比赛，判定因素为：
+    - 是否有具有规则和评估标准的组织结构？
+    - 参与者是否会被正式比较、排名或评分？
+    - 是否有可量化的利益（奖金、成绩、排名、奖项）？
+    如果以上三个问题的答案都是"是"，则属于比赛。
+
+1.6 "公众展示"是指对软件或衍生作品的任何展览、演示、公开发布、在线分发、
+    演示文稿或其他形式的公开展示。
+
+1.7 "间接使用"是指实质性依赖本软件的输出结果、内部逻辑或技术实现，通过
+    技术手段间接利用本软件功能的行为。
+    
+    间接使用包括但不限于：
+    - 使用本软件生成的数据集、输出结果或可视化内容用于其他项目
+    - 将本软件作为后端服务、API接口或技术组件集成到更大的系统中
+    - 通过自动化工具、脚本或封装调用本软件的核心功能
+    - 在商业产品或服务中依赖本软件的计算结果或技术输出
+    
+    重要澄清（著作权法"思想-表达二分法"）：
+    间接使用不包括以下情形：
+    - 仅受本软件启发而独立设计和实现的全新代码（未复制或改编本软件代码）
+    - 实现相同或类似功能但采用完全不同技术方案和实现路径的独立开发
+    - 基于公开的科学原理、数学公式或通用算法的独立实现（非本软件特有表达）
+    
+    判定标准：
+    如果移除本软件后，您的项目仍能正常运行且不需要重大重构，则可能不构成
+    间接使用。如存在疑问，建议联系版权持有人确认。
+
+---
+
+二、许可授予
+
+2.1 个人使用许可
+    根据本许可证的条款，您被授予非独占、不可转让、可撤销的许可，仅用于第 1.1 条
+    定义的个人使用来使用、复制和修改软件。
+    
+    这包括第 1.1 条中描述的教育例外，允许在非竞争性课程作业中使用，前提是满足
+    所有条件，包括可见地显示项目仓库地址。
+    
+    重要提示：个人使用不包括：
+    - 根据排名或比较来决定成绩的竞争性课程作业
+    - 具有正式评估、评分或排名系统的任何活动
+    - 任何导致可量化竞争利益的使用（奖项、奖金、排名、录取资格等）
+
+2.2 非营利组织许可
+    非营利组织（如第 1.3 条所定义）被授予不受限制的、非独占的、免版税的许可，
+    可以使用、复制、修改、分发和公开展示软件，无需任何署名或展示要求。
+
+2.3 商业使用许可
+    根据本许可证的条款，您被授予非独占、不可转让、可撤销的许可，在以下强制条件下
+    将软件用于商业使用：
+    
+    a) 署名和仓库展示要求：
+       - 必须可见地显示项目仓库地址：
+         https://github.com/Qhunliv13/blackhole-in-godot
+       
+       可访问性要求（"一键可达"）：
+       - 展示必须无需登录、付费或订阅即可访问
+       - 展示必须在初始视口内可见，无需滚动；或通过在初始视口内可见的明确标记的
+         突出链接/按钮（例如"致谢"、"关于"、"许可证"）访问
+       - 对于软件应用程序：在关于页面、设置、启动画面、致谢、帮助菜单或类似的
+         可从主菜单或工具栏访问的突出位置展示
+       - 对于 SaaS/Web 服务：在网站页脚（主页可见）、关于页面（从主导航链接）
+         或专门的致谢/许可证页面（突出链接）中展示
+       - 对于嵌入在更大产品中的使用：包含在产品文档、用户手册中，以及无需特殊
+         权限即可访问的产品内致谢中
+       
+       可见性要求：
+       - 字体大小必须至少与相邻正文文本相同，且不小于 10pt（或 13px）
+       - 文本必须有足够的颜色对比度（WCAG AA 标准：至少 4.5:1 的对比度）
+       - 展示不得被混淆、隐藏在多次点击后面或放置在不明显的位置
+       - 在数字格式中显示时，仓库地址必须是功能性超链接
+       
+       不合规示例（违规）：
+       - 需要账户登录才能查看的页脚链接
+       - 6pt 字体的文本或白色背景上的浅灰色文字
+       - 隐藏在 3 层以上的子菜单中
+       - 仅在源代码注释或开发者文档中显示
+    
+    b) 必须在软件的所有副本或实质部分中包含本版权声明和许可证条款。
+    
+    c) 如果修改了软件，必须明确记录修改内容。
+
+2.4 公众展示许可
+    任何对软件或衍生作品的公众展示必须：
+    - 可见地显示项目仓库地址：
+      https://github.com/Qhunliv13/blackhole-in-godot
+    - 以允许观众清楚地看到并获取此信息的方式展示（例如，在演示幻灯片、
+      展览材料、视频描述、网站页面等上）
+    - 包含对原作者的署名
+    
+    展示场景的分层要求：
+    根据展示对象和性质，具体要求如下：
+    
+    A. 个人独自使用：无需展示仓库地址
+    
+    B. 组织内部纯技术交流：
+       应在合理范围内注明软件来源，方式包括：
+       - 在代码注释、文档或README中提及项目地址
+       - 在内部分享时口头或书面说明软件来源
+       - 在技术交流材料中合理标注
+    
+    C. 向公众或组织外部展示：
+       必须明确可见地显示项目仓库地址：
+       - 小范围外部展示（向外部少数人）：至少在演示材料、文档中明确标注
+       - 公开发布或大范围展示：按照本节完整要求执行，包含可见展示和署名
+    
+    合理遵守与举证：
+    展示要求应根据实际情况合理履行。版权持有人理解在某些非正式场合
+    （如临时性的小型讨论、内部测试等）可能难以严格满足所有展示要求。
+    
+    如果版权持有人发现公开展示、发布或分发本软件的行为未包含项目仓库地址
+    或署名信息，应首先通知使用者并给予合理的补正机会（参见第VIII节终止条款）。
+    
+    在争议情况下：
+    - 版权持有人应提供初步证据证明存在公开展示或分发行为
+    - 使用者可以解释具体情况并证明已合理履行义务或属于例外情况
+    - 双方应本着诚信原则协商解决
+    
+    明显的公开发布（如开源平台、社交媒体、技术博客、公开演讲等）如缺少
+    署名，将被推定为未履行展示义务。
+
+---
+
+三、衍生作品与分发
+
+3.1 创建衍生作品
+    您可以在以下条件下创建软件的衍生作品：
+    
+    许可证要求：
+    所有衍生作品必须采用本自定义软件许可证（当前版本或更高版本）。
+    
+    重要声明：本许可证与标准开源许可证（如GPL、MIT、Apache等）不兼容
+    由于本许可证包含使用限制（如禁止用于比赛）和特定展示要求，它与大多数
+    标准开源许可证的原则不兼容。请勿将本软件与GPL、AGPL、MIT、Apache等
+    许可证的代码混合或合并，除非您获得所有相关版权持有人的明确书面许可。
+    
+    强制性要求（所有衍生作品）：
+    - 所有衍生作品必须使用本自定义软件许可证
+    - 所有衍生作品必须包含明确的修改说明
+    - 所有衍生作品必须包含对原始软件的署名
+    - 必须保留并按要求显示原始项目仓库地址
+      (https://github.com/Qhunliv13/blackhole-in-godot)
+    - 必须保留所有版权声明
+    - 所有本许可证的限制（包括比赛禁令）必须保持有效
+
+3.2 分发要求
+    如果您分发软件或任何衍生作品，无论采用何种形式或渠道：
+    - 您必须包含本许可证的完整副本
+    - 您必须包含项目仓库地址
+    - 您必须保留所有版权声明
+    - 您必须明确说明是否进行了修改
+    - 接收者必须获得本许可证授予的相同权利
+    
+    再打包与再发布的特殊要求：
+    无论是否通过开源平台（如GitHub、GitLab等）分发，凡以任何形式再发布
+    本软件或衍生作品的，包括但不限于：
+    - 压缩包（.zip、.tar.gz、.rar等）
+    - 容器镜像（Docker、OCI等）
+    - 预编译二进制文件或可执行文件
+    - 教学素材包、课程资源包
+    - 网盘分享、BT种子、磁力链接
+    - 软件安装包或安装程序
+    - 系统镜像或虚拟机镜像
+    
+    必须在压缩包根目录、容器描述文件、安装包说明或其他显著位置包含：
+    - 本许可证原文（LICENSE文件）
+    - 项目仓库地址的明确标注
+    - 版权声明和作者信息
+    
+    禁止行为：
+    不得通过更改文件名、删除元数据、修改目录结构等方式试图隐藏软件来源或
+    规避署名义务。
+
+3.3 GitHub 和开源平台
+    在 GitHub 或类似平台上分叉、修改或重新分发软件，构成创建衍生作品，
+    并受本许可证所有条款的约束，特别是第 3.1 节。
+
+3.4 技术保护措施
+    版权持有人鼓励在软件中嵌入技术保护措施以辅助署名和来源追溯，包括但不限于：
+    - 在软件启动画面或用户界面中显示版权信息和仓库地址
+    - 在代码文件头部、元数据或配置文件中包含版权声明
+    - 使用数字水印、指纹或标识符标记软件及其输出
+    - 在日志、关于页面或帮助文档中自动包含归属信息
+    
+    禁止移除技术保护措施：
+    使用者、修改者或分发者不得：
+    - 删除、修改或掩盖软件中嵌入的版权信息、署名或仓库地址
+    - 屏蔽、禁用或绕过软件中的归属显示功能
+    - 移除或篡改元数据、水印、标识符或其他技术保护措施
+    - 通过技术手段使署名信息不可见或难以访问
+    
+    如软件包含此类技术保护措施，移除或规避这些措施将构成本许可证第4.2条
+    的禁止修改行为，导致许可证立即终止。
+
+3.5 部分模块的许可例外
+    在特殊情况下，本软件的某些独立模块或组件可以在版权持有人的明确书面
+    许可下，采用与本许可证不同的许可证进行分发。
+    
+    适用条件：
+    - 该模块必须是技术上独立、可分离的组件
+    - 该模块的功能不依赖于本软件的核心代码
+    - 该模块在分发时必须明确标注其适用的许可证
+    - 版权持有人必须在代码仓库或文档中明确列出此类例外
+    
+    文档要求：
+    如存在此类例外，版权持有人应在仓库根目录的 LICENSE-EXCEPTIONS.md 
+    文件中列出：
+    - 例外模块的路径或文件名
+    - 该模块适用的许可证
+    - 例外的授权日期和范围
+    
+    未明确列出的模块均受本许可证完整约束。
+
+---
+
+四、严格禁止的使用
+
+4.1 比赛禁令
+    严格禁止在任何比赛（如第 1.5 条所定义）中使用本软件或任何衍生作品。
+    
+    此禁令是绝对的，适用于以下任何有组织的活动：
+    - 参与者被正式评估、评分、排名或比较
+    - 存在可量化的利益（奖金、排名、奖项、基于竞争性评估的成绩、录取资格、
+      就业机会等）
+    - 该活动具有规则和评估标准的组织结构
+    
+    具体禁止的使用：
+    - 提供奖金、排名或奖项的编程竞赛和黑客马拉松（包括公司内部黑客马拉松）
+    - 创新、技术、科学或学术竞赛
+    - 商业竞赛和路演比赛
+    - 成绩取决于排名或比较评估的竞争性课程作业
+    - 具有排行榜或成就系统的社区编程挑战
+    
+    允许使用的提醒：
+    如第 1.5 条所述，以下不被禁止，但必须遵守相应的展示要求：
+    - 非竞争性技术演示或分享（必须显示仓库地址）
+    - 无竞争性评估的内部学习小组（2人或以上必须显示仓库地址）
+    - 接收非正式反馈的作品集展示（必须显示仓库地址）
+    - 作为员工将软件用作工具的专业工作（向同事/客户展示时必须保留地址链接）
+    - 非竞争性课程作业（如第 1.1 条教育例外所定义，必须显示仓库地址）
+    
+    强制性展示规则：
+    无论使用场景如何，只要涉及2人或以上的展示、分享或协作，包括但不限于：
+    - 获得不可量化的收益（口头表扬、社区认可、点赞等）
+    - 团队内部协作或讨论
+    - 向任何他人展示运行效果或代码
+    - 教学、培训或演示场景
+    都必须至少保留项目仓库地址链接。最低要求是在可访问的位置（如代码注释、
+    文档、README、演示材料等）包含项目仓库地址。
+    
+    澄清义务：
+    如果您不确定您的预期用途是否构成比赛，请应用第 1.5 条中的三因素测试。
+    如果仍不确定，您必须在使用前联系版权持有人澄清。在有疑问时未寻求澄清
+    可能导致许可证立即终止。
+
+4.2 禁止的修改
+    您不得：
+    - 删除或更改任何版权声明、许可证条款或署名
+    - 删除或掩盖要求的仓库地址展示
+    - 以不同条款再许可软件
+    - 以违反本许可证的任何方式使用软件
+
+---
+
+五、版权与署名
+
+5.1 版权声明
+    软件或衍生作品的所有副本必须保留：
+    - 原始版权声明
+    - 本许可证的全部内容
+    - 项目仓库地址
+    - 对原作者的署名
+
+5.2 无商标权利
+    本许可证不授予使用版权持有人的商品名称、商标、服务标记或产品名称的许可，
+    除非是在描述软件来源时合理和惯例使用所必需的。
+
+---
+
+六、免责声明
+
+软件按"现状"提供，不提供任何明示或暗示的担保，包括但不限于对适销性、
+特定用途的适用性和非侵权性的担保。软件的质量和性能的全部风险由您承担。
+如果软件被证明有缺陷，您承担所有必要的服务、维修或纠正的费用。
+
+在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，
+无论是在合同诉讼、侵权行为还是其他方面，由软件或软件的使用或其他交易
+引起、产生或与之相关。
+
+---
+
+七、责任限制
+
+在任何情况下，任何版权持有人或按上述许可修改和/或传递软件的任何其他方，
+均不对您的损害负责，包括因使用或无法使用软件而产生的任何一般、特殊、
+偶然或后果性损害（包括但不限于数据丢失或数据呈现不准确或您或第三方
+遭受的损失或软件无法与任何其他软件一起运行），即使该持有人或其他方
+已被告知此类损害的可能性。
+
+---
+
+八、终止
+
+8.1 终止流程
+    A. 通知与补正期：
+       如果您违反本许可证的任何条款或条件（下文 B 小节规定的除外），
+       版权持有人应向您发出书面违规通知。您应在收到通知后三十（30）天内
+       补正违规行为。
+       
+       如果您在 30 天期限内成功补正违规行为并向版权持有人提供合理的
+       合规证明，许可证将继续完全有效。
+       
+       如果您未能在 30 天期限内补正违规行为，您在本许可证下的权利将在
+       补正期结束时自动终止。
+    
+    B. 立即终止（无补正期）：
+       如果您有以下行为，您在本许可证下的权利将立即自动终止，无需任何补正期：
+       - 在任何比赛中使用软件（如第 1.5 条所定义）
+       - 意图隐瞒来源而删除或更改版权声明、许可证条款或署名
+       - 以不同条款再许可软件
+       - 故意严重违反第 IV 节中的禁止使用规定
+       
+       这些违规行为被视为无法补正的根本性违约，终止立即发生。
+    
+    C. 书面通知要求：
+       本节下的所有通知必须是书面的，并通过以下方式送达：
+       - 电子邮件发送至与您使用软件相关的任何联系信息
+       - 在您的公共仓库上提交 issue 或 pull request（如果软件是公开分发的）
+       - 挂号信发送至任何已知地址
+       
+       通知在发送后 3 个工作日被视为已收到。
+
+8.2 终止的效力
+    终止后：
+    - 您必须立即停止所有对软件的使用
+    - 您必须销毁您拥有的软件的所有副本
+    - 您必须停止分发任何衍生作品
+    - 您可能面临因违反许可证而提起的法律诉讼
+    - 您创建的任何衍生作品仍受本许可证约束
+
+8.3 存续条款
+    第 IV 节（禁止使用）、第 VI 节（免责声明）、第 VII 节（责任限制）、
+    第 IX 节（管辖法律）和第 X 节（一般规定）在本许可证终止后继续有效。
+
+8.4 通知-删除机制（类似DMCA程序）
+    针对在线平台或第三方服务上的违规使用：
+    
+    A. 版权持有人的通知权利：
+       如果版权持有人发现本软件在任何平台（包括但不限于GitHub、GitLab、
+       代码托管平台、云服务提供商、应用商店）上被违规使用、分发或展示，
+       版权持有人有权：
+       - 向该平台提交违规通知，要求删除、屏蔽或下架违规内容
+       - 直接联系违规使用者要求停止侵权并整改
+       - 保留采取进一步法律行动的权利
+    
+    B. 违规通知的内容：
+       版权持有人的违规通知应包含：
+       - 版权持有人的身份证明和联系方式
+       - 本软件的标识信息（仓库地址、版本等）
+       - 违规内容的具体位置（URL、账号、项目名称等）
+       - 违规行为的具体描述（未署名、用于比赛、违反限制等）
+       - 声明该通知内容真实准确
+    
+    C. 使用者的整改义务：
+       收到违规通知的使用者应在7个自然日内：
+       - 停止违规使用行为
+       - 删除或整改违规内容
+       - 补充必要的署名和归属信息
+       - 或证明其使用符合本许可证要求
+    
+    D. 平台配合义务：
+       版权持有人可要求托管平台：
+       - 临时屏蔽或删除明显违规的内容
+       - 通知违规使用者进行整改
+       - 在合理时间内对违规通知做出响应
+    
+    E. 反通知程序：
+       如使用者认为通知不当或已完成整改，可向平台提交反通知说明：
+       - 整改完成的证明
+       - 或使用符合许可证的合理解释
+       - 平台可根据情况恢复内容或协调双方沟通
+    
+    F. 滥用责任：
+       恶意提交虚假违规通知或反通知的，应承担相应法律责任。
+
+---
+
+九、管辖法律与司法管辖权
+
+9.1 管辖法律
+    本许可证应根据中华人民共和国法律进行管辖和解释。
+
+9.2 争议解决机制
+    因本许可证引起或与之相关的任何争议，双方应按照以下顺序寻求解决：
+    
+    A. 友好协商（第一步，必需）：
+       双方应首先通过友好协商解决争议。任何一方应书面通知对方争议的性质，
+       双方应在通知后30天内诚意协商解决。
+    
+    B. 调解（第二步，可选）：
+       如协商未果，任何一方可请求通过第三方调解解决争议。调解费用由双方
+       平均分担，除非另有约定。
+    
+    C. 仲裁或诉讼（第三步）：
+       如协商和调解均未能解决争议，双方可选择以下任一方式：
+       
+       选项1 - 仲裁：
+       - 提交至中国国际经济贸易仲裁委员会（CIETAC）按其仲裁规则仲裁
+       - 仲裁地点：北京、上海或深圳（由申请方选择）
+       - 仲裁语言：中文（涉及国际当事人时可选择英文）
+       - 仲裁裁决是终局的，对双方均有约束力
+       
+       选项2 - 诉讼：
+       - 向中华人民共和国有管辖权的人民法院提起诉讼
+       - 双方同意接受该等法院的管辖
+
+9.3 国际用户的法律冲突
+    对于非中国用户或组织：
+    - 本许可证仍以中华人民共和国法律为准据法
+    - 但双方认可在执行判决或仲裁裁决时，可能需要遵守用户所在地的
+      法律程序和国际条约（如《纽约公约》）
+    - 如用户所在司法管辖区的强制性法律规定与本许可证冲突，该强制性
+      法律规定在该管辖区内优先适用
+    - 版权持有人保留通过用户所在地法院或国际法律机制追究责任的权利
+
+9.4 可分割性
+    如果本许可证的任何条款在任何司法管辖区被认定为不可执行或无效，
+    该条款应在必要的最小范围内受到限制或消除，以使本许可证的其余部分
+    继续完全有效。该无效或不可执行的认定仅在该特定司法管辖区有效，
+    不影响本许可证在其他司法管辖区的效力。
+
+---
+
+十、一般规定
+
+10.1 完整协议
+     本许可证构成双方就软件达成的完整协议，并取代所有先前或同时期的
+     关于该主题的理解。
+
+10.2 不放弃权利
+     版权持有人在行使本许可证下的任何权利时的任何失败或延迟，不构成对
+     该权利的放弃。
+
+10.2a 代理与组织责任
+     代表组织使用的声明与责任：
+     如果您代表雇主、公司、机构、组织或其他实体使用本软件，您声明并保证：
+     - 您已获得该组织的充分授权代表其使用本软件
+     - 该组织同意受本许可证的所有条款和条件约束
+     - 您和该组织均有权并能够遵守本许可证
+     
+     连带责任条款：
+     当代表组织使用本软件时，如发生违反本许可证的行为：
+     - 使用者个人与所代表的组织承担连带责任
+     - 版权持有人可以选择对使用者个人、组织或两者同时追究法律责任
+     - 组织不得以"未授权员工行为"为由免除其责任，除非能证明：
+       a) 该组织已明确禁止该用途，并有书面政策支持
+       b) 使用者的行为完全超出其职责范围且违反组织明确指令
+       c) 组织在合理时间内发现违规后立即采取补救措施
+     
+     雇主审查义务：
+     雇主或组织有义务审查其员工或成员对本软件的使用，确保符合本许可证。
+     未尽审查义务导致的违规行为，组织应承担相应责任。
+
+10.3 可分割性
+     如果本许可证的任何条款被认定为无效或不可执行，其余条款仍应保持
+     完全有效。
+
+10.4 修订
+     本许可证只能通过版权持有人签署的书面协议进行修订。其他任何修改或
+     修订均无效。
+
+10.4a 翻译与本地化
+     本许可证以中文和英文版本提供。
+     
+     法律效力：
+     - 本许可证的中文版本是唯一具有法律约束力的版本
+     - 如果中文版本与任何其他语言版本之间存在任何差异、歧义或冲突，
+       应以中文版本为准
+     - 英文版本仅用于提供信息参考，不构成主要法律文件
+     - 用户有责任理解中文版本，如有需要可寻求专业翻译服务
+
+10.5 许可证版本与版本更新规则
+     这是本自定义软件许可证的 1.4 版。
+     日期：2025 年 11 月
+     
+     本特定仓库的特别规定：
+     本特定仓库（https://github.com/Qhunliv13/blackhole-in-godot）此前
+     使用 MIT 许可证分发。为解决这一历史许可问题，本特定仓库的所有用户
+     （包括在先前 MIT 许可证下获得软件的用户）必须遵守当前 SHL-1.4 许可证版本。
+     
+     此特别强制更新条款仅且专门适用于 https://github.com/Qhunliv13/blackhole-in-godot
+     这一特定仓库，原因是其此前的 MIT 许可证状态。通过在本许可证生效日期
+     （2025年11月）之后继续使用、修改或分发本软件，您同意受当前许可证条款
+     的约束，无论您最初何时获得本软件或在何种先前许可证下获得。
+     
+     对于使用本许可证的其他项目或仓库：此强制更新条款不适用。按照下述标准
+     版本更新规则执行。
+     
+     版本适用规则（标准规则）：
+     1. 已分发副本的条款锁定：
+        通常情况下，本许可证的后续版本发布后，不自动适用于在该版本发布之前
+        已分发的软件副本。用户可以选择继续遵守获得副本时适用的许可证版本。
+     
+     2. 新版本的自动适用：
+        以下情况视为接受最新版本的许可证条款：
+        - 您在新版本许可证发布后下载、克隆或获取软件
+        - 您更新现有的软件副本到包含新版本许可证的版本
+        - 您在新版本许可证发布后继续使用、修改或分发软件
+        - 您明确表示接受新版本许可证
+     
+     3. 版本选择权：
+        对于在多个许可证版本期间获得的软件，使用者可以选择遵守"获得软件时
+        适用的版本"或"当前最新版本"，但一旦选择后续使用应保持一致。
+     
+     4. 衍生作品的版本要求：
+        如果您基于特定版本的软件创建衍生作品，您的衍生作品应注明基于的
+        原始许可证版本，但必须确保不与最新版本的核心限制（如比赛禁令）冲突。
+     
+     修订说明：
+     v1.4 版本 - SHL-1.4（2025 年 11 月）：
+     - 协议正式命名为"SH 荣誉保护型源码许可协议"（SHL-1.4）
+     - 新增"通过访问即同意"条款：拉取/下载即自动接受协议
+     - 新增《民法典》第496条合规的关键限制性条款提示
+     - 优化"间接使用"定义：增加"思想-表达二分法"澄清，避免过度扩张
+     - 修改展示要求：从"2人以上"改为"向公众或组织外部人员展示"
+     - 增加合理注意义务：组织内部交流改为"应在合理范围内注明来源"
+     - 新增"部分模块许可例外"条款（第3.5节）：允许特定模块使用其他协议
+     - 新增"通知-删除机制"（第8.4节）：类似DMCA的7日整改程序
+     - 明确声明为"源可见专有协议"而非开源协议
+     - 简化非营利组织定义为"实际无金钱盈利"标准，无需事前备案
+     - 移除与GPL/AGPL/OSL的兼容性声明，明确不兼容标准开源协议
+     - 将举证责任倒置改为合理遵守和诚信协商原则
+     - 新增完整的争议解决机制：友好协商→调解→仲裁/诉讼
+     - 新增国际用户的法律冲突解决机制
+     - 新增本特定仓库的特别强制更新条款（因历史使用MIT许可证）
+     
+     v1.3 版本（2025 年 11 月）：
+     - 明确法律管辖为中华人民共和国
+     - 增加非营利组织备案声明机制
+     - 增加举证责任倒置条款
+     - 扩展"可量化利益"详细定义（包括实习、推荐信等）
+     - 新增"间接使用"定义条款
+     - 新增再打包发行的特殊要求
+     - 新增技术保护措施条款
+     - 新增代理与组织连带责任条款
+     - 明确许可证版本更新适用规则
+     
+     v1.2 版本（2025 年 11 月）：
+     - 将法律效力版本从英文改为中文
+     - 放宽了非营利组织的验证要求
+     - 增加了2人以上展示必须显示仓库地址的强制规则
+     - 将展示要求扩展到不可量化的收益
+     - 明确了员工将软件用作工具时，向他人展示需显示仓库地址
+     
+     v1.1 版本（2025 年 11 月）：
+     - 增加了教育例外以平衡合理使用考虑
+     - 完善了比赛定义，包括具体包含和排除内容
+     - 实施了大多数违规行为的 30 天补正期（消费者保护）
+     - 明确了比赛判定的可量化利益标准
+
+10.6 联系与例外请求
+     有关问题、澄清或本许可证未授予的权限，请通过项目仓库联系版权持有人：
+     https://github.com/Qhunliv13/blackhole-in-godot
+     
+     例外请求流程：
+     如果您认为您的使用案例不明确符合允许的使用，或者您需要对本许可证的
+     任何条款提出例外：
+     - 在 GitHub 仓库上提交带有"license-inquiry"标签的 issue
+     - 或通过电子邮件联系：[由版权持有人添加联系信息]
+     - 提供您预期使用的详细描述
+     - 包含关于您的项目性质的信息（商业、非营利、教育等）
+     - 指明您不确定或需要例外的条款
+     
+     版权持有人将尽合理努力在 14 个工作日内回复询问。没有回复不构成许可。
+
+---
+
+许可证结束（中文版本）
