@@ -7,6 +7,22 @@ Copyright (c) 2025 ShengzhiWu
 
 This license applies to this software and associated documentation files (the "Software").
 
+---
+
+CORE PHILOSOPHY
+
+If you use my work, don't hide it - be proud to acknowledge it.
+
+This license embodies a simple principle: transparency and honesty. If this Software 
+helps your project, contributes to your product, or supports your work, acknowledge 
+it openly. Don't conceal it, don't pretend it's entirely yours, and don't hide behind 
+technicalities. A clear, honest attribution is all that's required.
+
+We believe in sharing knowledge while respecting contribution. Use freely, build upon 
+it, even compete with it - just be transparent about what you built and what you used.
+
+---
+
 LICENSE NAMES:
 - Full Name: Qhunliv13-Honor-Protective License
 - Full Abbreviation: QHPL-1.4
@@ -96,8 +112,8 @@ rights. Please read carefully:
    location (Section 2.4)
 [CRITICAL] DERIVATIVE WORKS: Must provide clear attribution, may use any license (Section 3.1)
 [CRITICAL] COMMERCIAL USE: Requires accessible attribution meeting objective standards (Section 2.3)
-[CRITICAL] SPECIAL UPDATE: This specific repository requires current version compliance 
-   due to previous MIT license (Section 10.5)
+[CRITICAL] TRADEMARK PROTECTION: Cannot register Software/author names as your trademark 
+   or misappropriate attribution value (Section 5.3)
 
 These restrictions are binding and enforceable under applicable law.
 
@@ -681,6 +697,48 @@ V. COPYRIGHT AND ATTRIBUTION
     service marks, or product names of the copyright holder, except as required 
     for reasonable and customary use in describing the origin of the Software.
 
+5.3 Attribution Rights vs. Trademark Rights - Conflict Resolution
+    NATURE OF ATTRIBUTION:
+    Attribution required by this license serves dual purposes:
+    - Personal honor and recognition (moral rights)
+    - Promotional and commercial value (property rights / advertising effect)
+    
+    Both aspects are protected and constitute consideration for the license grant.
+    
+    TRADEMARK AND BRANDING RESTRICTIONS:
+    When providing required attribution, you may NOT:
+    - Register the Software name, author name, or project name as your trademark
+    - Register domain names confusingly similar to the Software or author name with 
+      intent to misappropriate goodwill
+    - Use the attribution in a manner that implies endorsement, sponsorship, or 
+      affiliation beyond what actually exists
+    - Create derivative brands or marks that could cause confusion about the origin 
+      or ownership of the Software
+    
+    PERMITTED BRANDING:
+    You MAY:
+    - Brand your derivative work with your own name/mark, provided you clearly 
+      attribute the original Software as required
+    - Use descriptive phrases like "Based on [Software Name]" or "Powered by 
+      [Software Name]" with proper attribution
+    - Create your own trademarks for your derivative work as long as they don't 
+      misappropriate or confuse the original Software's identity
+    
+    DISPUTE RESOLUTION FOR TRADEMARK CONFLICTS:
+    If a downstream user registers or uses trademarks in a manner that:
+    - Conflicts with the attribution requirements
+    - Misappropriates the goodwill or commercial value of the attribution
+    - Creates confusion about the origin or authorship
+    
+    The copyright holder may:
+    - Request cessation of the conflicting trademark use
+    - Require disclaimer statements to clarify the relationship
+    - Invoke trademark opposition or cancellation procedures
+    - Seek compensation for misappropriation of goodwill
+    
+    The license automatically terminates if you refuse to resolve such conflicts in 
+    good faith within 60 days of notice.
+
 ---
 
 VI. DISCLAIMER OF WARRANTY
@@ -929,24 +987,6 @@ X. GENERAL PROVISIONS
      This is version 1.4 of this Custom Software License.
      Date: November 2025
      
-     SPECIAL PROVISION FOR THIS SPECIFIC REPOSITORY:
-     This particular repository (https://github.com/Qhunliv13/blackhole-in-godot) 
-     was previously distributed under the MIT License. To address this historical 
-     licensing situation, ALL users of this specific repository (including those 
-     who obtained the Software under the previous MIT license) MUST comply with 
-     the current QHPL-1.4 license version.
-     
-     This special mandatory update provision applies ONLY and EXCLUSIVELY to 
-     https://github.com/Qhunliv13/blackhole-in-godot due to its previous MIT 
-     license status. By continuing to use, modify, or distribute this Software 
-     after the effective date of this license (November 2025), you agree to be 
-     bound by the current license terms, regardless of when you initially obtained 
-     the Software or under which previous license.
-     
-     For any other projects or repositories using this license: This mandatory 
-     update provision does NOT apply. Standard version update rules apply as 
-     described below.
-     
      NOTE: The Chinese version of this license is the legally binding version.
      This English version is for reference only. Please refer to the Chinese 
      version (Section 10.5) for complete version update rules and revision notes.
@@ -955,6 +995,8 @@ X. GENERAL PROVISIONS
      v1.4 - QHPL-1.4 (November 2025):
      - Officially named "Qhunliv13-Honor-Protective License" (QHPL-1.4)
      - Added standard abbreviation: HPL Protocol / HPL协议
+     - Added CORE PHILOSOPHY statement: "If you use my work, don't hide it - be proud 
+       to acknowledge it" - expressing the fundamental principle of transparency and honesty
      - Added fundamental design principles: 7 core values clearly stated
      - Removed all emoji symbols for professional seriousness
      - Added "acceptance by access" provision: automatic agreement upon download/clone
@@ -998,10 +1040,14 @@ X. GENERAL PROVISIONS
      - Module license exceptions allowed
      - Comprehensive dispute resolution mechanism
      - Legal conflict resolution for international users
-     - Special mandatory update for this repository (due to previous MIT license)
      - Modified technical protection measures (Section 3.4): Changed from "immediate 
        termination" to "30-day cure period" for removal; allows modification if 
        alternative attribution provided; only bad-faith removal results in immediate termination
+     - Added Section 5.3: Attribution Rights vs. Trademark Rights conflict resolution
+       - Recognizes dual nature of attribution: moral rights + property/advertising value
+       - Prohibits registering Software/author names as downstream trademarks
+       - Prevents misappropriation of attribution's commercial value and goodwill
+       - Provides 60-day good-faith resolution period for conflicts
      
      COMMERCIAL AND COPYRIGHT PROVISIONS:
      - Added Section 10.7: Commercial license and custom arrangements available
@@ -1102,6 +1148,22 @@ Qhunliv13-荣誉保护许可协议（QHPL-1.4）
 
 本协议适用于本软件及相关文档文件（以下简称"软件"）。
 
+---
+
+核心理念
+
+如果你用了我的东西，请别偷偷摸摸，请大方说出来。
+
+本许可证体现一个简单的原则：透明和诚实。如果本软件帮助了您的项目，
+为您的产品做出了贡献，或支持了您的工作，请公开地承认它。不要隐瞒，
+不要假装完全是您自己的，不要躲在技术细节后面。只需要一个清晰、
+诚实的署名。
+
+我们相信在尊重贡献的同时分享知识。自由使用，在此基础上构建，甚至
+与之竞争 - 只要对您构建的内容和您使用的内容保持透明。
+
+---
+
 协议名称说明：
 - 完整名称：Qhunliv13-荣誉保护许可协议
 - 完整简称：QHPL-1.4
@@ -1176,7 +1238,7 @@ Qhunliv13-荣誉保护许可协议（QHPL-1.4）
 [关键] 公众展示：要求在合理突出位置至少一次署名（第2.4节）
 [关键] 衍生作品：必须提供明确署名，可使用任意许可证（第3.1节）
 [关键] 商业使用：需要符合客观标准的可访问署名（第2.3节）
-[关键] 本仓库特别规定：本特定仓库因历史原因（MIT许可证）要求遵守当前版本（第10.5节）
+[关键] 商标保护：不得将软件/作者名称注册为您的商标或盗用署名价值（第5.3节）
 
 这些限制具有约束力并依据适用法律可强制执行。
 
@@ -1696,6 +1758,43 @@ THIRD-PARTY-LICENSES 文件或软件内的文档，以了解所包含的第三�
     本许可证不授予使用版权持有人的商品名称、商标、服务标记或产品名称的许可，
     除非是在描述软件来源时合理和惯例使用所必需的。
 
+5.3 署名权与商标权 - 冲突解决
+    署名的双重性质：
+    本许可证要求的署名具有双重目的：
+    - 人格化荣誉与认可（精神权利）
+    - 推广与商业价值（财产权利 / 广告效应）
+    
+    两种属性均受保护，构成许可证授予的对价。
+    
+    商标与品牌限制：
+    在提供所需署名时，您不得：
+    - 将软件名称、作者名称或项目名称注册为您的商标
+    - 注册与软件或作者名称混淆性近似的域名，意图盗用商誉
+    - 以暗示背书、赞助或关联超出实际存在的方式使用署名
+    - 创建可能导致对软件来源或所有权产生混淆的衍生品牌或标识
+    
+    允许的品牌使用：
+    您可以：
+    - 用您自己的名称/标识为您的衍生作品打品牌，前提是您清楚地按要求
+      署名原始软件
+    - 使用"基于[软件名称]"或"由[软件名称]驱动"等描述性短语，并提供
+      适当署名
+    - 为您的衍生作品创建您自己的商标，只要它们不盗用或混淆原始软件的身份
+    
+    商标冲突的争议解决：
+    如果下游用户以以下方式注册或使用商标：
+    - 与署名要求冲突
+    - 盗用署名的商誉或商业价值
+    - 对来源或作者身份造成混淆
+    
+    版权持有人可以：
+    - 要求停止冲突的商标使用
+    - 要求免责声明以澄清关系
+    - 启动商标异议或撤销程序
+    - 就商誉盗用寻求赔偿
+    
+    如果您在收到通知后60天内拒绝诚信解决此类冲突，许可证将自动终止。
+
 ---
 
 六、免责声明
@@ -1927,23 +2026,10 @@ THIRD-PARTY-LICENSES 文件或软件内的文档，以了解所包含的第三�
      这是本自定义软件许可证的 1.4 版。
      日期：2025 年 11 月
      
-     本特定仓库的特别规定：
-     本特定仓库（https://github.com/Qhunliv13/blackhole-in-godot）此前
-     使用 MIT 许可证分发。为解决这一历史许可问题，本特定仓库的所有用户
-     （包括在先前 MIT 许可证下获得软件的用户）必须遵守当前 QHPL-1.4 许可证版本。
-     
-     此特别强制更新条款仅且专门适用于 https://github.com/Qhunliv13/blackhole-in-godot
-     这一特定仓库，原因是其此前的 MIT 许可证状态。通过在本许可证生效日期
-     （2025年11月）之后继续使用、修改或分发本软件，您同意受当前许可证条款
-     的约束，无论您最初何时获得本软件或在何种先前许可证下获得。
-     
-     对于使用本许可证的其他项目或仓库：此强制更新条款不适用。按照下述标准
-     版本更新规则执行。
-     
-     版本适用规则（标准规则）：
+     版本适用规则：
      1. 已分发副本的条款锁定：
-        通常情况下，本许可证的后续版本发布后，不自动适用于在该版本发布之前
-        已分发的软件副本。用户可以选择继续遵守获得副本时适用的许可证版本。
+        本许可证的后续版本发布后，不自动适用于在该版本发布之前已分发的
+        软件副本。用户可以选择继续遵守获得副本时适用的许可证版本。
      
      2. 新版本的自动适用：
         以下情况视为接受最新版本的许可证条款：
@@ -1964,12 +2050,14 @@ THIRD-PARTY-LICENSES 文件或软件内的文档，以了解所包含的第三�
      v1.4 版本 - QHPL-1.4（2025 年 11 月）：
      - 协议正式命名为"Qhunliv13-荣誉保护许可协议"（QHPL-1.4）
      - 增加标准简称：HPL协议 / HPL Protocol
+     - 新增核心理念声明："如果你用了我的东西，请别偷偷摸摸，请大方说出来" - 
+       表达透明和诚实的根本原则
      - 新增根本设计宗旨：明确7大核心原则
      - 新增"通过访问即同意"条款：拉取/下载即自动接受协议
      - 新增《民法典》第496条合规的关键限制性条款提示
      
      开放性改进：
-     - 革命性变更：衍生作品不再要求继承许可证
+     - 变更：衍生作品不再要求继承许可证
        - 可使用任何许可证（GPL、MIT、Apache等），仅需署名要求
        - 促进最大兼容性和开放性
      - 接口隔离豁免：通过API/消息队列使用QHPL代码的主程序不算衍生作品
@@ -2003,9 +2091,13 @@ THIRD-PARTY-LICENSES 文件或软件内的文档，以了解所包含的第三�
      - 允许部分模块许可例外
      - 完整的争议解决机制
      - 国际用户的法律冲突解决
-     - 本特定仓库的特别强制更新（因历史使用MIT许可证）
      - 修改技术保护措施（第3.4节）：从"立即终止"改为"30天补正期"；
        允许在提供替代署名的情况下修改；仅恶意移除才导致立即终止
+     - 新增第5.3节：署名权与商标权冲突解决
+       - 确认署名的双重性质：精神权利 + 财产/广告价值
+       - 禁止将软件/作者名称注册为下游商标
+       - 防止盗用署名的商业价值和商誉
+       - 为冲突解决提供60天诚信协商期
      
      商业与版权条款：
      - 新增第10.7条：商业许可与定制安排可用（付费许可、免署名选项、
