@@ -553,4 +553,16 @@ Or manually adjust parameters to:
 
 ## License
 
-This project is open source. Feel free to use and modify for educational and research purposes.
+This project is licensed under the **Qhunliv13-Honor-Protective License (QHPL-1.4)**, also known as the HPL Protocol.
+
+This is a **source-available proprietary license** that allows:
+- ✅ Free use for educational, research, and personal learning purposes
+- ✅ Viewing and studying the source code
+- ✅ Contributing improvements back to the project
+
+**Important**: Commercial use, redistribution, or derivative works require explicit written permission from the copyright holder. Proper attribution is mandatory in all use cases.
+
+For complete license terms, please see the [LICENSE](LICENSE) file.
+
+**Copyright © 2025 ShengzhiWu**
+
