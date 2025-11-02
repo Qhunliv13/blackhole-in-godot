@@ -509,19 +509,34 @@ III. DERIVATIVE WORKS AND DISTRIBUTION
     - Automatically including attribution information in logs, about pages, or 
       help documentation
     
-    Prohibition on Removing Technical Protection Measures:
-    Users, modifiers, or distributors may NOT:
-    - Delete, modify, or obscure embedded copyright information, attribution, 
-      or repository URLs in the Software
-    - Block, disable, or circumvent attribution display functions in the Software
-    - Remove or tamper with metadata, watermarks, identifiers, or other technical 
-      protection measures
-    - Use technical means to make attribution information invisible or difficult 
-      to access
+    Requirements for Technical Protection Measures:
+    If the Software contains technical protection measures (watermarks, splash screens, 
+    metadata, attribution displays, etc.), the following rules apply:
     
-    If the Software contains such technical protection measures, removing or 
-    circumventing them constitutes prohibited modification under Section 4.2 
-    and results in immediate license termination.
+    PERMITTED MODIFICATIONS:
+    You MAY modify or remove technical protection measures if:
+    - You replace them with equivalent or more prominent attribution
+    - The modification is necessary for technical compatibility or functionality
+    - You maintain the required attribution through alternative means as specified 
+      in Sections 2.3 and 2.4
+    
+    PROHIBITED ACTIONS:
+    You may NOT:
+    - Remove all attribution without providing alternative attribution
+    - Deliberately conceal the Software's origin or authorship
+    - Use technical means to make attribution completely inaccessible to end users
+    - Remove attribution with intent to gain unfair advantage or misrepresent authorship
+    
+    CONSEQUENCES:
+    - Violating these requirements is subject to the standard 30-day cure period 
+      (Section 8.1A)
+    - The copyright holder will notify you and allow remediation
+    - Only deliberate, bad-faith removal with intent to deceive results in immediate 
+      termination (Section 8.1B)
+    
+    PRINCIPLE:
+    The goal is ensuring proper attribution reaches end users, not preventing all 
+    modifications. Good-faith compliance and alternative attribution methods are acceptable.
 
 3.5 Module License Exceptions
     In special circumstances, certain independent modules or components of this 
@@ -984,6 +999,9 @@ X. GENERAL PROVISIONS
      - Comprehensive dispute resolution mechanism
      - Legal conflict resolution for international users
      - Special mandatory update for this repository (due to previous MIT license)
+     - Modified technical protection measures (Section 3.4): Changed from "immediate 
+       termination" to "30-day cure period" for removal; allows modification if 
+       alternative attribution provided; only bad-faith removal results in immediate termination
      
      COMMERCIAL AND COPYRIGHT PROVISIONS:
      - Added Section 10.7: Commercial license and custom arrangements available
@@ -1519,15 +1537,31 @@ THIRD-PARTY-LICENSES 文件或软件内的文档，以了解所包含的第三�
     - 使用数字水印、指纹或标识符标记软件及其输出
     - 在日志、关于页面或帮助文档中自动包含归属信息
     
-    禁止移除技术保护措施：
-    使用者、修改者或分发者不得：
-    - 删除、修改或掩盖软件中嵌入的版权信息、署名或仓库地址
-    - 屏蔽、禁用或绕过软件中的归属显示功能
-    - 移除或篡改元数据、水印、标识符或其他技术保护措施
-    - 通过技术手段使署名信息不可见或难以访问
+    技术保护措施的要求：
+    如果软件包含技术保护措施（水印、启动画面、元数据、署名显示等），
+    适用以下规则：
     
-    如软件包含此类技术保护措施，移除或规避这些措施将构成本许可证第4.2条
-    的禁止修改行为，导致许可证立即终止。
+    允许的修改：
+    您可以修改或移除技术保护措施，如果：
+    - 您用等效或更突出的署名替换它们
+    - 该修改对于技术兼容性或功能性是必要的
+    - 您通过第2.3和2.4节规定的替代方式保持所需的署名
+    
+    禁止的行为：
+    您不得：
+    - 移除所有署名而不提供替代署名
+    - 故意隐瞒软件的来源或作者身份
+    - 使用技术手段使署名对最终用户完全不可访问
+    - 为了获得不公平优势或歪曲作者身份而移除署名
+    
+    后果：
+    - 违反这些要求适用标准的30天补正期（第8.1A节）
+    - 版权持有人将通知您并允许整改
+    - 仅故意的、恶意的、意图欺骗的移除才导致立即终止（第8.1B节）
+    
+    原则：
+    目标是确保适当的署名到达最终用户，而非阻止所有修改。诚信的合规和
+    替代署名方法是可接受的。
 
 3.5 部分模块的许可例外
     在特殊情况下，本软件的某些独立模块或组件可以在版权持有人的明确书面
@@ -1970,6 +2004,8 @@ THIRD-PARTY-LICENSES 文件或软件内的文档，以了解所包含的第三�
      - 完整的争议解决机制
      - 国际用户的法律冲突解决
      - 本特定仓库的特别强制更新（因历史使用MIT许可证）
+     - 修改技术保护措施（第3.4节）：从"立即终止"改为"30天补正期"；
+       允许在提供替代署名的情况下修改；仅恶意移除才导致立即终止
      
      商业与版权条款：
      - 新增第10.7条：商业许可与定制安排可用（付费许可、免署名选项、
