@@ -4,7 +4,31 @@ Real-time Kerr black hole visualization with physically-based gravitational lens
 
 ## Technical Overview
 
-GPU-accelerated ray tracing implementation combining Kerr metric effects, relativistic fluid dynamics, and procedural noise generation. 
+GPU-accelerated ray tracing implementation combining Kerr metric effects, relativistic fluid dynamics, and procedural noise generation.
+
+## Implementation Status
+
+This simulation implements physically-accurate models for most observable phenomena. Some advanced features are simplified or planned for future implementation:
+
+**Fully Implemented (with accurate physics formulas)**:
+- Gravitational lensing (Schwarzschild geodesic approximation)
+- Gravitational redshift (combined with kinematic Doppler)
+- Time dilation near event horizon
+- Frame dragging (Lense-Thirring effect)
+- Accretion disk dynamics (Keplerian rotation, temperature gradient)
+- Doppler shift and relativistic beaming
+- Spiral density waves (dispersion relation)
+- Hot spots (orbital motion at ISCO)
+- Quasi-periodic oscillations (QPO)
+- Relativistic jets (multi-octave turbulence)
+- ISCO and photon sphere calculations
+
+**Simplified/Visual Implementations**:
+- Hawking radiation: Visual effect only (acknowledged as unobservable for stellar-mass black holes)
+- Synchrotron radiation: Represented by jet color, without full magnetic field calculations
+- X-ray corona: Thermal distribution without Compton scattering physics
+- Hot spots: Periodic modulation instead of full MRI turbulence simulation
+- Jets: Geometric model without full Blandford-Znajek mechanism
 
 ## Core Physics Systems
 
@@ -176,10 +200,11 @@ where:
 
 Spectrum: Power-law F_ν ∝ ν^(-α), α ≈ 0.5-1.0
 ```
-- Blue-white core (optical/UV synchrotron)
-- Affected by gravitational redshift near base
+- **Current Implementation**: Blue-white emission with intensity profile (theoretical formulas above serve as physical basis)
+- Affected by gravitational redshift near base ✓ *Implemented*
 - Intensity: 0.1-20.0 (wide dynamic range)
 - Brightness calibrated to observed AGN/microquasar jets
+- *Note: Full synchrotron radiation with magnetic field evolution planned for future versions*
 
 ### Photon Sphere - Theoretical
 
@@ -205,8 +230,9 @@ Note: Non-spherical, depends on inclination (numerical solution required for gen
 ### X-ray Corona - Theoretical
 
 - Hot plasma layer above disk (10⁸-10⁹ K)
-- Produces hard X-rays through Compton scattering
+- Produces hard X-rays through Compton scattering *(Compton scattering physics: planned for future implementation)*
 - Not visible in optical band
+- Current implementation: Hot plasma distribution with simplified thermal emission
 - Default: disabled (X-ray instruments required)
 
 ### ISCO Ring - Theoretical
@@ -256,6 +282,12 @@ T_H = ℏc³/(8πGMk_B)
 - CMB absorption dominates for stellar+ mass black holes
 - Only micro black holes (if exist) could produce detectable gamma-ray bursts at end of evaporation
 - Default: disabled (theoretical visualization only)
+
+**Implementation Note**:
+- Current visualization: Flickering effect at event horizon for educational purposes
+- Does NOT represent actual Hawking radiation physics (which would require quantum field theory in curved spacetime)
+- Serves as a visual reminder of this theoretical prediction
+- Can be enabled to illustrate the concept, but users should understand it's artistic representation
 
 ## Rendering Architecture
 
@@ -333,26 +365,26 @@ Final Composition:
 
 ## Observable vs Theoretical Features
 
-**Default Enabled (Observable)**:
-- ✅ Gravitational lensing (all telescopes)
-- ✅ Accretion disk (optical/IR/X-ray)
-- ✅ Temperature gradient (spectral fitting)
-- ✅ Doppler effects (spectroscopy)
-- ✅ Relativistic beaming (photometry)
-- ✅ Gravitational redshift (spectroscopy)
-- ✅ QPO (timing analysis)
-- ✅ Spiral arms (high-resolution imaging, GRAVITY)
-- ✅ Hot spots (IR flares, VLTI astrometry)
-- ✅ Frame dragging (orbital precession)
-- ✅ Time dilation (light curves)
-- ✅ Relativistic jets (radio/optical)
+**Default Enabled (Observable Phenomena with Physical Implementation)**:
+- ✅ Gravitational lensing (all telescopes) - *Schwarzschild approximation*
+- ✅ Accretion disk (optical/IR/X-ray) - *Keplerian rotation + turbulence*
+- ✅ Temperature gradient (spectral fitting) - *T ∝ r^(-3/4) thin disk model*
+- ✅ Doppler effects (spectroscopy) - *Relativistic formula implemented*
+- ✅ Relativistic beaming (photometry) - *I' = I × D^n with proper gamma factors*
+- ✅ Gravitational redshift (spectroscopy) - *Combined gravitational + kinematic*
+- ✅ QPO (timing analysis) - *Global luminosity modulation*
+- ✅ Spiral arms (high-resolution imaging, GRAVITY) - *Dispersion relation with pattern speed*
+- ✅ Hot spots (IR flares, VLTI astrometry) - *ISCO orbital motion*
+- ✅ Frame dragging (orbital precession) - *Lense-Thirring effect on matter*
+- ✅ Time dilation (light curves) - *√(1-Rs/r) implemented*
+- ✅ Relativistic jets (radio/optical) - *Geometric model with turbulence*
 
-**Default Disabled (Theoretical/Unobservable)**:
-- ❌ Hawking radiation (T ≈ 10⁻⁸ K for stellar mass BH, completely buried in CMB)
-- ❌ Photon sphere (X-ray band, too faint/small for naked eye)
-- ❌ X-ray corona (requires X-ray telescopes)
-- ❌ ISCO marker (theoretical boundary, not emitting)
-- ❌ Secondary images (requires extended ray tracing)
+**Default Disabled (Theoretical/Unobservable/Simplified)**:
+- ❌ Hawking radiation (T ≈ 10⁻⁸ K for stellar mass BH, completely buried in CMB) - *Visual effect only*
+- ❌ Photon sphere (X-ray band, too faint/small for naked eye) - *Shell visualization*
+- ❌ X-ray corona (requires X-ray telescopes) - *Thermal layer, Compton scattering planned*
+- ❌ ISCO marker (theoretical boundary, not emitting) - *Ring visualization*
+- ❌ Secondary images (requires extended ray tracing) - *Available with increased ray loops*
 
 ## Controls
 
@@ -361,10 +393,13 @@ Final Composition:
 - Q/E: Vertical motion  
 - Mouse: Free-look rotation
 - ESC: Toggle mouse capture
+- Shift: Speed up movement (10x)
 
 **UI Controls**:
 - Scrollable parameter panel with 20+ real-time adjustable parameters
+- Press **1**: Toggle icon selection panel（It's not work in release,I don't know why.）
 - Press **2**: Toggle parameter panel
+- Press **3**: Hide/show all UI elements
 - Press **TAB**: Toggle language (English ⇄ 中文)
 - Default language: English
 - All UI elements support bilingual switching (47 elements)
@@ -384,12 +419,12 @@ Final Composition:
 - Numerical stability: β < 0.6c, careful handling of Rs/r → 1
 
 **Geodesic Ray Tracing**:
-- Current method: Schwarzschild approximation with leapfrog integration
+- **Current method**: Schwarzschild approximation with leapfrog integration ✓ *Implemented*
 - Acceleration: a = -1.5h²r/r⁵ (impact parameter conservation)
 - Step size: Adaptive 0.05-0.8% of camera distance
-- Limitation: Does not fully capture Kerr spacetime frame dragging on light paths
-- Future upgrade: Full Kerr geodesic integration
-- Kerr geodesics: Solve d²x^μ/dλ² + Γ^μ_αβ(dx^α/dλ)(dx^β/dλ) = 0 with Christoffel symbols
+- **Limitation**: Does not fully capture Kerr spacetime frame dragging on light paths
+  - Frame dragging is applied to matter (accretion disk) but not to photon trajectories
+  - This is acceptable for most visual purposes as the effect is subtle
 
 **Physical Formulas Implemented in Shader**:
 
@@ -435,20 +470,6 @@ z+1 = √(1-Rs/r) / (1-β·cos(θ))
 - Used in spiral wave dispersion relation: ω_m = m·Ω ± κ
 - Critical for QPO frequency prediction
 - Currently approximated as κ ≈ Ω√(1-3/r)
-
-## Astrophysical Accuracy
-
-**Comparison with Observations**:
-- Sgr A* hot spots: 3-5 events/day, 1-3 hr duration ✓
-- GRAVITY phase variations: 20-30° for m=1 spiral ✓
-- M87* brightness asymmetry: ~5:1 approaching/receding ✓
-- Disk color: Blue (inner, approaching) to red (outer, receding) ✓
-
-**Physical Models**:
-- Shakura-Sunyaev disk: T ∝ r^(-3/4)
-- Toomre instability: Q ≈ 1 for spiral formation
-- MRI turbulence: Hot spot generation mechanism
-- Blandford-Znajek: Jet launching from ergosphere
 
 ## Visual Comparison
 
@@ -499,18 +520,6 @@ z+1 = √(1-Rs/r) / (1-β·cos(θ))
 
 ---
 
-### Simulated Features (Both Black Holes)
-
-- ✅ Differential rotation with Keplerian velocity profile
-- ✅ Temperature gradient: UV-white (inner) to orange-red (outer)
-- ✅ Doppler asymmetry: Blue-bright (approaching) vs red-dim (receding)
-- ✅ Relativistic beaming: 5-10× brightness contrast
-- ✅ Gravitational redshift: Energy loss in deep potential well
-- ✅ Spiral density waves: m=1-2 modes from self-gravity instability
-- ✅ Hot spots: Magnetic reconnection events orbiting at 3-4 rg
-- ✅ Relativistic jets: Conical expansion with helical rotation
-- ✅ Frame dragging: Kerr metric effects (configurable spin parameter)
-
 ## Matching Real Black Holes
 
 ### M87* Parameters (EHT 2019-2024)
@@ -525,12 +534,6 @@ Or manually adjust parameters to:
 - **Beaming Strength**: 3.0 (strong relativistic boost)
 - **Doppler Strength**: 1.0 (moderate frequency shift)
 - **Frame Dragging**: Enabled (strong Lense-Thirring effect)
-
-**Observable characteristics**:
-- Asymmetric ring (approaching side 5× brighter) ✅
-- Shadow diameter: ~40 µas (42 ± 3 µas observed) ✅
-- Jet base emission from polar regions ✅
-- Strong gravitational lensing creates photon ring ✅
 
 ### Sgr A* Parameters (EHT 2022)
 
