@@ -1,10 +1,55 @@
-SH Honor-Protective Source License (SHL-1.4)
+Qhunliv13-Honor-Protective License (QHPL-1.4)
+Also Known As: HPL Protocol / HPL协议
 Source-Available, Proprietary License
 
 Project Repository: https://github.com/Qhunliv13/blackhole-in-godot
 Copyright (c) 2025 ShengzhiWu
 
 This license applies to this software and associated documentation files (the "Software").
+
+LICENSE NAMES:
+- Full Name: Qhunliv13-Honor-Protective License
+- Full Abbreviation: QHPL-1.4
+- Standard Abbreviation: HPL Protocol / HPL协议
+- Version: 1.4
+
+---
+
+FUNDAMENTAL DESIGN PRINCIPLES
+
+This license is designed with the following core principles:
+
+PREVENT ABUSE
+   Protect against misuse of the Software for competitive advantage or 
+   unauthorized commercial exploitation.
+
+MANDATORY ATTRIBUTION
+   Ensure proper credit and recognition to the original author in all 
+   public and commercial contexts.
+
+PERPETUAL CONTROL
+   Maintain ongoing control over how the Software is used, distributed, 
+   and modified, including all derivative works.
+
+EDUCATION FRIENDLY
+   Support legitimate educational use, learning, and research while 
+   preventing exploitation in competitive academic scenarios.
+
+REJECT FREE-RIDING
+   Prevent unauthorized parties from benefiting commercially or competitively 
+   without proper attribution and compliance.
+
+NO COMPETITION USE
+   Absolutely prohibit use in any competitive context where personal honor, 
+   recognition, awards, or rankings are at stake.
+
+NO ANONYMOUS COMMERCIAL USE
+   Require all commercial uses to prominently display attribution and 
+   repository information, preventing hidden exploitation.
+
+These principles guide the interpretation and enforcement of all terms in this license.
+
+---
 
 ACCEPTANCE BY ACCESS
 
@@ -689,7 +734,7 @@ X. GENERAL PROVISIONS
      was previously distributed under the MIT License. To address this historical 
      licensing situation, ALL users of this specific repository (including those 
      who obtained the Software under the previous MIT license) MUST comply with 
-     the current SHL-1.4 license version.
+     the current QHPL-1.4 license version.
      
      This special mandatory update provision applies ONLY and EXCLUSIVELY to 
      https://github.com/Qhunliv13/blackhole-in-godot due to its previous MIT 
@@ -707,8 +752,8 @@ X. GENERAL PROVISIONS
      version (Section 10.5) for complete version update rules and revision notes.
      
      REVISION NOTES (Summary):
-     v1.4 - SHL-1.4 (November 2025):
-     - Officially named "SH Honor-Protective Source License" (SHL-1.4)
+     v1.4 - QHPL-1.4 (November 2025):
+     - Officially named "Qhunliv13-Honor-Protective License" (QHPL-1.4)
      - Added "acceptance by access" provision: automatic agreement upon download/clone
      - Added PRC Civil Code Article 496 compliant key restrictive provisions notice
      - Optimized "Indirect Use" definition: added "idea-expression dichotomy" 
@@ -783,13 +828,51 @@ END OF LICENSE (ENGLISH VERSION)
           The English version above is for reference only.
 
 
-SH 荣誉保护型源码许可协议（SHL-1.4）
+Qhunliv13-荣誉保护许可协议（QHPL-1.4）
+标准简称：HPL协议
 源码可见专有许可证
 
 项目仓库：https://github.com/Qhunliv13/blackhole-in-godot
 版权所有 (c) 2025 ShengzhiWu
 
 本协议适用于本软件及相关文档文件（以下简称"软件"）。
+
+协议名称说明：
+- 完整名称：Qhunliv13-荣誉保护许可协议
+- 完整简称：QHPL-1.4
+- 标准简称：HPL协议 / HPL Protocol
+- 版本：1.4
+
+---
+
+根本设计宗旨
+
+本协议基于以下核心原则设计：
+
+防止滥用
+   防止软件被用于竞争优势或未经授权的商业利用。
+
+强制署名
+   确保在所有公开和商业场景下对原作者给予适当的署名和认可。
+
+永久控制
+   对软件的使用、分发和修改方式保持持续控制，包括所有衍生作品。
+
+教育友好
+   支持合法的教育使用、学习和研究，同时防止在竞争性学术场景中被利用。
+
+拒绝白嫖
+   防止未经授权的各方在商业或竞争中获益而不给予适当的署名和遵守规则。
+
+拒绝比赛
+   绝对禁止在任何涉及个人荣誉、认可、奖项或排名的竞争场景中使用。
+
+拒绝商业匿名使用
+   要求所有商业使用都必须突出显示署名和仓库信息，防止隐蔽性利用。
+
+这些原则指导本许可证所有条款的解释和执行。
+
+---
 
 通过访问即同意
 
@@ -1426,7 +1509,7 @@ THIRD-PARTY-LICENSES 文件或软件内的文档，以了解所包含的第三�
      本特定仓库的特别规定：
      本特定仓库（https://github.com/Qhunliv13/blackhole-in-godot）此前
      使用 MIT 许可证分发。为解决这一历史许可问题，本特定仓库的所有用户
-     （包括在先前 MIT 许可证下获得软件的用户）必须遵守当前 SHL-1.4 许可证版本。
+     （包括在先前 MIT 许可证下获得软件的用户）必须遵守当前 QHPL-1.4 许可证版本。
      
      此特别强制更新条款仅且专门适用于 https://github.com/Qhunliv13/blackhole-in-godot
      这一特定仓库，原因是其此前的 MIT 许可证状态。通过在本许可证生效日期
@@ -1457,8 +1540,8 @@ THIRD-PARTY-LICENSES 文件或软件内的文档，以了解所包含的第三�
         原始许可证版本，但必须确保不与最新版本的核心限制（如比赛禁令）冲突。
      
      修订说明：
-     v1.4 版本 - SHL-1.4（2025 年 11 月）：
-     - 协议正式命名为"SH 荣誉保护型源码许可协议"（SHL-1.4）
+     v1.4 版本 - QHPL-1.4（2025 年 11 月）：
+     - 协议正式命名为"Qhunliv13-荣誉保护许可协议"（QHPL-1.4）
      - 新增"通过访问即同意"条款：拉取/下载即自动接受协议
      - 新增《民法典》第496条合规的关键限制性条款提示
      - 优化"间接使用"定义：增加"思想-表达二分法"澄清，避免过度扩张
