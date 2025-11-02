@@ -19,7 +19,7 @@ shader_parameter/front_view = 0.0
 shader_parameter/top_view = 0.0
 shader_parameter/camera_roll = 0.0
 shader_parameter/gravitational_lensing = 1.0
-shader_parameter/gravity_strength = 0.15
+shader_parameter/gravity_strength = 0.5
 shader_parameter/render_black_hole = 1.0
 shader_parameter/mouse_control = 0.0
 shader_parameter/fov_scale = 1.0
@@ -27,21 +27,20 @@ shader_parameter/auto_fade_lensing = 1.0
 shader_parameter/adisk_enabled = 1.0
 shader_parameter/adisk_particle = 1.0
 shader_parameter/adisk_height = 0.5
-shader_parameter/adisk_lit = 0.00003
+shader_parameter/adisk_lit = 10.0
 shader_parameter/adisk_density_v = 1.0
 shader_parameter/adisk_density_h = 1.0
-shader_parameter/adisk_noise_scale = 1.0
-shader_parameter/adisk_noise_lod = 5.0
+shader_parameter/adisk_noise_scale = 5.0
+shader_parameter/adisk_noise_lod = 12.0
 shader_parameter/adisk_speed = 1.0000000475
-shader_parameter/adisk_inner_radius = 1.0
+shader_parameter/adisk_multi_noise = 0.0
+shader_parameter/adisk_inner_radius = 1.5
 shader_parameter/adisk_outer_radius = 12.0
 shader_parameter/cube_enabled = 1.0
 shader_parameter/cube_position = Vector3(3, 0, 0)
 shader_parameter/cube_size = Vector3(1, 1, 1)
 shader_parameter/cube_color = Vector3(0.4, 0.8, 1)
 shader_parameter/cube_emission_strength = 0.5
-shader_parameter/mesh_triangle_count = 0
-shader_parameter/mesh_enabled = 0.0
 shader_parameter/doppler_enabled = 1.0
 shader_parameter/doppler_strength = 0.8
 shader_parameter/beaming_enabled = 1.0
@@ -90,6 +89,17 @@ shader_parameter/hot_spots_enabled = 1.0
 shader_parameter/hot_spots_count = 3.0
 shader_parameter/hot_spots_intensity = 2.0
 shader_parameter/hot_spots_speed = 1.0
+shader_parameter/lod_level = 0.0
+shader_parameter/distance_to_blackhole = 0.0
+shader_parameter/contrast = 1.2
+shader_parameter/brightness = 1.0
+shader_parameter/hdr_enabled = 0.0
+shader_parameter/hdr_log_compression = 1.0
+shader_parameter/hdr_exposure = 1.0
+shader_parameter/hdr_tonemapping_mode = 1.0
+shader_parameter/hdr_white_point = 4.0
+shader_parameter/clahe_enabled = 0.0
+shader_parameter/clahe_strength = 0.5
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_y5yx7"]
 panorama = ExtResource("3_y5yx7")
@@ -221,6 +231,10 @@ text = "Render Black Hole"
 layout_mode = 2
 text = "Accretion Disk"
 
+[node name="CheckBox21" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Multi-Noise Detail (Slow)"
+
 [node name="CheckBox4" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "Auto Fade Lensing"
@@ -230,14 +244,14 @@ layout_mode = 2
 
 [node name="Label2" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "Gravity Strength: 0.15"
+text = "Gravity Strength: 0.5"
 
 [node name="HSlider" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 min_value = 0.01
 max_value = 2.0
 step = 0.01
-value = 0.15000000000000002
+value = 0.5
 
 [node name="Label3" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -256,21 +270,19 @@ text = "Disk Brightness: 0.0001"
 
 [node name="HSlider3" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-min_value = 0.0001
-max_value = 0.001
-step = 0.0001
-value = 0.0001
+min_value = 1.0
+value = 10.0
 
 [node name="Label5" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "Disk Inner Radius: 1.00"
+text = "Disk Inner Radius: 1.50"
 
 [node name="HSlider4" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 min_value = 1.0
 max_value = 5.0
 step = 0.1
-value = 1.0
+value = 1.5
 
 [node name="Label6" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
@@ -378,7 +390,6 @@ value = 0.5
 
 [node name="CheckBox9" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-button_pressed = false
 text = "Hawking Radiation (Theory)"
 
 [node name="Label11" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
@@ -588,6 +599,79 @@ text = "Set to M87* Parameters"
 [node name="SgrAButton" type="Button" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "Set to Sgr A* Parameters"
+
+[node name="UltraQualityButton" type="Button" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Ultra Quality Mode"
+
+[node name="HSeparator12" type="HSeparator" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Label25" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Post Processing"
+horizontal_alignment = 1
+
+[node name="Label26" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Contrast: 1.2"
+
+[node name="HSlider24" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 0.5
+max_value = 2.0
+step = 0.1
+value = 1.2
+
+[node name="Label27" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Brightness: 1.0"
+
+[node name="HSlider25" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+min_value = 0.5
+max_value = 1.5
+step = 0.05
+value = 1.0
+
+[node name="DistanceLabel" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -380.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 60.0
+grow_horizontal = 0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 18
+text = "Distance: 0.0"
+horizontal_alignment = 2
+
+[node name="ControlsHintLabel" type="Label" parent="UI"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -400.0
+offset_top = -40.0
+offset_right = 400.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 1, 0.7)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.5)
+theme_override_constants/shadow_offset_x = 1
+theme_override_constants/shadow_offset_y = 1
+theme_override_font_sizes/font_size = 12
+text = "Controls: WASD/QE to move, Shift to speed up (10x), ESC to unlock mouse, 1/2 for UI, TAB to switch language"
+horizontal_alignment = 1
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_keguh")

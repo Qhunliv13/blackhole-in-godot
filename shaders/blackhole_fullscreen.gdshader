@@ -23,7 +23,7 @@ uniform float top_view : hint_range(0.0, 1.0) = 0.0;
 uniform float camera_roll : hint_range(-180.0, 180.0) = 0.0;
 
 uniform float gravitational_lensing : hint_range(0.0, 1.0) = 1.0;
-uniform float gravity_strength : hint_range(0.01, 2.0) = 0.15;
+uniform float gravity_strength : hint_range(0.01, 2.0) = 0.5;
 uniform float render_black_hole : hint_range(0.0, 1.0) = 1.0;
 uniform float mouse_control : hint_range(0.0, 1.0) = 0.0;
 uniform float fov_scale : hint_range(0.1, 3.0) = 1.0;
@@ -32,13 +32,14 @@ uniform float auto_fade_lensing : hint_range(0.0, 1.0) = 1.0;
 uniform float adisk_enabled : hint_range(0.0, 1.0) = 1.0;
 uniform float adisk_particle : hint_range(0.0, 1.0) = 1.0;
 uniform float adisk_height : hint_range(0.1, 1.0) = 0.5;
-uniform float adisk_lit : hint_range(0.0001, 0.001, 0.0001) = 0.00003;
+uniform float adisk_lit : hint_range(1.0, 100.0, 1.0) = 10.0;
 uniform float adisk_density_v : hint_range(0.1, 3.0) = 1.0;
 uniform float adisk_density_h : hint_range(0.1, 3.0) = 1.0;
-uniform float adisk_noise_scale : hint_range(0.1, 20.0) = 3.0;
-uniform float adisk_noise_lod : hint_range(1.0, 16.0) = 8.0;
+uniform float adisk_noise_scale : hint_range(0.1, 20.0) = 5.0;
+uniform float adisk_noise_lod : hint_range(1.0, 16.0) = 12.0;
 uniform float adisk_speed : hint_range(0.0, 2.0) = 0.5;
-uniform float adisk_inner_radius : hint_range(1.0, 5.0) = 2.6;
+uniform float adisk_multi_noise : hint_range(0.0, 1.0) = 0.0;
+uniform float adisk_inner_radius : hint_range(1.0, 5.0) = 1.5;
 uniform float adisk_outer_radius : hint_range(5.0, 20.0) = 12.0;
 
 uniform float cube_enabled : hint_range(0.0, 1.0) = 1.0;
@@ -69,8 +70,8 @@ uniform float gravitational_redshift_enabled : hint_range(0.0, 1.0) = 1.0;
 uniform float gravitational_redshift_strength : hint_range(0.0, 2.0) = 1.0;
 
 uniform float photon_sphere_enabled : hint_range(0.0, 1.0) = 0.0;
-uniform float photon_sphere_intensity : hint_range(0.1, 10.0) = 3.0;
-uniform vec3 photon_sphere_color = vec3(1.0, 0.95, 0.8);
+uniform float photon_sphere_intensity : hint_range(0.1, 10.0) = 1.2;
+uniform vec3 photon_sphere_color = vec3(1.0, 1.0, 0.95);
 
 uniform float isco_enabled : hint_range(0.0, 1.0) = 0.0;
 uniform float isco_intensity : hint_range(0.1, 10.0) = 5.0;
@@ -108,6 +109,20 @@ uniform float hot_spots_enabled : hint_range(0.0, 1.0) = 1.0;
 uniform float hot_spots_count : hint_range(1.0, 8.0) = 3.0;
 uniform float hot_spots_intensity : hint_range(0.5, 5.0) = 2.0;
 uniform float hot_spots_speed : hint_range(0.0, 3.0) = 1.0;
+
+uniform float lod_level : hint_range(0.0, 5.0) = 0.0;
+uniform float distance_to_blackhole = 0.0;
+
+uniform float contrast : hint_range(0.5, 2.0) = 1.2;
+uniform float brightness : hint_range(0.5, 1.5) = 1.0;
+
+uniform float hdr_enabled : hint_range(0.0, 1.0) = 0.0;
+uniform float hdr_log_compression : hint_range(0.0, 1.0) = 1.0;
+uniform float hdr_exposure : hint_range(0.1, 5.0) = 1.0;
+uniform float hdr_tonemapping_mode : hint_range(0.0, 2.0) = 1.0;
+uniform float hdr_white_point : hint_range(1.0, 10.0) = 4.0;
+uniform float clahe_enabled : hint_range(0.0, 1.0) = 0.0;
+uniform float clahe_strength : hint_range(0.0, 1.0) = 0.5;
 
 struct Ring {
 	vec3 center;
@@ -175,7 +190,7 @@ vec4 taylorInvSqrt(vec4 r) {
 	return 1.79284291400159 - 0.85373472095314 * r; 
 }
 
-float snoise(vec3 v) {
+float simplex_noise_3d(vec3 v) {
 	const vec2 C = vec2(1.0 / 6.0, 1.0 / 3.0);
 	const vec4 D = vec4(0.0, 0.5, 1.0, 2.0);
 
@@ -234,6 +249,193 @@ float snoise(vec3 v) {
 	return 42.0 * dot(m * m, vec4(dot(p0, x0), dot(p1, x1), dot(p2, x2), dot(p3, x3)));
 }
 
+vec3 hash_3d(vec3 p) {
+	p = vec3(dot(p, vec3(127.1, 311.7, 74.7)),
+	         dot(p, vec3(269.5, 183.3, 246.1)),
+	         dot(p, vec3(113.5, 271.9, 124.6)));
+	return fract(sin(p) * 43758.5453123);
+}
+
+vec2 voronoi_noise(vec3 x) {
+	vec3 p = floor(x);
+	vec3 f = fract(x);
+	
+	float min_dist = 8.0;
+	vec3 min_point = vec3(0.0);
+	
+	for(int k = -1; k <= 1; k++) {
+		for(int j = -1; j <= 1; j++) {
+			for(int i = -1; i <= 1; i++) {
+				vec3 b = vec3(float(i), float(j), float(k));
+				vec3 r = b + hash_3d(p + b) - f;
+				float d = dot(r, r);
+				
+				if(d < min_dist) {
+					min_dist = d;
+					min_point = r;
+				}
+			}
+		}
+	}
+	
+	return vec2(sqrt(min_dist), 1.0);
+}
+
+float turbulence_noise(vec3 p, int octaves) {
+	float sum = 0.0;
+	float freq = 1.0;
+	float amp = 1.0;
+	
+	for(int i = 0; i < octaves; i++) {
+		sum += abs(simplex_noise_3d(p * freq)) * amp;
+		freq *= 2.0;
+		amp *= 0.5;
+	}
+	
+	return sum;
+}
+
+float ridge_noise(vec3 p, int octaves) {
+	float sum = 0.0;
+	float freq = 1.0;
+	float amp = 1.0;
+	
+	for(int i = 0; i < octaves; i++) {
+		float n = abs(simplex_noise_3d(p * freq));
+		n = 1.0 - n;
+		n = n * n;
+		sum += n * amp;
+		freq *= 2.0;
+		amp *= 0.5;
+	}
+	
+	return sum;
+}
+
+float domain_warped_noise(vec3 p, float warp_strength) {
+	vec3 q = vec3(
+		simplex_noise_3d(p + vec3(0.0, 0.0, 0.0)),
+		simplex_noise_3d(p + vec3(5.2, 1.3, 2.8)),
+		simplex_noise_3d(p + vec3(1.7, 9.2, 4.1))
+	);
+	
+	vec3 r = vec3(
+		simplex_noise_3d(p + warp_strength * q + vec3(1.7, 9.2, 4.1)),
+		simplex_noise_3d(p + warp_strength * q + vec3(8.3, 2.8, 5.6)),
+		simplex_noise_3d(p + warp_strength * q + vec3(3.4, 7.1, 9.3))
+	);
+	
+	return simplex_noise_3d(p + warp_strength * r);
+}
+
+float fractal_brownian_motion(vec3 p, int octaves, float lacunarity, float gain) {
+	float sum = 0.0;
+	float amp = 1.0;
+	float freq = 1.0;
+	float total_amp = 0.0;
+	
+	for(int i = 0; i < octaves; i++) {
+		sum += simplex_noise_3d(p * freq) * amp;
+		total_amp += amp;
+		freq *= lacunarity;
+		amp *= gain;
+	}
+	
+	return sum / total_amp;
+}
+
+vec3 aces_tonemap(vec3 color) {
+	float a = 2.51;
+	float b = 0.03;
+	float c = 2.43;
+	float d = 0.59;
+	float e = 0.14;
+	return clamp((color * (a * color + b)) / (color * (c * color + d) + e), 0.0, 1.0);
+}
+
+vec3 reinhard_tonemap(vec3 color, float white_point) {
+	float luminance = dot(color, vec3(0.2126, 0.7152, 0.0722));
+	float mapped_lum = (luminance * (1.0 + luminance / (white_point * white_point))) / (1.0 + luminance);
+	return color * (mapped_lum / max(luminance, 0.0001));
+}
+
+vec3 log_compression(vec3 color, float strength) {
+	vec3 compressed = log(vec3(1.0) + color) / log(vec3(2.0));
+	return mix(color, compressed, strength);
+}
+
+vec3 adaptive_contrast(vec3 color, float strength) {
+	float lum = dot(color, vec3(0.2126, 0.7152, 0.0722));
+	float contrast_boost = 1.0 + strength * (1.0 - lum) * lum * 4.0;
+	vec3 boosted = (color - lum) * contrast_boost + lum;
+	
+	return clamp(boosted, 0.0, 1.0);
+}
+
+vec3 apply_hdr_pipeline(vec3 color) {
+	if (hdr_enabled < 0.5) {
+		return color;
+	}
+	
+	vec3 exposed = color * hdr_exposure;
+	
+	if (hdr_log_compression > 0.01) {
+		exposed = log_compression(exposed, hdr_log_compression);
+	}
+	
+	vec3 tone_mapped;
+	if (hdr_tonemapping_mode < 0.5) {
+		tone_mapped = clamp(exposed, 0.0, 1.0);
+	} else if (hdr_tonemapping_mode < 1.5) {
+		tone_mapped = aces_tonemap(exposed);
+	} else {
+		tone_mapped = reinhard_tonemap(exposed, hdr_white_point);
+	}
+	
+	if (clahe_enabled > 0.5) {
+		tone_mapped = adaptive_contrast(tone_mapped, clahe_strength);
+	}
+	
+	return tone_mapped;
+}
+
+vec3 inverse_hdr_pipeline(vec3 color) {
+	if (hdr_enabled < 0.5) {
+		return color;
+	}
+	
+	vec3 result = color;
+	
+	if (clahe_enabled > 0.5) {
+		float lum = dot(result, vec3(0.2126, 0.7152, 0.0722));
+		float contrast_reduce = 1.0 / (1.0 + clahe_strength * (1.0 - lum) * lum * 4.0);
+		result = (result - lum) * contrast_reduce + lum;
+		result = clamp(result, 0.0, 1.0);
+	}
+	
+	if (hdr_tonemapping_mode < 0.5) {
+	} else if (hdr_tonemapping_mode < 1.5) {
+		result = result / (vec3(1.02) - result * 0.98);
+		result = clamp(result, 0.0, 10.0);
+	} else {
+		float lum = dot(result, vec3(0.2126, 0.7152, 0.0722));
+		float white_sq = hdr_white_point * hdr_white_point;
+		float inv_lum = (lum * white_sq) / (white_sq - lum);
+		result = result * (inv_lum / max(lum, 0.0001));
+		result = clamp(result, 0.0, 10.0);
+	}
+	
+	if (hdr_log_compression > 0.01) {
+		vec3 uncompressed = (exp(result * log(2.0)) - vec3(1.0));
+		result = mix(result, uncompressed, hdr_log_compression);
+		result = clamp(result, 0.0, 10.0);
+	}
+	
+	result = result / hdr_exposure;
+	
+	return result;
+}
+
 float ring_distance(vec3 ray_origin, vec3 ray_dir, Ring ring) {
 	float denominator = dot(ray_dir, ring.normal);
 	float constant = -dot(ring.center, ring.normal);
@@ -254,16 +456,16 @@ float ring_distance(vec3 ray_origin, vec3 ray_dir, Ring ring) {
 	}
 }
 
-vec3 accel(float h2, vec3 pos) {
+vec3 calculate_gravitational_acceleration(float h2, vec3 pos) {
 	float r2 = dot(pos, pos);
 	float r5 = pow(r2, 2.5);
 	vec3 acc = -1.5 * h2 * pos / r5 * gravity_strength;
 	return acc;
 }
 
-vec4 quad_from_axis_angle(vec3 axis, float angle) {
+vec4 quaternion_from_axis_angle(vec3 axis, float angle) {
 	vec4 qr;
-	float half_angle = (angle * 0.5) * 3.14159 / 180.0;
+	float half_angle = (angle * 0.5) * PI / 180.0;
 	qr.x = axis.x * sin(half_angle);
 	qr.y = axis.y * sin(half_angle);
 	qr.z = axis.z * sin(half_angle);
@@ -271,11 +473,11 @@ vec4 quad_from_axis_angle(vec3 axis, float angle) {
 	return qr;
 }
 
-vec4 quad_conj(vec4 q) { 
+vec4 quaternion_conjugate(vec4 q) { 
 	return vec4(-q.x, -q.y, -q.z, q.w); 
 }
 
-vec4 quat_mult(vec4 q1, vec4 q2) {
+vec4 quaternion_multiply(vec4 q1, vec4 q2) {
 	vec4 qr;
 	qr.x = (q1.w * q2.x) + (q1.x * q2.w) + (q1.y * q2.z) - (q1.z * q2.y);
 	qr.y = (q1.w * q2.y) - (q1.x * q2.z) + (q1.y * q2.w) + (q1.z * q2.x);
@@ -284,25 +486,25 @@ vec4 quat_mult(vec4 q1, vec4 q2) {
 	return qr;
 }
 
-vec3 rotate_vector(vec3 position, vec3 axis, float angle) {
-	vec4 qr = quad_from_axis_angle(axis, angle);
-	vec4 qr_conj = quad_conj(qr);
+vec3 rotate_vector_by_quaternion(vec3 position, vec3 axis, float angle) {
+	vec4 qr = quaternion_from_axis_angle(axis, angle);
+	vec4 qr_conj = quaternion_conjugate(qr);
 	vec4 q_pos = vec4(position.x, position.y, position.z, 0);
 
-	vec4 q_tmp = quat_mult(qr, q_pos);
-	qr = quat_mult(q_tmp, qr_conj);
+	vec4 q_tmp = quaternion_multiply(qr, q_pos);
+	qr = quaternion_multiply(q_tmp, qr_conj);
 
 	return vec3(qr.x, qr.y, qr.z);
 }
 
-vec3 to_spherical(vec3 p) {
+vec3 cartesian_to_spherical(vec3 p) {
 	float rho = sqrt((p.x * p.x) + (p.y * p.y) + (p.z * p.z));
 	float theta = atan(p.z, p.x);
 	float phi = asin(p.y / rho);
 	return vec3(rho, theta, phi);
 }
 
-mat3 look_at(vec3 origin, vec3 target, float roll) {
+mat3 calculate_look_at_matrix(vec3 origin, vec3 target, float roll) {
 	vec3 world_up = vec3(0.0, 1.0, 0.0);
 	vec3 forward = normalize(target - origin);
 	
@@ -326,8 +528,8 @@ mat3 look_at(vec3 origin, vec3 target, float roll) {
 	return mat3(right, up, forward);
 }
 
-void adisk_color(vec3 pos, vec3 cam_pos, inout vec3 color, inout float alpha) {
-	if (adisk_lit < 0.00001) {
+void calculate_accretion_disk_contribution(vec3 pos, vec3 cam_pos, inout vec3 color, inout float alpha, float physics_decay) {
+	if (adisk_lit < 0.1) {
 		return;
 	}
 	
@@ -351,7 +553,6 @@ void adisk_color(vec3 pos, vec3 cam_pos, inout vec3 color, inout float alpha) {
 
 	density *= 1.0 / pow(radial_dist, adisk_density_h);
 	density *= 16000.0;
-
 	if (adisk_particle < 0.5) {
 		color += vec3(0.0, 1.0, 0.0) * density * 0.02;
 		return;
@@ -414,7 +615,7 @@ void adisk_color(vec3 pos, vec3 cam_pos, inout vec3 color, inout float alpha) {
 			rotated_pos.x * s_layer + rotated_pos.z * c_layer
 		);
 		
-		float n = snoise(layer_rotated * frequency) * 0.5 + 0.5;
+		float n = simplex_noise_3d(layer_rotated * frequency) * 0.5 + 0.5;
 		noise += n * amplitude;
 		total_amplitude += amplitude;
 		amplitude *= 0.5;
@@ -427,8 +628,41 @@ void adisk_color(vec3 pos, vec3 cam_pos, inout vec3 color, inout float alpha) {
 		rotated_pos.y,
 		rotated_pos.x * s_main + rotated_pos.z * c_main
 	);
-	float detail = snoise(detail_pos * adisk_noise_scale * 32.0) * 0.5 + 0.5;
-	noise = mix(noise, detail, 0.3);
+	
+	float fine_detail;
+	
+	if (adisk_multi_noise >= 0.5) {
+		float detail1 = simplex_noise_3d(detail_pos * adisk_noise_scale * 32.0) * 0.5 + 0.5;
+		float detail2 = simplex_noise_3d(detail_pos * adisk_noise_scale * 64.0) * 0.5 + 0.5;
+		float detail3 = simplex_noise_3d(detail_pos * adisk_noise_scale * 128.0) * 0.5 + 0.5;
+		
+		vec2 voronoi_result = voronoi_noise(detail_pos * adisk_noise_scale * 6.0);
+		float voronoi_val = 1.0 - voronoi_result.x;
+		voronoi_val = pow(voronoi_val, 1.5);
+		
+		float turb = turbulence_noise(detail_pos * adisk_noise_scale * 4.0, 4) * 0.5;
+		float ridge = ridge_noise(detail_pos * adisk_noise_scale * 6.0, 4);
+		float warped = domain_warped_noise(detail_pos * adisk_noise_scale * 3.0, 1.0) * 0.5 + 0.5;
+		float fractal = fractal_brownian_motion(detail_pos * adisk_noise_scale * 5.0, 5, 2.2, 0.6) * 0.5 + 0.5;
+		
+		fine_detail = detail1 * 0.20 +
+		              detail2 * 0.12 +
+		              detail3 * 0.08 +
+		              voronoi_val * 0.30 +
+		              turb * 0.12 +
+		              ridge * 0.08 +
+		              warped * 0.06 +
+		              fractal * 0.04;
+		
+		noise = mix(noise, fine_detail, 0.7);
+	} else {
+		float detail1 = simplex_noise_3d(detail_pos * adisk_noise_scale * 32.0) * 0.5 + 0.5;
+		float detail2 = simplex_noise_3d(detail_pos * adisk_noise_scale * 64.0) * 0.5 + 0.5;
+		float detail3 = simplex_noise_3d(detail_pos * adisk_noise_scale * 128.0) * 0.5 + 0.5;
+		
+		fine_detail = detail1 * 0.5 + detail2 * 0.3 + detail3 * 0.2;
+		noise = mix(noise, fine_detail, 0.4);
+	}
 
 	vec3 intrinsic_color;
 	
@@ -454,7 +688,7 @@ void adisk_color(vec3 pos, vec3 cam_pos, inout vec3 color, inout float alpha) {
 	vec3 dust_color = intrinsic_color;
 	float total_energy_factor = 1.0;
 	
-	if (doppler_enabled > 0.5) {
+	if (doppler_enabled > 0.5 && physics_decay > 0.01) {
 		vec3 radial_dir = normalize(vec3(disk_pos.x, 0.0, disk_pos.z));
 		vec3 tangent_dir = vec3(-radial_dir.z, 0.0, radial_dir.x);
 		if (adisk_speed < 0.0) {
@@ -476,7 +710,7 @@ void adisk_color(vec3 pos, vec3 cam_pos, inout vec3 color, inout float alpha) {
 			
 			total_energy_factor *= doppler_factor;
 			
-			float beaming_boost = pow(clamp(doppler_factor, 0.1, 10.0), beaming_strength);
+			float beaming_boost = pow(clamp(doppler_factor, 0.1, 10.0), beaming_strength * physics_decay);
 			beaming_boost = clamp(beaming_boost, 0.1, 10.0);
 			total_energy_factor = beaming_boost;
 		} else {
@@ -487,13 +721,13 @@ void adisk_color(vec3 pos, vec3 cam_pos, inout vec3 color, inout float alpha) {
 		float effective_temp_shift = pow(total_energy_factor, 0.25);
 		
 		if (effective_temp_shift > 1.0) {
-			dust_color = mix(dust_color, vec3(0.7, 0.85, 1.0), (effective_temp_shift - 1.0) * doppler_strength * 0.5);
+			dust_color = mix(dust_color, vec3(0.7, 0.85, 1.0), (effective_temp_shift - 1.0) * doppler_strength * physics_decay * 0.5);
 		} else {
-			dust_color = mix(dust_color, vec3(1.0, 0.5, 0.2), (1.0 - effective_temp_shift) * doppler_strength * 0.5);
+			dust_color = mix(dust_color, vec3(1.0, 0.5, 0.2), (1.0 - effective_temp_shift) * doppler_strength * physics_decay * 0.5);
 		}
 	}
 	
-	if (gravitational_redshift_enabled > 0.5 && doppler_enabled > 0.5) {
+	if (gravitational_redshift_enabled > 0.5 && doppler_enabled > 0.5 && physics_decay > 0.01) {
 		vec3 radial_dir = normalize(vec3(disk_pos.x, 0.0, disk_pos.z));
 		vec3 tangent_dir = vec3(-radial_dir.z, 0.0, radial_dir.x);
 		if (adisk_speed < 0.0) tangent_dir = -tangent_dir;
@@ -507,13 +741,13 @@ void adisk_color(vec3 pos, vec3 cam_pos, inout vec3 color, inout float alpha) {
 		float combined_z_plus_one = calculate_combined_redshift(pos, velocity, to_camera);
 		
 		if (combined_z_plus_one < 100.0) {
-			float grav_shift = (combined_z_plus_one - 1.0) * gravitational_redshift_strength;
+			float grav_shift = (combined_z_plus_one - 1.0) * gravitational_redshift_strength * physics_decay;
 			dust_color = mix(dust_color, vec3(1.0, 0.4, 0.1), grav_shift * 0.3);
 			
 			float energy_loss = 1.0 / (combined_z_plus_one * combined_z_plus_one);
 			total_energy_factor *= energy_loss;
 		}
-	} else if (gravitational_redshift_enabled > 0.5) {
+	} else if (gravitational_redshift_enabled > 0.5 && physics_decay > 0.01) {
 		float r = length(pos);
 		float schwarzschild_radius = 1.0;
 		
@@ -562,7 +796,7 @@ void adisk_color(vec3 pos, vec3 cam_pos, inout vec3 color, inout float alpha) {
 		float spots = 0.0;
 		float max_spot = 0.0;
 		for (int i = 0; i < int(hot_spots_count); i++) {
-			float spot_angle = spot_rotation - float(i) * 6.28318 / hot_spots_count;
+			float spot_angle = spot_rotation - float(i) * TAU / hot_spots_count;
 			float spot_peak = sin(spot_angle) * 0.5 + 0.5;
 			spot_peak = pow(spot_peak, 12.0);
 			
@@ -584,18 +818,18 @@ void adisk_color(vec3 pos, vec3 cam_pos, inout vec3 color, inout float alpha) {
 	
 	float qpo_modulation = 1.0;
 	if (qpo_enabled > 0.5) {
-		float qpo_phase = local_time * qpo_frequency * 6.28318;
+		float qpo_phase = local_time * qpo_frequency * TAU;
 		float qpo_wave = sin(qpo_phase) * 0.5 + 0.5;
 		qpo_modulation = 1.0 - qpo_amplitude + qpo_amplitude * qpo_wave;
 	}
 	
-	float final_contribution = density * adisk_lit * noise * density_modulation * qpo_modulation * total_energy_factor;
+	float final_contribution = density * (adisk_lit / 100000.0) * noise * density_modulation * qpo_modulation * total_energy_factor;
 	if (final_contribution > 0.00001) {
 		color += dust_color * alpha * final_contribution;
 	}
 }
 
-void render_corona(vec3 pos, inout vec3 color, inout float alpha) {
+void calculate_corona_contribution(vec3 pos, inout vec3 color, inout float alpha) {
 	if (corona_enabled < 0.5 || corona_intensity < 0.01) {
 		return;
 	}
@@ -610,8 +844,8 @@ void render_corona(vec3 pos, inout vec3 color, inout float alpha) {
 		float corona_density = radial_factor * height_factor;
 		
 		if (corona_density > 0.01) {
-			float flicker = snoise(pos * 5.0 + vec3(time * 1.5)) * 0.5 + 0.5;
-			float detail = snoise(pos * 15.0 + vec3(time * 3.0)) * 0.5 + 0.5;
+			float flicker = simplex_noise_3d(pos * 5.0 + vec3(time * 1.5)) * 0.5 + 0.5;
+			float detail = simplex_noise_3d(pos * 15.0 + vec3(time * 3.0)) * 0.5 + 0.5;
 			float combined = mix(flicker, detail, 0.4);
 			
 			float intensity = corona_density * combined * corona_intensity;
@@ -642,7 +876,7 @@ void render_corona(vec3 pos, inout vec3 color, inout float alpha) {
 	}
 }
 
-void render_jets(vec3 pos, inout vec3 color, inout float alpha) {
+void calculate_jet_contribution(vec3 pos, inout vec3 color, inout float alpha) {
 	if (jet_enabled < 0.5 || jet_intensity < 0.01) {
 		return;
 	}
@@ -705,7 +939,7 @@ void render_jets(vec3 pos, inout vec3 color, inout float alpha) {
 				);
 				
 				vec3 sample_pos = rotated_sample * frequency;
-				float layer_noise = snoise(sample_pos) * 0.5 + 0.5;
+				float layer_noise = simplex_noise_3d(sample_pos) * 0.5 + 0.5;
 				multi_octave_noise += layer_noise * amplitude;
 				total_amplitude += amplitude;
 				amplitude *= 0.5;
@@ -759,21 +993,27 @@ void render_jets(vec3 pos, inout vec3 color, inout float alpha) {
 	}
 }
 
-void render_photon_sphere(vec3 pos, inout vec3 color, inout float alpha) {
+void calculate_photon_sphere_contribution(vec3 pos, inout vec3 color, inout float alpha) {
 	if (photon_sphere_enabled < 0.5 || photon_sphere_intensity < 0.01) {
 		return;
 	}
 	
 	float photon_sphere_radius = calculate_photon_sphere_radius(black_hole_spin);
 	float r = length(pos);
-	float shell_thickness = 0.08;
+	float shell_thickness = 0.15;
 	
 	float dist_to_shell = abs(r - photon_sphere_radius);
 	
 	if (dist_to_shell < shell_thickness) {
 		float shell_factor = 1.0 - smoothstep(0.0, shell_thickness, dist_to_shell);
 		
-		float shimmer = snoise(pos * 20.0 + vec3(time * 2.0)) * 0.5 + 0.5;
+		float radial_falloff = smoothstep(photon_sphere_radius * 1.3, photon_sphere_radius * 0.9, r);
+		shell_factor *= radial_falloff;
+		
+		float shimmer = simplex_noise_3d(pos * 30.0 + vec3(time * 3.0)) * 0.5 + 0.5;
+		shimmer = pow(shimmer, 2.0);
+		shell_factor *= (0.7 + shimmer * 0.3);
+		
 		float wave = sin(atan(pos.z, pos.x) * 8.0 + time * 4.0) * 0.5 + 0.5;
 		float pattern = mix(shimmer, wave, 0.5);
 		
@@ -787,9 +1027,9 @@ void render_photon_sphere(vec3 pos, inout vec3 color, inout float alpha) {
 				float redshift_factor = 1.0 / z_plus_one;
 				float wavelength_shift = (z_plus_one - 1.0) * gravitational_redshift_strength;
 				
-				photon_glow.r *= (1.0 + wavelength_shift * 0.8);
-				photon_glow.g *= (1.0 - wavelength_shift * 0.1);
-				photon_glow.b *= (1.0 - wavelength_shift * 1.2);
+				photon_glow.r *= (1.0 + wavelength_shift * 0.4);
+				photon_glow.g *= (1.0 + wavelength_shift * 0.1);
+				photon_glow.b *= (1.0 - wavelength_shift * 0.6);
 				
 				float energy_loss = pow(redshift_factor, 2.0);
 				photon_glow *= energy_loss;
@@ -801,9 +1041,15 @@ void render_photon_sphere(vec3 pos, inout vec3 color, inout float alpha) {
 			alpha *= 0.95;
 		}
 	}
+	
+	float halo_radius = photon_sphere_radius * 1.5;
+	float halo_dist = abs(r - halo_radius);
+	float halo_strength = exp(-halo_dist * 5.0) * 0.3;
+	vec3 halo_color = vec3(1.0, 0.9, 0.7) * halo_strength;
+	color += halo_color * alpha * 0.1;
 }
 
-void render_isco_ring(vec3 pos, inout vec3 color, inout float alpha) {
+void calculate_isco_ring_contribution(vec3 pos, inout vec3 color, inout float alpha) {
 	if (isco_enabled < 0.5 || isco_intensity < 0.01) {
 		return;
 	}
@@ -830,8 +1076,8 @@ void render_isco_ring(vec3 pos, inout vec3 color, inout float alpha) {
 			float hotspots = sin(rotation * 5.0) * 0.5 + 0.5;
 			hotspots = pow(hotspots, 2.0);
 			
-			float flicker = snoise(vec3(angle * 3.0, time * 2.0, 0.0)) * 0.5 + 0.5;
-			float turbulence = snoise(pos * 8.0 + vec3(0.0, time * 3.0, 0.0)) * 0.5 + 0.5;
+			float flicker = simplex_noise_3d(vec3(angle * 3.0, time * 2.0, 0.0)) * 0.5 + 0.5;
+			float turbulence = simplex_noise_3d(pos * 8.0 + vec3(0.0, time * 3.0, 0.0)) * 0.5 + 0.5;
 			
 			float combined_activity = mix(hotspots, mix(flicker, turbulence, 0.5), 0.4);
 			combined_activity = 0.5 + combined_activity * 0.5;
@@ -864,7 +1110,7 @@ void render_isco_ring(vec3 pos, inout vec3 color, inout float alpha) {
 	}
 }
 
-void apply_hawking_radiation(vec3 pos, inout vec3 color, float cam_dist) {
+void calculate_hawking_radiation_contribution(vec3 pos, inout vec3 color, float cam_dist) {
 	if (hawking_enabled < 0.5 || hawking_intensity < 0.01) {
 		return;
 	}
@@ -874,8 +1120,8 @@ void apply_hawking_radiation(vec3 pos, inout vec3 color, float cam_dist) {
 	
 	if (dist_to_center < event_horizon * 1.5 && dist_to_center > event_horizon * 0.95) {
 		float flash_time = time * hawking_frequency;
-		float flash_noise = snoise(vec3(pos.xy * 10.0, flash_time)) * 0.5 + 0.5;
-		float flash_pulse = sin(flash_time * 6.28318) * 0.5 + 0.5;
+		float flash_noise = simplex_noise_3d(vec3(pos.xy * 10.0, flash_time)) * 0.5 + 0.5;
+		float flash_pulse = sin(flash_time * TAU) * 0.5 + 0.5;
 		flash_pulse = pow(flash_pulse, 3.0);
 		
 		float proximity = smoothstep(event_horizon * 1.5, event_horizon, dist_to_center);
@@ -888,8 +1134,8 @@ void apply_hawking_radiation(vec3 pos, inout vec3 color, float cam_dist) {
 	}
 }
 
-bool intersect_cube(vec3 ray_origin, vec3 ray_dir, vec3 box_center, vec3 box_size, 
-                    out float t_hit, out vec3 normal) {
+bool ray_box_intersection(vec3 ray_origin, vec3 ray_dir, vec3 box_center, vec3 box_size, 
+                           out float t_hit, out vec3 normal) {
 	vec3 box_min = box_center - box_size * 0.5;
 	vec3 box_max = box_center + box_size * 0.5;
 	
@@ -929,7 +1175,7 @@ bool intersect_cube(vec3 ray_origin, vec3 ray_dir, vec3 box_center, vec3 box_siz
 	return true;
 }
 
-void trace_ray(vec3 pos, vec3 dir, vec3 cam_pos, inout vec3 color, inout float alpha, out vec3 final_dir, out bool hit_event_horizon, float lensing_strength) {
+void perform_ray_tracing(vec3 pos, vec3 dir, vec3 cam_pos, inout vec3 color, inout float alpha, out vec3 final_dir, out bool hit_event_horizon, float lensing_strength, float physics_decay) {
 	hit_event_horizon = false;
 	final_dir = dir;
 
@@ -947,7 +1193,7 @@ void trace_ray(vec3 pos, vec3 dir, vec3 cam_pos, inout vec3 color, inout float a
 
 	for (int i = 0; i < loop_count; i++) {
 		if (lensing_strength > 0.0 && gravitational_lensing > 0.5) {
-			vec3 acc = accel(h2, pos) * lensing_strength;
+			vec3 acc = calculate_gravitational_acceleration(h2, pos) * lensing_strength;
 			step_dir += acc;
 		}
 
@@ -959,21 +1205,21 @@ void trace_ray(vec3 pos, vec3 dir, vec3 cam_pos, inout vec3 color, inout float a
 		}
 
 		if (adisk_enabled > 0.5) {
-			adisk_color(pos, cam_pos, color, alpha);
+			calculate_accretion_disk_contribution(pos, cam_pos, color, alpha, physics_decay);
 		}
 		
-		render_corona(pos, color, alpha);
-		render_isco_ring(pos, color, alpha);
-		render_photon_sphere(pos, color, alpha);
-		render_jets(pos, color, alpha);
-		apply_hawking_radiation(pos, color, camera_distance);
+		calculate_corona_contribution(pos, color, alpha);
+		calculate_isco_ring_contribution(pos, color, alpha);
+		calculate_photon_sphere_contribution(pos, color, alpha);
+		calculate_jet_contribution(pos, color, alpha);
+		calculate_hawking_radiation_contribution(pos, color, camera_distance);
 		
 		if (cube_enabled > 0.5 && cube_emission_strength > 0.01 && !cube_hit && alpha > 0.01) {
 			vec3 current_dir = normalize(step_dir);
 			float t_hit;
 			vec3 cube_normal;
 			
-			if (intersect_cube(pos, current_dir, cube_position, cube_size, t_hit, cube_normal)) {
+			if (ray_box_intersection(pos, current_dir, cube_position, cube_size, t_hit, cube_normal)) {
 				if (t_hit < length(step_dir) * 2.0) {
 					cube_hit = true;
 					vec3 hit_point = pos + current_dir * t_hit;
@@ -1044,8 +1290,8 @@ void fragment() {
 	} else if (mouse_control > 0.5) {
 		vec2 mouse = clamp(vec2(mouse_x, mouse_y), 0.0, 1.0);
 		float orbit_radius = 15.0;
-		float theta = mouse.x * 6.28318;
-		float phi = (mouse.y - 0.5) * 3.14159;
+		float theta = mouse.x * TAU;
+		float phi = (mouse.y - 0.5) * PI;
 		
 		float cos_phi = cos(phi);
 		camera_pos = vec3(
@@ -1055,15 +1301,15 @@ void fragment() {
 		);
 		
 		vec3 target = vec3(0.0, 0.0, 0.0);
-		view = look_at(camera_pos, target, radians(camera_roll));
+		view = calculate_look_at_matrix(camera_pos, target, radians(camera_roll));
 	} else if (front_view > 0.5) {
 		camera_pos = vec3(10.0, 1.0, 10.0);
 		vec3 target = vec3(0.0, 0.0, 0.0);
-		view = look_at(camera_pos, target, radians(camera_roll));
+		view = calculate_look_at_matrix(camera_pos, target, radians(camera_roll));
 	} else if (top_view > 0.5) {
 		camera_pos = vec3(15.0, 15.0, 0.0);
 		vec3 target = vec3(0.0, 0.0, 0.0);
-		view = look_at(camera_pos, target, radians(camera_roll));
+		view = calculate_look_at_matrix(camera_pos, target, radians(camera_roll));
 	} else {
 		float orbit_radius = 15.0;
 		float angle_h = time * 0.1;
@@ -1075,7 +1321,7 @@ void fragment() {
 		);
 		
 		vec3 target = vec3(0.0, 0.0, 0.0);
-		view = look_at(camera_pos, target, radians(camera_roll));
+		view = calculate_look_at_matrix(camera_pos, target, radians(camera_roll));
 	}
 
 	vec2 uv = SCREEN_UV - vec2(0.5);
@@ -1096,9 +1342,56 @@ void fragment() {
 		dir = view * dir_local;
 	}
 
+	bool skip_post_processing = false;
+	
 	if (render_black_hole < 0.5) {
 		COLOR.rgb = texture(background_texture, SCREEN_UV).rgb;
 		COLOR.a = 1.0;
+		skip_post_processing = true;
+	} else if (lod_level >= 5.0) {
+		vec3 blackhole_pos = vec3(0.0, 0.0, 0.0);
+		vec3 to_blackhole = blackhole_pos - camera_pos;
+		
+		float fade_start = 5000.0;
+		float fade_end = 20000.0;
+		float distance_fade = 1.0 - smoothstep(fade_start, fade_end, distance_to_blackhole);
+		
+		if (distance_fade > 0.0) {
+			float fov_rad = radians(camera_fov);
+			float tan_half_fov = tan(fov_rad * 0.5);
+			
+			vec3 bh_cam_space;
+			bh_cam_space.x = dot(to_blackhole, camera_right);
+			bh_cam_space.y = dot(to_blackhole, camera_up);
+			bh_cam_space.z = dot(to_blackhole, camera_forward);
+			
+			if (bh_cam_space.z > 0.0) {
+				vec2 bh_screen = vec2(-bh_cam_space.x / bh_cam_space.z / tan_half_fov, 
+				                       bh_cam_space.y / bh_cam_space.z / tan_half_fov);
+				bh_screen.x /= aspect_ratio;
+				bh_screen += vec2(0.5);
+				
+				float dist_to_center = length(SCREEN_UV - bh_screen);
+				float pixel_threshold = 0.0008;
+				
+				if (dist_to_center < pixel_threshold) {
+					float point_brightness = 1.0 - smoothstep(0.0, pixel_threshold, dist_to_center);
+					COLOR.rgb = vec3(1.0, 0.9, 0.8) * point_brightness * 5.0 * distance_fade;
+					COLOR.a = 1.0;
+				} else {
+					COLOR.rgb = texture(background_texture, SCREEN_UV).rgb;
+					COLOR.a = 1.0;
+				}
+			} else {
+				COLOR.rgb = texture(background_texture, SCREEN_UV).rgb;
+				COLOR.a = 1.0;
+			}
+		} else {
+			COLOR.rgb = texture(background_texture, SCREEN_UV).rgb;
+			COLOR.a = 1.0;
+		}
+		
+		skip_post_processing = true;
 	} else {
 		vec3 blackhole_pos = vec3(0.0, 0.0, 0.0);
 		vec3 to_blackhole = blackhole_pos - camera_pos;
@@ -1149,12 +1442,20 @@ void fragment() {
 			lensing_strength = 1.0 - (normalized_angle * normalized_angle);
 		}
 		
+		float gravity_decay = 1.0 - smoothstep(0.0, 5000.0, distance_to_blackhole);
+		float lod_lensing_strength = lensing_strength * gravity_decay;
+		
+		float physics_decay = 1.0;
+		if (distance_to_blackhole > 1000.0) {
+			physics_decay = 1.0 - smoothstep(1000.0, 4000.0, distance_to_blackhole);
+		}
+		
 		vec3 color = vec3(0.0);
 		float alpha = 1.0;
 		vec3 final_dir;
 		bool hit_event_horizon;
 		
-		trace_ray(pos, dir, camera_pos, color, alpha, final_dir, hit_event_horizon, lensing_strength);
+		perform_ray_tracing(pos, dir, camera_pos, color, alpha, final_dir, hit_event_horizon, lod_lensing_strength, physics_decay);
 		
 		if (hit_event_horizon) {
 			COLOR.rgb = color;
@@ -1180,10 +1481,25 @@ void fragment() {
 			}
 			
 			vec3 bg_color = texture(background_texture, distorted_uv).rgb;
+			
+			bg_color = inverse_hdr_pipeline(bg_color);
+			
+			bg_color = (bg_color - 0.5) / contrast + 0.5;
+			bg_color = bg_color / brightness;
+			bg_color = clamp(bg_color, 0.0, 1.0);
+			
 			color += bg_color * alpha;
 			
 			COLOR.rgb = color;
 			COLOR.a = 1.0;
 		}
+	}
+	
+	if (!skip_post_processing && render_black_hole >= 0.5) {
+		COLOR.rgb = apply_hdr_pipeline(COLOR.rgb);
+		
+		COLOR.rgb = (COLOR.rgb - 0.5) * contrast + 0.5;
+		COLOR.rgb *= brightness;
+		COLOR.rgb = clamp(COLOR.rgb, 0.0, 1.0);
 	}
 }

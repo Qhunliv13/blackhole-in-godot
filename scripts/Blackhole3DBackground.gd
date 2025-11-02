@@ -15,6 +15,7 @@ extends Node3D
 @onready var gravitational_lensing_check = $UI/ScrollContainer/VBoxContainer/CheckBox
 @onready var render_black_hole_check = $UI/ScrollContainer/VBoxContainer/CheckBox2
 @onready var adisk_check = $UI/ScrollContainer/VBoxContainer/CheckBox3
+@onready var adisk_multi_noise_check = $UI/ScrollContainer/VBoxContainer/CheckBox21
 @onready var auto_fade_lensing_check = $UI/ScrollContainer/VBoxContainer/CheckBox4
 @onready var gravity_slider = $UI/ScrollContainer/VBoxContainer/HSlider
 @onready var gravity_label = $UI/ScrollContainer/VBoxContainer/Label2
@@ -80,8 +81,15 @@ extends Node3D
 @onready var hotspots_intensity_label = $UI/ScrollContainer/VBoxContainer/Label24
 @onready var m87_button = $UI/ScrollContainer/VBoxContainer/M87Button
 @onready var sgra_button = $UI/ScrollContainer/VBoxContainer/SgrAButton
+@onready var ultra_quality_button = $UI/ScrollContainer/VBoxContainer/UltraQualityButton
+@onready var contrast_slider = $UI/ScrollContainer/VBoxContainer/HSlider24
+@onready var contrast_label = $UI/ScrollContainer/VBoxContainer/Label26
+@onready var brightness_slider = $UI/ScrollContainer/VBoxContainer/HSlider25
+@onready var brightness_label = $UI/ScrollContainer/VBoxContainer/Label27
+@onready var distance_label = $UI/DistanceLabel
+@onready var controls_hint_label = $UI/ControlsHintLabel
 
-var camera_speed = 8.0
+var camera_speed = 3.0
 var mouse_sensitivity = 0.002
 var camera_rotation = Vector2.ZERO
 var mouse_captured = false
@@ -99,9 +107,20 @@ var adisk_outer_radius_value: float = 12.0
 var blackhole_position := Vector3.ZERO
 const BACK_LAYER := 1 << 1
 const FRONT_LAYER := 1 << 2
-const MAX_RENDER_DISTANCE := 2000.0
 var user_render_black_hole_enabled := true
 var current_language := "en"
+var frame_count := 0
+var visibility_update_interval := 1
+var current_lod_level := 0.0
+
+var orbital_camera_enabled := false
+var orbital_time := 0.0
+var orbital_duration := 60.0
+var orbital_radius_min := 10.0
+var orbital_radius_max := 20.0
+var orbital_height_variation := 15.0
+var ui_hidden := false
+
 var ui_texts := {
 	"en": {
 		"icon_title": "Icon Selection (Press 1)",
@@ -112,6 +131,7 @@ var ui_texts := {
 		"gravitational_lensing": "Gravitational Lensing",
 		"render_blackhole": "Render Black Hole",
 		"accretion_disk": "Accretion Disk",
+		"multi_noise_detail": "Multi-Noise Detail (Slow)",
 		"auto_fade": "Auto Fade Lensing",
 		"gravity_strength": "Gravity Strength",
 		"disk_height": "Disk Height",
@@ -154,7 +174,13 @@ var ui_texts := {
 		"hotspots_intensity": "Hot Spots Intensity",
 		"preset_title": "Parameter Presets",
 		"m87_button": "Set to M87* Parameters",
-		"sgra_button": "Set to Sgr A* Parameters"
+		"sgra_button": "Set to Sgr A* Parameters",
+		"ultra_quality_button": "Ultra Quality Mode",
+		"distance_to_blackhole": "Distance to Black Hole",
+		"controls_hint": "Controls: WASD/QE to move, Shift to speed up (10x), ESC to unlock mouse, 1/2 for UI, 3 to hide all UI, TAB to switch language",
+		"post_processing": "Post Processing",
+		"contrast": "Contrast",
+		"brightness": "Brightness"
 	},
 	"zh": {
 		"icon_title": "图标选择 (按1切换)",
@@ -165,6 +191,7 @@ var ui_texts := {
 		"gravitational_lensing": "引力透镜效果",
 		"render_blackhole": "渲染黑洞",
 		"accretion_disk": "吸积盘",
+		"multi_noise_detail": "多噪声细节（慢）",
 		"auto_fade": "自动衰减透镜",
 		"gravity_strength": "引力强度",
 		"disk_height": "吸积盘高度",
@@ -207,7 +234,13 @@ var ui_texts := {
 		"hotspots_intensity": "热点强度",
 		"preset_title": "参数预设",
 		"m87_button": "设置为 M87* 参数",
-		"sgra_button": "设置为 Sgr A* 参数"
+		"sgra_button": "设置为 Sgr A* 参数",
+		"ultra_quality_button": "超高质量模式",
+		"distance_to_blackhole": "距黑洞距离",
+		"controls_hint": "操作：WASD/QE移动，Shift加速(10倍)，ESC解锁鼠标，1/2打开UI，3隐藏所有UI，TAB切换语言",
+		"post_processing": "后处理",
+		"contrast": "对比度",
+		"brightness": "亮度"
 	}
 }
 
@@ -216,6 +249,7 @@ func _ready():
 	gravitational_lensing_check.toggled.connect(_on_gravitational_lensing_toggled)
 	render_black_hole_check.toggled.connect(_on_render_black_hole_toggled)
 	adisk_check.toggled.connect(_on_adisk_toggled)
+	adisk_multi_noise_check.toggled.connect(_on_adisk_multi_noise_toggled)
 	auto_fade_lensing_check.toggled.connect(_on_auto_fade_lensing_toggled)
 	gravity_slider.value_changed.connect(_on_gravity_changed)
 	adisk_height_slider.value_changed.connect(_on_adisk_height_changed)
@@ -258,18 +292,26 @@ func _ready():
 	hotspots_intensity_slider.value_changed.connect(_on_hotspots_intensity_changed)
 	m87_button.pressed.connect(_on_m87_preset_clicked)
 	sgra_button.pressed.connect(_on_sgra_preset_clicked)
+	ultra_quality_button.pressed.connect(_on_ultra_quality_preset_clicked)
+	contrast_slider.value_changed.connect(_on_contrast_changed)
+	brightness_slider.value_changed.connect(_on_brightness_changed)
 	
 	gravitational_lensing_check.button_pressed = true
 	render_black_hole_check.button_pressed = true
 	adisk_check.button_pressed = true
+	adisk_multi_noise_check.button_pressed = false
 	auto_fade_lensing_check.button_pressed = true
 	
 	setup_textures()
 	setup_background_camera()
 	update_ui_language()
 	
+	if shader_material:
+		shader_material.set_shader_parameter("adisk_multi_noise", 0.0)
+	
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	mouse_captured = true
+	check_movie_marker_mode()
 
 func setup_icon_options():
 	icon_option.add_item(ui_texts[current_language]["icon_option_a"], 0)
@@ -387,24 +429,80 @@ func setup_background_camera():
 
 
 func _process(delta):
+	frame_count += 1
 	time_elapsed += delta
 	if shader_material:
 		shader_material.set_shader_parameter("time", time_elapsed)
 		update_shader_camera()
 	
-	handle_camera_movement(delta)
+	if orbital_camera_enabled:
+		update_orbital_camera(delta)
+	else:
+		handle_camera_movement(delta)
 	
 	if camera and shader_material:
 		var distance_to_blackhole = camera.global_transform.origin.distance_to(blackhole_position)
-		if distance_to_blackhole > MAX_RENDER_DISTANCE:
-			shader_material.set_shader_parameter("render_black_hole", 0.0)
-		elif user_render_black_hole_enabled:
+		
+		if distance_to_blackhole > 5000.0:
+			current_lod_level = 5.0
+		elif distance_to_blackhole > 4000.0:
+			current_lod_level = 4.0
+		elif distance_to_blackhole > 3000.0:
+			current_lod_level = 3.0
+		elif distance_to_blackhole > 2000.0:
+			current_lod_level = 2.0
+		elif distance_to_blackhole > 1000.0:
+			current_lod_level = 1.0
+		else:
+			current_lod_level = 0.0
+		
+		shader_material.set_shader_parameter("lod_level", current_lod_level)
+		shader_material.set_shader_parameter("distance_to_blackhole", distance_to_blackhole)
+		
+		if current_lod_level >= 4.0:
+			visibility_update_interval = 5
+		elif current_lod_level >= 3.0:
+			visibility_update_interval = 3
+		elif current_lod_level >= 2.0:
+			visibility_update_interval = 2
+		else:
+			visibility_update_interval = 1
+		
+		if user_render_black_hole_enabled:
 			shader_material.set_shader_parameter("render_black_hole", 1.0)
+		else:
+			shader_material.set_shader_parameter("render_black_hole", 0.0)
+		
+		if distance_label:
+			var distance_text = ui_texts[current_language]["distance_to_blackhole"]
+			var lod_text = ""
+			
+			var gravity_percent = 0
+			var physics_percent = 0
+			
+			if distance_to_blackhole >= 20000.0:
+				lod_text = " [Not Visible]" if current_language == "en" else " [不可见]"
+			elif current_lod_level >= 5.0:
+				var fade_progress = (distance_to_blackhole - 5000.0) / (20000.0 - 5000.0)
+				var visible_percent = int((1.0 - fade_progress) * 100.0)
+				lod_text = " [Point: %d%% visible]" % visible_percent if current_language == "en" else " [光点: %d%% 可见]" % visible_percent
+			elif current_lod_level >= 4.0:
+				gravity_percent = int((1.0 - (distance_to_blackhole / 5000.0)) * 100.0)
+				lod_text = " [Gravity: %d%%]" % gravity_percent if current_language == "en" else " [引力: %d%%]" % gravity_percent
+			elif current_lod_level >= 1.0:
+				gravity_percent = int((1.0 - (distance_to_blackhole / 5000.0)) * 100.0)
+				physics_percent = int((1.0 - ((distance_to_blackhole - 1000.0) / 3000.0)) * 100.0)
+				lod_text = " [G:%d%% P:%d%%]" % [gravity_percent, physics_percent] if current_language == "en" else " [引力:%d%% 物理:%d%%]" % [gravity_percent, physics_percent]
+			else:
+				lod_text = " [Full Detail]" if current_language == "en" else " [完整细节]"
+			
+			distance_label.text = "%s: %.2f%s" % [distance_text, distance_to_blackhole, lod_text]
 	
 	if background_camera and camera:
 		background_camera.global_transform = camera.global_transform
 		background_camera.fov = camera.fov
-		update_background_visibility()
+		if current_lod_level < 5.0 and frame_count % visibility_update_interval == 0:
+			update_background_visibility()
 
 	if foward_camera and camera:
 		foward_camera.global_transform = camera.global_transform
@@ -439,10 +537,13 @@ func update_background_visibility():
 	var eps_dist = 0.02 * L_len
 	var eps = max(0.05, max(eps_base, eps_dist))
 	var smoothing_alpha = 0.25
-	for n in background_nodes:
-		if not (n is VisualInstance3D):
+	
+	var nodes_count = background_nodes.size()
+	for i in range(nodes_count):
+		var v = background_nodes[i]
+		if not is_instance_valid(v):
 			continue
-		var v: VisualInstance3D = n as VisualInstance3D
+		
 		var obj_pos = v.global_transform.origin
 		var s_raw = (obj_pos - B).dot(L_hat)
 		var s_prev: float = node_filtered_s.get(v, s_raw)
@@ -512,7 +613,11 @@ func handle_camera_movement(delta):
 		input_dir += camera.global_transform.basis.z * 3.0
 	
 	if input_dir != Vector3.ZERO:
-		camera.global_transform.origin += input_dir.normalized() * camera_speed * delta
+		var speed_multiplier = 1.0
+		if Input.is_key_pressed(KEY_SHIFT):
+			speed_multiplier = 10.0
+		
+		camera.global_transform.origin += input_dir.normalized() * camera_speed * speed_multiplier * delta
 
 func _input(event):
 	if event is InputEventKey and event.pressed:
@@ -533,6 +638,8 @@ func _input(event):
 			if scroll_container.visible:
 				Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 				mouse_captured = false
+		elif event.keycode == KEY_3:
+			toggle_all_ui()
 		elif event.keycode == KEY_TAB:
 			toggle_language()
 	
@@ -549,8 +656,7 @@ func _on_gravitational_lensing_toggled(pressed):
 func _on_render_black_hole_toggled(pressed):
 	user_render_black_hole_enabled = pressed
 	if shader_material:
-		var distance_to_blackhole = camera.global_transform.origin.distance_to(blackhole_position)
-		if pressed and distance_to_blackhole <= MAX_RENDER_DISTANCE:
+		if pressed:
 			shader_material.set_shader_parameter("render_black_hole", 1.0)
 		else:
 			shader_material.set_shader_parameter("render_black_hole", 0.0)
@@ -558,6 +664,10 @@ func _on_render_black_hole_toggled(pressed):
 func _on_adisk_toggled(pressed):
 	if shader_material:
 		shader_material.set_shader_parameter("adisk_enabled", 1.0 if pressed else 0.0)
+
+func _on_adisk_multi_noise_toggled(pressed):
+	if shader_material:
+		shader_material.set_shader_parameter("adisk_multi_noise", 1.0 if pressed else 0.0)
 
 func _on_auto_fade_lensing_toggled(pressed):
 	if shader_material:
@@ -576,7 +686,7 @@ func _on_adisk_height_changed(value):
 func _on_adisk_lit_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("adisk_lit", value)
-		adisk_lit_label.text = "%s: %.5f" % [get_label_text("Disk Brightness", "吸积盘亮度"), value]
+		adisk_lit_label.text = "%s: %.1f" % [get_label_text("Disk Brightness", "吸积盘亮度"), value]
 
 func _on_adisk_inner_radius_changed(value):
 	if shader_material:
@@ -743,6 +853,16 @@ func _on_hotspots_intensity_changed(value):
 		shader_material.set_shader_parameter("hot_spots_intensity", value)
 		hotspots_intensity_label.text = "%s: %.1f" % [get_label_text("Hot Spots Intensity", "热点强度"), value]
 
+func _on_contrast_changed(value):
+	if shader_material:
+		shader_material.set_shader_parameter("contrast", value)
+		contrast_label.text = "%s: %.2f" % [get_label_text("Contrast", "对比度"), value]
+
+func _on_brightness_changed(value):
+	if shader_material:
+		shader_material.set_shader_parameter("brightness", value)
+		brightness_label.text = "%s: %.2f" % [get_label_text("Brightness", "亮度"), value]
+
 func _on_m87_preset_clicked():
 	spin_slider.value = 0.9
 	_on_spin_changed(0.9)
@@ -811,6 +931,58 @@ func _on_sgra_preset_clicked():
 	adisk_height_slider.value = 0.7
 	_on_adisk_height_changed(0.7)
 
+func _on_ultra_quality_preset_clicked():
+	if shader_material:
+		shader_material.set_shader_parameter("gravitational_lensing", 1.0)
+		shader_material.set_shader_parameter("gravity_strength", 1.0)
+		shader_material.set_shader_parameter("max_ray_loops", 1500)
+		shader_material.set_shader_parameter("secondary_images_enabled", 1.0)
+		shader_material.set_shader_parameter("adisk_enabled", 1.0)
+		shader_material.set_shader_parameter("adisk_lit", 100.0)
+		shader_material.set_shader_parameter("adisk_noise_scale", 12.0)
+		shader_material.set_shader_parameter("adisk_noise_lod", 16.0)
+		shader_material.set_shader_parameter("adisk_multi_noise", 1.0)
+		shader_material.set_shader_parameter("adisk_speed", 1.2)
+		shader_material.set_shader_parameter("doppler_enabled", 1.0)
+		shader_material.set_shader_parameter("doppler_strength", 1.5)
+		shader_material.set_shader_parameter("beaming_enabled", 1.0)
+		shader_material.set_shader_parameter("beaming_strength", 3.0)
+		shader_material.set_shader_parameter("temperature_gradient_enabled", 1.0)
+		shader_material.set_shader_parameter("disk_temperature_power", 0.8)
+		shader_material.set_shader_parameter("spiral_arms_enabled", 1.0)
+		shader_material.set_shader_parameter("spiral_strength", 1.5)
+		shader_material.set_shader_parameter("hot_spots_enabled", 1.0)
+		shader_material.set_shader_parameter("hot_spots_count", 5.0)
+		shader_material.set_shader_parameter("hot_spots_intensity", 3.0)
+		shader_material.set_shader_parameter("jet_enabled", 1.0)
+		shader_material.set_shader_parameter("jet_intensity", 8.0)
+		shader_material.set_shader_parameter("jet_noise_octaves", 8.0)
+		shader_material.set_shader_parameter("jet_burst_frequency", 1.0)
+		shader_material.set_shader_parameter("photon_sphere_enabled", 1.0)
+		shader_material.set_shader_parameter("photon_sphere_intensity", 2.5)
+		shader_material.set_shader_parameter("isco_enabled", 1.0)
+		shader_material.set_shader_parameter("isco_intensity", 8.0)
+		shader_material.set_shader_parameter("hdr_enabled", 1.0)
+		shader_material.set_shader_parameter("hdr_tonemapping_mode", 1.0)
+		shader_material.set_shader_parameter("hdr_white_point", 6.0)
+		shader_material.set_shader_parameter("contrast", 1.0)
+		shader_material.set_shader_parameter("brightness", 1.1)
+		shader_material.set_shader_parameter("lod_level", 0.0)
+	
+	gravitational_lensing_check.button_pressed = true
+	render_black_hole_check.button_pressed = true
+	adisk_check.button_pressed = true
+	adisk_multi_noise_check.button_pressed = true
+	secondary_images_check.button_pressed = true
+	temperature_check.button_pressed = true
+	spiral_check.button_pressed = true
+	hotspots_check.button_pressed = true
+	doppler_check.button_pressed = true
+	beaming_check.button_pressed = true
+	jet_check.button_pressed = true
+	photon_sphere_check.button_pressed = true
+	isco_check.button_pressed = true
+
 func get_label_text(en_text: String, zh_text: String) -> String:
 	return en_text if current_language == "en" else zh_text
 
@@ -834,6 +1006,7 @@ func update_ui_language():
 	gravitational_lensing_check.text = texts["gravitational_lensing"]
 	render_black_hole_check.text = texts["render_blackhole"]
 	adisk_check.text = texts["accretion_disk"]
+	adisk_multi_noise_check.text = texts["multi_noise_detail"]
 	auto_fade_lensing_check.text = texts["auto_fade"]
 	cube_check.text = texts["emissive_cube"]
 	doppler_check.text = texts["doppler_effect"]
@@ -854,6 +1027,11 @@ func update_ui_language():
 	$UI/ScrollContainer/VBoxContainer/PresetLabel.text = texts["preset_title"]
 	m87_button.text = texts["m87_button"]
 	sgra_button.text = texts["sgra_button"]
+	ultra_quality_button.text = texts["ultra_quality_button"]
+	$UI/ScrollContainer/VBoxContainer/Label25.text = texts["post_processing"]
+	
+	if controls_hint_label:
+		controls_hint_label.text = texts["controls_hint"]
 	
 	_on_gravity_changed(gravity_slider.value)
 	_on_adisk_height_changed(adisk_height_slider.value)
@@ -878,3 +1056,125 @@ func update_ui_language():
 	_on_spiral_strength_changed(spiral_strength_slider.value)
 	_on_hotspots_count_changed(hotspots_count_slider.value)
 	_on_hotspots_intensity_changed(hotspots_intensity_slider.value)
+	_on_contrast_changed(contrast_slider.value)
+	_on_brightness_changed(brightness_slider.value)
+
+func check_movie_marker_mode():
+	if OS.has_feature("movie"):
+		start_orbital_camera()
+		return
+	
+	var args = OS.get_cmdline_args()
+	for arg in args:
+		if arg == "--write-movie" or arg.begins_with("--write-movie="):
+			start_orbital_camera()
+			return
+	
+	if ProjectSettings.has_setting("movie_maker/enabled"):
+		if ProjectSettings.get_setting("movie_maker/enabled"):
+			start_orbital_camera()
+			return
+
+func start_orbital_camera():
+	orbital_camera_enabled = true
+	orbital_time = 0.0
+	hide_all_ui()
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	mouse_captured = false
+	enable_high_quality_disk()
+
+func stop_orbital_camera():
+	orbital_camera_enabled = false
+	orbital_time = 0.0
+	show_all_ui()
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+	mouse_captured = true
+
+func update_orbital_camera(delta):
+	orbital_time += delta
+	var progress = fmod(orbital_time / orbital_duration, 1.0)
+	var horizontal_angle = progress * TAU
+	var distance_factor = 0.5 + 0.5 * sin(progress * TAU * 3.0)
+	var current_radius = lerp(orbital_radius_min, orbital_radius_max, distance_factor)
+	var elevation_angle = sin(progress * TAU * 0.8) * 0.6
+	elevation_angle += sin(progress * TAU * 1.6) * 0.2
+	var horizontal_radius = cos(elevation_angle) * current_radius
+	var x = cos(horizontal_angle) * horizontal_radius
+	var z = sin(horizontal_angle) * horizontal_radius
+	var y = sin(elevation_angle) * current_radius
+	camera.global_transform.origin = blackhole_position + Vector3(x, y, z)
+	var look_offset = Vector3(
+		sin(progress * TAU * 0.7) * 2.0,
+		cos(progress * TAU * 0.5) * 1.5,
+		sin(progress * TAU * 0.9) * 1.0
+	)
+	var look_target = blackhole_position + look_offset
+	camera.look_at(look_target, Vector3.UP)
+
+func toggle_all_ui():
+	if ui_hidden:
+		show_all_ui()
+	else:
+		hide_all_ui()
+
+func hide_all_ui():
+	ui_hidden = true
+	if icon_panel:
+		icon_panel.visible = false
+	if scroll_container:
+		scroll_container.visible = false
+	if distance_label:
+		distance_label.visible = false
+	if controls_hint_label:
+		controls_hint_label.visible = false
+
+func show_all_ui():
+	ui_hidden = false
+	if distance_label:
+		distance_label.visible = true
+	if controls_hint_label:
+		controls_hint_label.visible = true
+
+func enable_high_quality_disk():
+#	if adisk_multi_noise_check:
+#		adisk_multi_noise_check.button_pressed = true
+#		_on_adisk_multi_noise_toggled(true)
+	
+	if cube_check:
+		cube_check.button_pressed = false
+		_on_cube_toggled(false)
+	
+	if temperature_check:
+		temperature_check.button_pressed = true
+		_on_temperature_toggled(true)
+	
+	if spiral_check:
+		spiral_check.button_pressed = true
+		_on_spiral_toggled(true)
+		if spiral_strength_slider:
+			spiral_strength_slider.value = 0.5
+			_on_spiral_strength_changed(0.5)
+	
+	if adisk_lit_slider:
+		adisk_lit_slider.value = 12.0
+		_on_adisk_lit_changed(12.0)
+	
+	if grav_redshift_check:
+		grav_redshift_check.button_pressed = true
+		_on_grav_redshift_toggled(true)
+	
+	if doppler_check:
+		doppler_check.button_pressed = true
+		_on_doppler_toggled(true)
+	
+	if beaming_check:
+		beaming_check.button_pressed = true
+		_on_beaming_toggled(true)
+	
+	if contrast_slider:
+		contrast_slider.value = 1.2
+		_on_contrast_changed(1.2)
+	
+	if brightness_slider:
+		brightness_slider.value = 1.1
+		_on_brightness_changed(1.1)
