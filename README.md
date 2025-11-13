@@ -1,36 +1,38 @@
 # Blackhole Simulation in Godot
 
-Real-time Kerr black hole visualization with physically-based gravitational lensing and relativistic effects in Godot 4.5.
+Stylized, real-time black hole visualization in Godot 4.5 that mixes physically inspired formulas with shader-driven artistic approximations.
 
 ## Technical Overview
 
-GPU-accelerated ray tracing implementation combining Kerr metric effects, relativistic fluid dynamics, and procedural noise generation.
+GPU shader that performs single-ray marching with a Schwarzschild-inspired bending term and layers of procedural effects to approximate the look of relativistic phenomena.
 
 ## Implementation Status
 
-This simulation implements physically-accurate models for most observable phenomena. Some advanced features are simplified or planned for future implementation:
+The shader borrows language and constants from astrophysics papers, but most systems are heuristic visualizations built for interactive performance. Treat every effect as an approximation unless noted otherwise.
 
-**Fully Implemented (with accurate physics formulas)**:
-- Gravitational lensing (Schwarzschild geodesic approximation)
-- Gravitational redshift (combined with kinematic Doppler)
-- Time dilation near event horizon
-- Frame dragging (Lense-Thirring effect)
-- Accretion disk dynamics (Keplerian rotation, temperature gradient)
-- Doppler shift and relativistic beaming
-- Spiral density waves (dispersion relation)
-- Hot spots (orbital motion at ISCO)
-- Quasi-periodic oscillations (QPO)
-- Relativistic jets (multi-octave turbulence)
-- ISCO and photon sphere calculations
+**Implemented (physically inspired approximations)**:
+- Gravitational lensing (Schwarzschild-like acceleration applied during fixed-step ray marching; no full Kerr geodesics)
+- Gravitational redshift and Doppler shift (combined analytic terms with clamped velocities)
+- Time dilation modulation of animated features (uses Schwarzschild factor only)
+- Frame dragging influence on disk matter (applied to rotation angle, not to photon trajectories)
+- Accretion disk structure (Keplerian velocity profile + temperature gradient + layered noise)
+- Relativistic beaming (power-law boost applied to disk brightness)
+- Spiral density waves and hot spots (scripted sinusoidal patterns around the ISCO)
+- Quasi-periodic oscillations (global brightness modulation)
+- Relativistic jets (procedural cones with animated turbulence noise)
+- ISCO and photon sphere radii (formula-driven markers to drive other effects)
 
-**Simplified/Visual Implementations**:
-- Hawking radiation: Visual effect only (acknowledged as unobservable for stellar-mass black holes)
-- Synchrotron radiation: Represented by jet color, without full magnetic field calculations
-- X-ray corona: Thermal distribution without Compton scattering physics
-- Hot spots: Periodic modulation instead of full MRI turbulence simulation
-- Jets: Geometric model without full Blandford-Znajek mechanism
+**Purely illustrative / significantly simplified**:
+- Hawking radiation (flickering rim for education; not physically observable at these scales)
+- Synchrotron radiation (jet color grading without magnetic field evolution)
+- X-ray corona (procedural glow without Compton scattering)
+- Jets (no Blandford–Znajek magnetohydrodynamics or energy conservation)
+- Disk turbulence (noise fields, no fluid simulation)
+- Background ray tracing (single ray, no secondary image convergence or adaptive stepping)
 
 ## Core Physics Systems
+
+> ⚠️ The formulas below summarize reference models that inspired the shader. The actual GLSL code often uses reduced or clamped versions to remain stable in a single-pass fragment shader.
 
 ### Gravitational Effects
 
