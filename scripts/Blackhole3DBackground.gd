@@ -12,21 +12,16 @@ extends Node3D
 @onready var foreground_rect = $UI/ForegroundRect
 @onready var shader_material = fullscreen_quad.material as ShaderMaterial
 
-@onready var gravitational_lensing_check = $UI/ScrollContainer/VBoxContainer/CheckBox
-@onready var render_black_hole_check = $UI/ScrollContainer/VBoxContainer/CheckBox2
-@onready var adisk_check = $UI/ScrollContainer/VBoxContainer/CheckBox3
-@onready var adisk_multi_noise_check = $UI/ScrollContainer/VBoxContainer/CheckBox21
-@onready var auto_fade_lensing_check = $UI/ScrollContainer/VBoxContainer/CheckBox4
-@onready var gravity_slider = $UI/ScrollContainer/VBoxContainer/HSlider
-@onready var gravity_label = $UI/ScrollContainer/VBoxContainer/Label2
-@onready var adisk_height_slider = $UI/ScrollContainer/VBoxContainer/HSlider2
-@onready var adisk_height_label = $UI/ScrollContainer/VBoxContainer/Label3
-@onready var adisk_lit_slider = $UI/ScrollContainer/VBoxContainer/HSlider3
-@onready var adisk_lit_label = $UI/ScrollContainer/VBoxContainer/Label4
-@onready var adisk_inner_radius_slider = $UI/ScrollContainer/VBoxContainer/HSlider4
-@onready var adisk_inner_radius_label = $UI/ScrollContainer/VBoxContainer/Label5
-@onready var adisk_outer_radius_slider = $UI/ScrollContainer/VBoxContainer/HSlider5
-@onready var adisk_outer_radius_label = $UI/ScrollContainer/VBoxContainer/Label6
+@onready var render_black_hole_check = $UI/ScrollContainer/VBoxContainer/RenderBlackHoleCheck
+@onready var adisk_check = $UI/ScrollContainer/VBoxContainer/AccretionDiskCheck
+@onready var adisk_multi_noise_check = $UI/ScrollContainer/VBoxContainer/AccretionDiskMultiNoiseCheck
+@onready var auto_fade_lensing_check = $UI/ScrollContainer/VBoxContainer/AutoFadeLensingCheck
+@onready var adisk_height_slider = $UI/ScrollContainer/VBoxContainer/AccretionDiskHeightSlider
+@onready var adisk_height_label = $UI/ScrollContainer/VBoxContainer/AccretionDiskHeightLabel
+@onready var adisk_lit_slider = $UI/ScrollContainer/VBoxContainer/AccretionDiskBrightnessSlider
+@onready var adisk_lit_label = $UI/ScrollContainer/VBoxContainer/AccretionDiskBrightnessLabel
+@onready var adisk_outer_radius_slider = $UI/ScrollContainer/VBoxContainer/AccretionDiskOuterRadiusSlider
+@onready var adisk_outer_radius_label = $UI/ScrollContainer/VBoxContainer/AccretionDiskOuterRadiusLabel
 @onready var cube_check = $UI/ScrollContainer/VBoxContainer/CheckBox5
 @onready var cube_emission_slider = $UI/ScrollContainer/VBoxContainer/HSlider6
 @onready var cube_emission_label = $UI/ScrollContainer/VBoxContainer/Label7
@@ -128,15 +123,12 @@ var ui_texts := {
 		"icon_option_b": "Icon B",
 		"apply_button": "Confirm and Switch (Restart)",
 		"blackhole_title": "Black Hole",
-		"gravitational_lensing": "Gravitational Lensing",
 		"render_blackhole": "Render Black Hole",
 		"accretion_disk": "Accretion Disk",
 		"multi_noise_detail": "Multi-Noise Detail (Slow)",
 		"auto_fade": "Auto Fade Lensing",
-		"gravity_strength": "Gravity Strength",
 		"disk_height": "Disk Height",
 		"disk_brightness": "Disk Brightness",
-		"disk_inner_radius": "Disk Inner Radius",
 		"disk_outer_radius": "Disk Outer Radius",
 		"emissive_cube": "Emissive Cube",
 		"cube_emission": "Cube Emission",
@@ -188,15 +180,12 @@ var ui_texts := {
 		"icon_option_b": "图标 B",
 		"apply_button": "确定并切换（重启）",
 		"blackhole_title": "黑洞",
-		"gravitational_lensing": "引力透镜效果",
 		"render_blackhole": "渲染黑洞",
 		"accretion_disk": "吸积盘",
 		"multi_noise_detail": "多噪声细节（慢）",
 		"auto_fade": "自动衰减透镜",
-		"gravity_strength": "引力强度",
 		"disk_height": "吸积盘高度",
 		"disk_brightness": "吸积盘亮度",
-		"disk_inner_radius": "吸积盘内半径",
 		"disk_outer_radius": "吸积盘外半径",
 		"emissive_cube": "自发光立方体",
 		"cube_emission": "立方体发光强度",
@@ -246,15 +235,12 @@ var ui_texts := {
 
 func _ready():
 	setup_icon_options()
-	gravitational_lensing_check.toggled.connect(_on_gravitational_lensing_toggled)
 	render_black_hole_check.toggled.connect(_on_render_black_hole_toggled)
 	adisk_check.toggled.connect(_on_adisk_toggled)
 	adisk_multi_noise_check.toggled.connect(_on_adisk_multi_noise_toggled)
 	auto_fade_lensing_check.toggled.connect(_on_auto_fade_lensing_toggled)
-	gravity_slider.value_changed.connect(_on_gravity_changed)
 	adisk_height_slider.value_changed.connect(_on_adisk_height_changed)
 	adisk_lit_slider.value_changed.connect(_on_adisk_lit_changed)
-	adisk_inner_radius_slider.value_changed.connect(_on_adisk_inner_radius_changed)
 	adisk_outer_radius_slider.value_changed.connect(_on_adisk_outer_radius_changed)
 	cube_check.toggled.connect(_on_cube_toggled)
 	cube_emission_slider.value_changed.connect(_on_cube_emission_changed)
@@ -296,7 +282,6 @@ func _ready():
 	contrast_slider.value_changed.connect(_on_contrast_changed)
 	brightness_slider.value_changed.connect(_on_brightness_changed)
 	
-	gravitational_lensing_check.button_pressed = true
 	render_black_hole_check.button_pressed = true
 	adisk_check.button_pressed = true
 	adisk_multi_noise_check.button_pressed = false
@@ -649,10 +634,6 @@ func _input(event):
 		camera_rotation.x = clamp(camera_rotation.x, -PI/2, PI/2)
 		camera.rotation = Vector3(camera_rotation.x, camera_rotation.y, 0)
 
-func _on_gravitational_lensing_toggled(pressed):
-	if shader_material:
-		shader_material.set_shader_parameter("gravitational_lensing", 1.0 if pressed else 0.0)
-
 func _on_render_black_hole_toggled(pressed):
 	user_render_black_hole_enabled = pressed
 	if shader_material:
@@ -673,11 +654,6 @@ func _on_auto_fade_lensing_toggled(pressed):
 	if shader_material:
 		shader_material.set_shader_parameter("auto_fade_lensing", 1.0 if pressed else 0.0)
 
-func _on_gravity_changed(value):
-	if shader_material:
-		shader_material.set_shader_parameter("gravity_strength", value)
-		gravity_label.text = "%s: %.2f" % [get_label_text("Gravity Strength", "引力强度"), value]
-
 func _on_adisk_height_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("adisk_height", value)
@@ -687,11 +663,6 @@ func _on_adisk_lit_changed(value):
 	if shader_material:
 		shader_material.set_shader_parameter("adisk_lit", value)
 		adisk_lit_label.text = "%s: %.1f" % [get_label_text("Disk Brightness", "吸积盘亮度"), value]
-
-func _on_adisk_inner_radius_changed(value):
-	if shader_material:
-		shader_material.set_shader_parameter("adisk_inner_radius", value)
-		adisk_inner_radius_label.text = "%s: %.2f" % [get_label_text("Disk Inner Radius", "吸积盘内半径"), value]
 
 func _on_adisk_outer_radius_changed(value):
 	if shader_material:
@@ -933,8 +904,6 @@ func _on_sgra_preset_clicked():
 
 func _on_ultra_quality_preset_clicked():
 	if shader_material:
-		shader_material.set_shader_parameter("gravitational_lensing", 1.0)
-		shader_material.set_shader_parameter("gravity_strength", 1.0)
 		shader_material.set_shader_parameter("max_ray_loops", 1500)
 		shader_material.set_shader_parameter("secondary_images_enabled", 1.0)
 		shader_material.set_shader_parameter("adisk_enabled", 1.0)
@@ -969,7 +938,6 @@ func _on_ultra_quality_preset_clicked():
 		shader_material.set_shader_parameter("brightness", 1.1)
 		shader_material.set_shader_parameter("lod_level", 0.0)
 	
-	gravitational_lensing_check.button_pressed = true
 	render_black_hole_check.button_pressed = true
 	adisk_check.button_pressed = true
 	adisk_multi_noise_check.button_pressed = true
@@ -1003,7 +971,6 @@ func update_ui_language():
 	icon_option.selected = selected_idx
 	
 	$UI/ScrollContainer/VBoxContainer/Label.text = texts["blackhole_title"]
-	gravitational_lensing_check.text = texts["gravitational_lensing"]
 	render_black_hole_check.text = texts["render_blackhole"]
 	adisk_check.text = texts["accretion_disk"]
 	adisk_multi_noise_check.text = texts["multi_noise_detail"]
@@ -1033,10 +1000,8 @@ func update_ui_language():
 	if controls_hint_label:
 		controls_hint_label.text = texts["controls_hint"]
 	
-	_on_gravity_changed(gravity_slider.value)
 	_on_adisk_height_changed(adisk_height_slider.value)
 	_on_adisk_lit_changed(adisk_lit_slider.value)
-	_on_adisk_inner_radius_changed(adisk_inner_radius_slider.value)
 	_on_adisk_outer_radius_changed(adisk_outer_radius_slider.value)
 	_on_cube_emission_changed(cube_emission_slider.value)
 	_on_doppler_changed(doppler_slider.value)

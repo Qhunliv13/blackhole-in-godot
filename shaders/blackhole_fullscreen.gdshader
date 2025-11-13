@@ -2,6 +2,9 @@ shader_type canvas_item;
 
 const float EPSILON = 0.0001;
 const float INFINITY = 1000000.0;
+const float SCHWARZSCHILD_RADIUS = 1.0;
+const float ACCRETION_DISK_INNER_RADIUS = SCHWARZSCHILD_RADIUS * 1.5;
+const float GRAVITY_STRENGTH = 1.0;
 
 uniform float mouse_x : hint_range(0.0, 1.0) = 0.5;
 uniform float mouse_y : hint_range(0.0, 1.0) = 0.5;
@@ -22,8 +25,6 @@ uniform float front_view : hint_range(0.0, 1.0) = 0.0;
 uniform float top_view : hint_range(0.0, 1.0) = 0.0;
 uniform float camera_roll : hint_range(-180.0, 180.0) = 0.0;
 
-uniform float gravitational_lensing : hint_range(0.0, 1.0) = 1.0;
-uniform float gravity_strength : hint_range(0.01, 2.0) = 0.5;
 uniform float render_black_hole : hint_range(0.0, 1.0) = 1.0;
 uniform float mouse_control : hint_range(0.0, 1.0) = 0.0;
 uniform float fov_scale : hint_range(0.1, 3.0) = 1.0;
@@ -39,7 +40,6 @@ uniform float adisk_noise_scale : hint_range(0.1, 20.0) = 5.0;
 uniform float adisk_noise_lod : hint_range(1.0, 16.0) = 12.0;
 uniform float adisk_speed : hint_range(0.0, 2.0) = 0.5;
 uniform float adisk_multi_noise : hint_range(0.0, 1.0) = 0.0;
-uniform float adisk_inner_radius : hint_range(1.0, 5.0) = 1.5;
 uniform float adisk_outer_radius : hint_range(5.0, 20.0) = 12.0;
 
 uniform float cube_enabled : hint_range(0.0, 1.0) = 1.0;
@@ -459,7 +459,7 @@ float ring_distance(vec3 ray_origin, vec3 ray_dir, Ring ring) {
 vec3 calculate_gravitational_acceleration(float h2, vec3 pos) {
 	float r2 = dot(pos, pos);
 	float r5 = pow(r2, 2.5);
-	vec3 acc = -1.5 * h2 * pos / r5 * gravity_strength;
+	vec3 acc = -1.5 * h2 * pos / r5 * GRAVITY_STRENGTH;
 	return acc;
 }
 
@@ -533,7 +533,7 @@ void calculate_accretion_disk_contribution(vec3 pos, vec3 cam_pos, inout vec3 co
 		return;
 	}
 	
-	float inner_radius = adisk_inner_radius;
+	float inner_radius = ACCRETION_DISK_INNER_RADIUS;
 	float outer_radius = adisk_outer_radius;
 
 	float density = max(0.0, 1.0 - length(pos.xyz / vec3(outer_radius, adisk_height, outer_radius)));
@@ -838,7 +838,7 @@ void calculate_corona_contribution(vec3 pos, inout vec3 color, inout float alpha
 	float y_dist = abs(pos.y);
 	
 	if (radial_dist < adisk_outer_radius && y_dist > adisk_height && y_dist < corona_height) {
-		float radial_factor = smoothstep(adisk_outer_radius, adisk_inner_radius, radial_dist);
+	float radial_factor = smoothstep(adisk_outer_radius, ACCRETION_DISK_INNER_RADIUS, radial_dist);
 		float height_factor = exp(-pow((y_dist - adisk_height) / (corona_height - adisk_height), 2.0));
 		
 		float corona_density = radial_factor * height_factor;
@@ -1192,7 +1192,7 @@ void perform_ray_tracing(vec3 pos, vec3 dir, vec3 cam_pos, inout vec3 color, ino
 	int loop_count = secondary_images_enabled > 0.5 ? max_ray_loops : 500;
 
 	for (int i = 0; i < loop_count; i++) {
-		if (lensing_strength > 0.0 && gravitational_lensing > 0.5) {
+		if (lensing_strength > 0.0) {
 			vec3 acc = calculate_gravitational_acceleration(h2, pos) * lensing_strength;
 			step_dir += acc;
 		}
@@ -1399,8 +1399,7 @@ void fragment() {
 		float lensing_strength = 0.0;
 		
 		float schwarzschild_radius = 1.0;
-		float strength_factor = max(1.0, gravity_strength);
-		float lensing_fade_radius = 2.0 * schwarzschild_radius * strength_factor;
+		float lensing_fade_radius = 2.0 * schwarzschild_radius * GRAVITY_STRENGTH;
 		
 		if (auto_fade_lensing < 0.5) {
 			lensing_strength = 1.0;

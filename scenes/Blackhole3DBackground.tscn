@@ -18,8 +18,6 @@ shader_parameter/use_3d_camera = 1.0
 shader_parameter/front_view = 0.0
 shader_parameter/top_view = 0.0
 shader_parameter/camera_roll = 0.0
-shader_parameter/gravitational_lensing = 1.0
-shader_parameter/gravity_strength = 0.5
 shader_parameter/render_black_hole = 1.0
 shader_parameter/mouse_control = 0.0
 shader_parameter/fov_scale = 1.0
@@ -34,7 +32,6 @@ shader_parameter/adisk_noise_scale = 5.0
 shader_parameter/adisk_noise_lod = 12.0
 shader_parameter/adisk_speed = 1.0000000475
 shader_parameter/adisk_multi_noise = 0.0
-shader_parameter/adisk_inner_radius = 1.5
 shader_parameter/adisk_outer_radius = 12.0
 shader_parameter/cube_enabled = 1.0
 shader_parameter/cube_position = Vector3(3, 0, 0)
@@ -219,76 +216,50 @@ horizontal_alignment = 1
 [node name="HSeparator" type="HSeparator" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="CheckBox" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-text = "Gravitational Lensing"
-
-[node name="CheckBox2" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
+[node name="RenderBlackHoleCheck" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "Render Black Hole"
 
-[node name="CheckBox3" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
+[node name="AccretionDiskCheck" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "Accretion Disk"
 
-[node name="CheckBox21" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
+[node name="AccretionDiskMultiNoiseCheck" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "Multi-Noise Detail (Slow)"
 
-[node name="CheckBox4" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
+[node name="AutoFadeLensingCheck" type="CheckBox" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "Auto Fade Lensing"
 
 [node name="HSeparator2" type="HSeparator" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="Label2" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-text = "Gravity Strength: 0.5"
-
-[node name="HSlider" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-min_value = 0.01
-max_value = 2.0
-step = 0.01
-value = 0.5
-
-[node name="Label3" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+[node name="AccretionDiskHeightLabel" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "Disk Height: 0.50"
 
-[node name="HSlider2" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
+[node name="AccretionDiskHeightSlider" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 min_value = 0.1
 max_value = 1.0
 step = 0.01
 value = 0.5
 
-[node name="Label4" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+[node name="AccretionDiskBrightnessLabel" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
-text = "Disk Brightness: 0.0001"
+text = "Disk Brightness: 10.0"
 
-[node name="HSlider3" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
+[node name="AccretionDiskBrightnessSlider" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 min_value = 1.0
 value = 10.0
 
-[node name="Label5" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-text = "Disk Inner Radius: 1.50"
-
-[node name="HSlider4" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-min_value = 1.0
-max_value = 5.0
-step = 0.1
-value = 1.5
-
-[node name="Label6" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
+[node name="AccretionDiskOuterRadiusLabel" type="Label" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 text = "Disk Outer Radius: 12.00"
 
-[node name="HSlider5" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
+[node name="AccretionDiskOuterRadiusSlider" type="HSlider" parent="UI/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 min_value = 5.0
 max_value = 20.0
