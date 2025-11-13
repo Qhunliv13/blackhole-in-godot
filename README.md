@@ -566,5 +566,3 @@ This is a **source-available proprietary license** that allows:
 
 For complete license terms, please see the [LICENSE](LICENSE) file.
 
-**Copyright © 2025 ShengzhiWu**
-
